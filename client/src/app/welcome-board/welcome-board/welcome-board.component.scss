@@ -1,0 +1,53 @@
+h2{
+	font-size:20px;
+	font-weight:600;
+}
+.board{
+	position: relative;
+	padding:10px 15px;
+	background: #11674d;
+	color: #fff;
+	width: 250px;
+	height: 100px;
+	display: inline-block;
+	margin: 0px 10px 10px 0px;
+	border-radius: 3px;
+	vertical-align: middle;
+	h3{
+		margin-top: 0px;
+		font-size: 18px;
+	}
+	.close-board{
+		position: absolute;
+		right: 10px;
+		cursor: pointer;
+		display: none;
+		top: 5px;
+		img{
+			width: 10px;
+		}
+		
+	}
+	&:hover{
+		.close-board{
+			display: block;
+		}
+	}
+	&.create-board{
+		padding: 10px 0px;
+		background: #eee;
+		color: #333;
+        cursor: pointer;
+		h3{
+			text-align: center;
+			margin: 25px 0px;
+		}
+		.create-board-form{
+		position: absolute;
+		background: #fff;
+			width: 100%;
+			border:1px solid #eee;
+			padding: 15px;
+		}
+	}
+}

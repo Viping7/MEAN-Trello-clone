@@ -1,0 +1,24 @@
+/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900');
+body{
+	font-family: 'Source Sans Pro', sans-serif;
+	background: #fff;
+}
+
+.page-wrapper{
+	padding-top:50px;
+}
+.btn-default{
+	margin-top: 10px;
+	float: right;
+	&.green{
+	background: #11674d;
+	color: #fff;
+	box-shadow: none;
+	margin-left: 10px;
+	border-color: transparent;
+	}
+}
+.clear{
+	clear: both;
+}

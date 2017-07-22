@@ -1,0 +1,65 @@
+.list-card{
+	margin-top: 20px;
+	background: #eee;
+	display: inline-block;
+	vertical-align:top;
+	margin-right: 20px;
+	width: 280px;
+	padding: 10px;
+	border-radius: 3px;
+	h3{
+		font-size: 16px;
+		margin-top: 0px;
+		font-weight: 600;
+		color: #333 !important;
+	}
+	.task-item{
+		background: #fff;
+		padding:2px 15px 15px 10px;
+		border-radius: 3px;
+		margin-bottom: 8px;
+		position: relative;
+		input[type='text'],h4{
+			font-size: 14px;
+			border: none;
+			margin-top: 5px;
+		}
+		.form-control{
+			border:1px solid #eee !important;
+			box-shadow: none;
+		}
+		&:hover{
+			.edit{
+				display: block ;
+			}
+		}
+		.edit{
+			cursor: pointer;
+			display: none;
+			position: absolute;
+			right: 10px;
+			top: 0px;
+			img{
+				width: 10px;
+			}
+		}
+		.edit-task{
+			display: none;
+		}
+		&.new-card{
+			padding: 10px;
+			.edit-task{
+				display: block;
+				textarea{
+					height: 70px;
+					resize: none;
+				}
+
+			}
+		}
+	}
+    a{
+        color: #333;
+        font-size: 16px;
+    }
+}

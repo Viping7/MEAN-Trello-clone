@@ -1,0 +1,36 @@
+[{
+	"taskCategory": {
+		"catname":"Basics",
+		"tasks": [{
+			"name": "taskname1",
+			"members": [{
+				"mem_name": "Vipin",
+				"mem_avatar": "V"
+			}, {
+				"mem_name": "Prashant",
+				"mem_avatar": "P"
+			}]
+		},
+				 {
+			"name": "taskname2",
+			"members": [{
+				"mem_name": "Vipin",
+				"mem_avatar": "V"
+			}, {
+				"mem_name": "Prashant",
+				"mem_avatar": "P"
+			}]
+		},
+				 {
+			"name": "taskname3",
+			"members": [{
+				"mem_name": "Vipin",
+				"mem_avatar": "V"
+			}, {
+				"mem_name": "Prashant",
+				"mem_avatar": "P"
+			}]
+		}]
+	}
+}
+]

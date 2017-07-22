@@ -1,0 +1,36 @@
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="list-card" *ngFor='let task of tasks;let i = index'>
+				<h3 >{{task.taskCategory.catname}}</h3>
+				<div class="task-item" *ngFor='let taskitem of task.taskCategory.tasks' appEditTask>
+					<span class="edit" endableEdit (click)="editTask(taskitem.name)"><img src='assets/pencil-edit-button.svg'></span>
+					<h4>{{taskitem.name}}</h4>
+					<div class="edit-task">
+						<input type="text" [(ngModel)]="taskitem.name" class='form-control'>
+						<button class="btn btn-default green" >Save</button>
+						<button class="btn btn-default" (click)="taskitem.name=taskitemOldname">Cancel</button>
+						<div class="clear"></div>
+					</div>
+				</div>
+				<div class="task-item new-card">
+					<div class="edit-task">
+						<textarea class='form-control'></textarea>
+						<button class="btn btn-default green">Save</button>
+						<div class="clear"></div>
+					</div>
+				</div>
+				<a href='#' (click)='createList()'>Add a card</a>
+			</div>
+            <div class="list-card">
+                <div class='create-list'>
+                    <input type="text" [(ngModel)]='listname' name="listname" class="form-control">
+                    <button type="button" class="btn btn-default green">Save</button>
+                    <div class="clear"></div>
+                </div>
+                <div><a href='javascript:;'>Create a new list..</a></div>
+            </div> 
+		</div>
+	</div>
+</div>
