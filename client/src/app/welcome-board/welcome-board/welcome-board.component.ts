@@ -40,8 +40,8 @@ deleteBoard(board){
             }
         });
 }
-getTaskDetails(meta){
-	this.taskDetails.getBoardMeta(meta);	
+getListDetails(id){
+	this.taskDetails.getListDetails(id);	
 this.router.navigate(['/tasks']);
 
 }	

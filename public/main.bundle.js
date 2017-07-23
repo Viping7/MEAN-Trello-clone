@@ -344,127 +344,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var TaskDetailsService = (function () {
     function TaskDetailsService(http) {
         this.http = http;
-        this.tasksList = [{
-                "taskboard1": [{
-                        "taskCategory": {
-                            "catname": "Basics",
-                            "tasks": [{
-                                    "name": "taskname1",
-                                    "members": [{
-                                            "mem_name": "Vipin",
-                                            "mem_avatar": "V"
-                                        }, {
-                                            "mem_name": "Prashant",
-                                            "mem_avatar": "P"
-                                        }]
-                                },
-                                {
-                                    "name": "taskname2",
-                                    "members": [{
-                                            "mem_name": "Vipin",
-                                            "mem_avatar": "V"
-                                        }, {
-                                            "mem_name": "Prashant",
-                                            "mem_avatar": "P"
-                                        }]
-                                },
-                                {
-                                    "name": "taskname3",
-                                    "members": [{
-                                            "mem_name": "Vipin",
-                                            "mem_avatar": "V"
-                                        }, {
-                                            "mem_name": "Prashant",
-                                            "mem_avatar": "P"
-                                        }]
-                                }
-                            ]
-                        }
-                    }]
-            }, {
-                "taskboard2": [{
-                        "taskCategory": {
-                            "catname": "Basics",
-                            "tasks": [{
-                                    "name": "New Task 1",
-                                    "members": [{
-                                            "mem_name": "Vipin",
-                                            "mem_avatar": "V"
-                                        }, {
-                                            "mem_name": "Prashant",
-                                            "mem_avatar": "P"
-                                        }]
-                                },
-                                {
-                                    "name": "New Task 2",
-                                    "members": [{
-                                            "mem_name": "Vipin",
-                                            "mem_avatar": "V"
-                                        }, {
-                                            "mem_name": "Prashant",
-                                            "mem_avatar": "P"
-                                        }]
-                                },
-                                {
-                                    "name": "New Task 3",
-                                    "members": [{
-                                            "mem_name": "Vipin",
-                                            "mem_avatar": "V"
-                                        }, {
-                                            "mem_name": "Prashant",
-                                            "mem_avatar": "P"
-                                        }]
-                                }
-                            ]
-                        }
-                    }, {
-                        "taskCategory": {
-                            "catname": "Advanced",
-                            "tasks": [{
-                                    "name": "New Task 1",
-                                    "members": [{
-                                            "mem_name": "Vipin",
-                                            "mem_avatar": "V"
-                                        }, {
-                                            "mem_name": "Prashant",
-                                            "mem_avatar": "P"
-                                        }]
-                                },
-                                {
-                                    "name": "New Task 2",
-                                    "members": [{
-                                            "mem_name": "Vipin",
-                                            "mem_avatar": "V"
-                                        }, {
-                                            "mem_name": "Prashant",
-                                            "mem_avatar": "P"
-                                        }]
-                                },
-                                {
-                                    "name": "New Task 3",
-                                    "members": [{
-                                            "mem_name": "Vipin",
-                                            "mem_avatar": "V"
-                                        }, {
-                                            "mem_name": "Prashant",
-                                            "mem_avatar": "P"
-                                        }]
-                                }
-                            ]
-                        }
-                    }]
-            }];
     }
-    TaskDetailsService.prototype.getBoardMeta = function (meta) {
-        this.taskName = meta;
+    TaskDetailsService.prototype.getListDetails = function (id) {
+        var _this = this;
+        return this.http.get('lists/getList/' + id).subscribe(function (data) {
+            _this.listData = data;
+        });
     };
-    TaskDetailsService.prototype.getTaskDetails = function () {
-        console.log(this.taskName);
-        for (var i = 0; i < this.tasksList.length; i++) {
-            if (this.tasksList[i][this.taskName]) {
-                return this.tasksList[i][this.taskName];
-            }
-        }
+    TaskDetailsService.prototype.showLists = function () {
+        console.log(this.listData);
+        return this.listData;
     };
     return TaskDetailsService;
 }());
@@ -529,7 +418,11 @@ var TasksListComponent = (function () {
         this.router = router;
         this.canEdit = false;
     }
+    TasksListComponent.prototype.showLists = function () {
+        console.log(this.taskDetails.showLists());
+    };
     TasksListComponent.prototype.ngOnInit = function () {
+        this.showLists();
     };
     TasksListComponent.prototype.editTask = function (taskitem) {
         this.taskitemOldname = taskitem;
@@ -557,7 +450,7 @@ var _a, _b;
 /***/ "../../../../../src/app/welcome-board/welcome-board/welcome-board.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container-fluid\">\r\n\t<div class=\"row\">\r\n\t\t<div class=\"col-md-12\">\r\n\t\t\t<h2>Task Boards</h2>\r\n\t\t</div>\r\n\t</div>\r\n\t<div class=\"row\">\r\n\t\t<div class=\"col-md-12\">\r\n\t\t\t<div *ngFor='let board of boards' class=\"board\" (click)='getTaskDetails(board.meta)'>\r\n\t\t\t\t<h3>{{board.board_name}}</h3>\r\n\t\t\t\t<span class=\"close-board\" (click)=\"deleteBoard(board)\"><img src='assets/cancel-music.svg'/></span>\r\n\t\t\t</div>\r\n\t\t\t<div class=\"board create-board\" (click)='showCreate=true'>\r\n\t\t\t\t<h3>Create new board</h3>\r\n\t\t\t\t<div class=\"create-board-form\" *ngIf='showCreate'>\r\n\t\t\t\t\t<form (submit)=\"addBoard(boardname)\">\r\n\t\t\t\t\t\t<input type=\"text\" placeholder=\"Board name\" [(ngModel)]=\"boardname\" name='taskname' class=\"form-control\">\r\n\t\t\t\t\t\t\r\n\t\t\t\t\t\t<button class=\"submit\" class='btn btn-default green\t'>Save</button>\r\n\t\t\t\t\t\t<button type=\"button\" class='btn btn-default' (click)='hideCreate()'>Cancel</button>\r\n\t\t\t\t\t\t<div class=\"clear\"></div>\r\n\t\t\t\t\t</form>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n</div>\r\n"
+module.exports = "<div class=\"container-fluid\">\r\n\t<div class=\"row\">\r\n\t\t<div class=\"col-md-12\">\r\n\t\t\t<h2>Task Boards</h2>\r\n\t\t</div>\r\n\t</div>\r\n\t<div class=\"row\">\r\n\t\t<div class=\"col-md-12\">\r\n\t\t\t<div *ngFor='let board of boards' class=\"board\" (click)='getListDetails(board._id)'>\r\n\t\t\t\t<h3>{{board.board_name}}</h3>\r\n\t\t\t\t<span class=\"close-board\" (click)=\"deleteBoard(board)\"><img src='assets/cancel-music.svg'/></span>\r\n\t\t\t</div>\r\n\t\t\t<div class=\"board create-board\" (click)='showCreate=true'>\r\n\t\t\t\t<h3>Create new board</h3>\r\n\t\t\t\t<div class=\"create-board-form\" *ngIf='showCreate'>\r\n\t\t\t\t\t<form (submit)=\"addBoard(boardname)\">\r\n\t\t\t\t\t\t<input type=\"text\" placeholder=\"Board name\" [(ngModel)]=\"boardname\" name='taskname' class=\"form-control\">\r\n\t\t\t\t\t\t\r\n\t\t\t\t\t\t<button class=\"submit\" class='btn btn-default green\t'>Save</button>\r\n\t\t\t\t\t\t<button type=\"button\" class='btn btn-default' (click)='hideCreate()'>Cancel</button>\r\n\t\t\t\t\t\t<div class=\"clear\"></div>\r\n\t\t\t\t\t</form>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -638,8 +531,8 @@ var WelcomeBoardComponent = (function () {
             }
         });
     };
-    WelcomeBoardComponent.prototype.getTaskDetails = function (meta) {
-        this.taskDetails.getBoardMeta(meta);
+    WelcomeBoardComponent.prototype.getListDetails = function (id) {
+        this.taskDetails.getListDetails(id);
         this.router.navigate(['/tasks']);
     };
     return WelcomeBoardComponent;

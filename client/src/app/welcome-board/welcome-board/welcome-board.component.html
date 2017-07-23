@@ -6,7 +6,7 @@
 	</div>
 	<div class="row">
 		<div class="col-md-12">
-			<div *ngFor='let board of boards' class="board" (click)='getTaskDetails(board.meta)'>
+			<div *ngFor='let board of boards' class="board" (click)='getListDetails(board._id)'>
 				<h3>{{board.board_name}}</h3>
 				<span class="close-board" (click)="deleteBoard(board)"><img src='assets/cancel-music.svg'/></span>
 			</div>

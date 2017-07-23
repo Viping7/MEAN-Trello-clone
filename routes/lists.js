@@ -25,17 +25,13 @@ router.post('/createList/:id',function(req,res){
                  mem_avatar:req.body.members.mem_avatar
             }]
     };
-    lists.createListItem(list,function(err,listItems){
-        if(err) throw err;
-        else{
-            lists.updateList(req.params.id,listItems,function(err,lists){
+     lists.updateList(req.params.id,list,function(err,lists){
                if(err) throw err;
                 else{
                     res.json({success:true});
                 }
             });
-        }
-    })
+      
 })
 
 module.exports=router;

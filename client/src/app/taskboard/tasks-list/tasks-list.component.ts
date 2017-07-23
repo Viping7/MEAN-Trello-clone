@@ -12,8 +12,11 @@ export class TasksListComponent implements OnInit {
 	taskitemOldname;
 	canEdit=false;
 constructor(private taskDetails:TaskDetailsService,private router:Router) { }
-
+    showLists(){
+        console.log(this.taskDetails.showLists());
+    }
   ngOnInit() {
+      this.showLists();
   	}
 	editTask(taskitem){
 	this.taskitemOldname=taskitem;

@@ -22,7 +22,6 @@ var listSchema=mongoose.Schema({
     },
     lists:[listItemSchema]
 })
-const ListItem=module.exports=mongoose.model('items',listItemSchema);
 const List=module.exports=mongoose.model('lists',listSchema);
 
 module.exports.getListsById=function(boardId,callback){
@@ -31,12 +30,6 @@ module.exports.getListsById=function(boardId,callback){
     }
     List.findOne(boardData,callback);
 }
-
-module.exports.createListItem=function(list,callback){
-    let newListItem=new ListItem(list);
-    let id={board_id:newListItem.board_id}
-    newListItem.save(()=>{ListItem.find(id,callback)});
-}
 module.exports.createList=function(boardId,callback){
     let newList=new List({
         board_id:boardId});
@@ -44,11 +37,12 @@ module.exports.createList=function(boardId,callback){
 }
 module.exports.updateList=function(id,list,callback){
     let listItems={
-        lists:list};
+        lists:[list]    
+    };
     let boardId={
-        _id:id
+        board_id:id
     }
-    List.update(boardId,listItems,{},callback);
+    List.update(boardId,{$push:listItems},{},callback);
 }
 module.exports.deleteList=function(board,callback){
     List.remove(board,callback);
