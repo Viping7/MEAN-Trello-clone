@@ -345,15 +345,11 @@ var TaskDetailsService = (function () {
     function TaskDetailsService(http) {
         this.http = http;
     }
-    TaskDetailsService.prototype.getListDetails = function (id) {
-        var _this = this;
-        return this.http.get('lists/getList/' + id).subscribe(function (data) {
-            _this.listData = data;
-        });
+    TaskDetailsService.prototype.setListUrl = function (id) {
+        this.listUrl = 'lists/getList/' + id;
     };
-    TaskDetailsService.prototype.showLists = function () {
-        console.log(this.listData);
-        return this.listData;
+    TaskDetailsService.prototype.getListDetails = function (listDetailsUrl) {
+        return this.http.get(listDetailsUrl);
     };
     return TaskDetailsService;
 }());
@@ -370,7 +366,7 @@ var _a;
 /***/ "../../../../../src/app/taskboard/tasks-list/tasks-list.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "\r\n<div class=\"container-fluid\">\r\n\t<div class=\"row\">\r\n\t\t<div class=\"col-md-12\">\r\n\t\t\t<div class=\"list-card\" *ngFor='let task of tasks;let i = index'>\r\n\t\t\t\t<h3 >{{task.taskCategory.catname}}</h3>\r\n\t\t\t\t<div class=\"task-item\" *ngFor='let taskitem of task.taskCategory.tasks' appEditTask>\r\n\t\t\t\t\t<span class=\"edit\" endableEdit (click)=\"editTask(taskitem.name)\"><img src='assets/pencil-edit-button.svg'></span>\r\n\t\t\t\t\t<h4>{{taskitem.name}}</h4>\r\n\t\t\t\t\t<div class=\"edit-task\">\r\n\t\t\t\t\t\t<input type=\"text\" [(ngModel)]=\"taskitem.name\" class='form-control'>\r\n\t\t\t\t\t\t<button class=\"btn btn-default green\" >Save</button>\r\n\t\t\t\t\t\t<button class=\"btn btn-default\" (click)=\"taskitem.name=taskitemOldname\">Cancel</button>\r\n\t\t\t\t\t\t<div class=\"clear\"></div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"task-item new-card\">\r\n\t\t\t\t\t<div class=\"edit-task\">\r\n\t\t\t\t\t\t<textarea class='form-control'></textarea>\r\n\t\t\t\t\t\t<button class=\"btn btn-default green\">Save</button>\r\n\t\t\t\t\t\t<div class=\"clear\"></div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<a href='#' (click)='createList()'>Add a card</a>\r\n\t\t\t</div>\r\n            <div class=\"list-card\">\r\n                <div class='create-list'>\r\n                    <input type=\"text\" [(ngModel)]='listname' name=\"listname\" class=\"form-control\">\r\n                    <button type=\"button\" class=\"btn btn-default green\">Save</button>\r\n                    <div class=\"clear\"></div>\r\n                </div>\r\n                <div><a href='javascript:;'>Create a new list..</a></div>\r\n            </div> \r\n\t\t</div>\r\n\t</div>\r\n</div>\r\n"
+module.exports = "\r\n<div class=\"container-fluid\">\r\n\t<div class=\"row\">\r\n\t\t<div class=\"col-md-12\">\r\n\t\t\t<div class=\"list-card\" *ngFor='let task of tasks;let i = index'>\r\n\t\t\t\t<h3 >{{task['0'].list_name}}</h3>\r\n\t\t\t\t<!--<div class=\"task-item\" *ngFor='let taskitem of task.taskCategory.tasks' appEditTask>\r\n\t\t\t\t\t<span class=\"edit\" endableEdit (click)=\"editTask(taskitem.name)\"><img src='assets/pencil-edit-button.svg'></span>\r\n\t\t\t\t\t<h4>{{taskitem.name}}</h4>\r\n\t\t\t\t\t<div class=\"edit-task\">\r\n\t\t\t\t\t\t<input type=\"text\" [(ngModel)]=\"taskitem.name\" class='form-control'>\r\n\t\t\t\t\t\t<button class=\"btn btn-default green\" >Save</button>\r\n\t\t\t\t\t\t<button class=\"btn btn-default\" (click)=\"taskitem.name=taskitemOldname\">Cancel</button>\r\n\t\t\t\t\t\t<div class=\"clear\"></div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>-->\r\n\t\t\t\t<div class=\"task-item new-card\" *ngIf='showCreateTasks'>\r\n\t\t\t\t\t<div class=\"edit-task\">\r\n\t\t\t\t\t\t<textarea class='form-control'></textarea>\r\n\t\t\t\t\t\t<button class=\"btn btn-default green\">Save</button>\r\n\t\t\t\t\t\t<div class=\"clear\"></div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<a href='#' (click)='createList()'>Add a card</a>\r\n\t\t\t</div>\r\n            <div class=\"list-card\">\r\n                <div class='create-list' *ngIf='showCreateLists'>\r\n                    <input type=\"text\" [(ngModel)]='listname' name=\"listname\" class=\"form-control\">\r\n                    <button type=\"button\" class=\"btn btn-default green\">Save</button>\r\n                    <div class=\"clear\"></div>\r\n                </div>\r\n                <div><a href='javascript:;'>Create a new list..</a></div>\r\n            </div> \r\n\t\t</div>\r\n\t</div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -419,7 +415,11 @@ var TasksListComponent = (function () {
         this.canEdit = false;
     }
     TasksListComponent.prototype.showLists = function () {
-        console.log(this.taskDetails.showLists());
+        var _this = this;
+        this.taskDetails.getListDetails(this.taskDetails.listUrl).subscribe(function (data) {
+            _this.tasks = data['lists'];
+            console.log(_this.tasks);
+        });
     };
     TasksListComponent.prototype.ngOnInit = function () {
         this.showLists();
@@ -532,7 +532,7 @@ var WelcomeBoardComponent = (function () {
         });
     };
     WelcomeBoardComponent.prototype.getListDetails = function (id) {
-        this.taskDetails.getListDetails(id);
+        this.taskDetails.setListUrl(id);
         this.router.navigate(['/tasks']);
     };
     return WelcomeBoardComponent;

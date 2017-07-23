@@ -41,7 +41,7 @@ deleteBoard(board){
         });
 }
 getListDetails(id){
-	this.taskDetails.getListDetails(id);	
+	this.taskDetails.setListUrl(id);	
 this.router.navigate(['/tasks']);
 
 }	

@@ -13,7 +13,10 @@ export class TasksListComponent implements OnInit {
 	canEdit=false;
 constructor(private taskDetails:TaskDetailsService,private router:Router) { }
     showLists(){
-        console.log(this.taskDetails.showLists());
+        this.taskDetails.getListDetails(this.taskDetails.listUrl).subscribe(data=>{
+            this.tasks=data['lists'];
+            console.log(this.tasks);
+        });
     }
   ngOnInit() {
       this.showLists();
