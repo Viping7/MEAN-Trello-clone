@@ -1,6 +1,7 @@
 const express=require('express');
 const router=express.Router();
-const boards=require('../model/boards')
+const boards=require('../model/boards');
+const lists=require('../model/lists');
 router.get('/getBoards',function(req,res){
     boards.getBoards(function(err,boards){
         if(err) throw err;
@@ -10,13 +11,16 @@ router.get('/getBoards',function(req,res){
     })
 })
 router.post('/createBoard',function(req,res){
-    let boardname=new boards({
-        board_name:req.body.board_name
-    });
-    boards.createBoard(boardname,function(err,boards){
+    let boardid=req.body.board_name+'-';
+    boards.createBoard(req.body.board_name,function(err,boards){
         if(err) throw err;
         else{
-            res.json({success:true});
+             lists.createList(boardid,function(err,board){
+                if(err) throw err;
+                else{
+                    res.json({success:true})
+                }
+            })
         }
     })
 })

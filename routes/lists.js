@@ -19,11 +19,11 @@ router.get('/getList/:id',function(req,res){
 })
 router.post('/createList/:id',function(req,res){
     let list={
+        board_id:req.params.id,
         list_name:req.body.list_name,
         members:[{ mem_name:req.body.members.mem_name,
                  mem_avatar:req.body.members.mem_avatar
             }]
-        
     };
     lists.createListItem(list,function(err,listItems){
         if(err) throw err;
