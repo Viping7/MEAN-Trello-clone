@@ -51,5 +51,5 @@ module.exports.updateList=function(id,list,callback){
     List.update(boardId,listItems,{},callback);
 }
 module.exports.deleteList=function(board,callback){
-    Lists.remove(board,callback);
+    List.remove(board,callback);
 }

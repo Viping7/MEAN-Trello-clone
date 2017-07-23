@@ -11,10 +11,13 @@ router.get('/getBoards',function(req,res){
     })
 })
 router.post('/createBoard',function(req,res){
-    let boardid=req.body.board_name+'-';
-    boards.createBoard(req.body.board_name,function(err,boards){
+    let board=new boards({
+        board_name:req.body.board_name
+    });
+    let boardid=board._id;
+    boards.createBoard(board,function(err,boards){
         if(err) throw err;
-        else{
+        else{   
              lists.createList(boardid,function(err,board){
                 if(err) throw err;
                 else{
@@ -31,7 +34,13 @@ router.delete('/deleteBoard/:id',function(req,res){
    boards.deleteBoard(board,function(err,boards){
         if(err) throw err;
         else{
-            res.json({success:true});
+            lists.deleteList({board_id:req.params.id},function(err,board){
+                if(err) throw err;
+                else{
+                    res.json({success:true});
+                }
+            })
+            
         }
     })    
 });
