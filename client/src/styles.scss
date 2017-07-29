@@ -22,3 +22,25 @@ body{
 .clear{
 	clear: both;
 }
+.actions{
+    .dropdown-toggle{
+        background: none;
+        border: none;
+        padding: 0px;
+            box-shadow: none !important;
+        font-size: 20px;
+        display: inline-block;
+        vertical-align: middle;
+        margin-top: -16px;
+        &:focus{
+            box-shadow: none;
+        }
+    }
+    .dropdown-menu{
+        li{
+            a{
+                font-size: 14px !important;
+            }
+        }
+    }
+}

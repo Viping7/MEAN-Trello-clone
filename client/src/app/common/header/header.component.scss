@@ -8,9 +8,15 @@
 	}
 	.navbar-header{
 		.title{
+            position: relative;
+            z-index: 99;
 			background: rgba(28, 201, 149, 0.4);
 			padding: 8px 13px;
 			border-radius: 3px;
+            a{
+                color: rgba(255,255,255,0.8);
+                text-decoration: none;
+            }
 			h3{
 				font-size: 17px;
 				margin: 0px;

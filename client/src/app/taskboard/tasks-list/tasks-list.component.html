@@ -2,8 +2,20 @@
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-md-12">
-			<div class="list-card" *ngFor='let task of tasks;let i = index'>
-				<h3 >{{task['0'].list_name}}</h3>
+			<div class="list-card" *ngFor='let task of tasksList;let i = index'>
+				<h3 >{{task.list_name}}</h3>
+                
+ <div class="btn-group actions list-actions" dropdown>
+  <button dropdownToggle type="button" class="dropdown-toggle">
+   ...
+  </button>
+  <ul *dropdownMenu class="dropdown-menu" role="menu">
+    <li role="menuitem"><a class="dropdown-item" href="#">Add card</a></li>
+    <li role="menuitem"><a class="dropdown-item" href="javascript:;" (click)='deleteList(tasks.board_id,task._id)'>Delete List</a></li>
+   
+  </ul>
+</div>
+                <div class="clear"></div>
 				<!--<div class="task-item" *ngFor='let taskitem of task.taskCategory.tasks' appEditTask>
 					<span class="edit" endableEdit (click)="editTask(taskitem.name)"><img src='assets/pencil-edit-button.svg'></span>
 					<h4>{{taskitem.name}}</h4>
@@ -25,12 +37,16 @@
 			</div>
             <div class="list-card">
                 <div class='create-list' *ngIf='showCreateLists'>
+                    <form (submit)='createList(listname,tasks.board_id)'>
                     <input type="text" [(ngModel)]='listname' name="listname" class="form-control">
-                    <button type="button" class="btn btn-default green">Save</button>
+                    <button type="submit" class="btn btn-default green" >Save</button>
+                    <button type="button" class="btn btn-default" (click)='showCreateLists=false'>Cancel</button>
                     <div class="clear"></div>
+                    </form>    
                 </div>
-                <div><a href='javascript:;'>Create a new list..</a></div>
+                <div (click)='showCreateLists=true' [hidden]='showCreateLists'><a href='javascript:;' >Create a new list..</a></div>
             </div> 
 		</div>
 	</div>
 </div>
+

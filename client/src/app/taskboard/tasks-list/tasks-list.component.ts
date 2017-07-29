@@ -9,13 +9,14 @@ import { Router } from '@angular/router';
 })
 export class TasksListComponent implements OnInit {
   tasks;
-	taskitemOldname;
+	taskitemOldname;showCreateLists:boolean;
 	canEdit=false;
+    tasksList;
 constructor(private taskDetails:TaskDetailsService,private router:Router) { }
     showLists(){
         this.taskDetails.getListDetails(this.taskDetails.listUrl).subscribe(data=>{
-            this.tasks=data['lists'];
-            console.log(this.tasks);
+            this.tasks=data;
+            this.tasksList=this.tasks['lists'];
         });
     }
   ngOnInit() {
@@ -24,6 +25,21 @@ constructor(private taskDetails:TaskDetailsService,private router:Router) { }
 	editTask(taskitem){
 	this.taskitemOldname=taskitem;
 	}
+    createList(listname,board_id){
+      this.taskDetails.createList(listname,board_id).subscribe(data=>{
+            if(data['success']){
+               this.showLists();
+            }
+      })
+    }
+    deleteList(board_id,list_id){
+        console.log(board_id,list_id);
+      this.taskDetails.deleteList(board_id,list_id).subscribe(data=>{
+          if(data['success']){
+               this.showLists();
+            }  
+      })  
+    };
 	cancelEdit(value){
 		value='';
 		return value;

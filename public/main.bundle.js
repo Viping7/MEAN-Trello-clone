@@ -58,7 +58,7 @@ var AppComponent = (function () {
     return AppComponent;
 }());
 AppComponent = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_14" /* Component */])({
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_5" /* Component */])({
         selector: 'app-root',
         template: __webpack_require__("../../../../../src/app/app.component.html"),
         styles: [__webpack_require__("../../../../../src/app/app.component.css")]
@@ -78,14 +78,15 @@ AppComponent = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_common_http__ = __webpack_require__("../../../common/@angular/common/http.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__routes__ = __webpack_require__("../../../../../src/app/routes.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__app_component__ = __webpack_require__("../../../../../src/app/app.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__common_header_header_component__ = __webpack_require__("../../../../../src/app/common/header/header.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__taskboard_tasks_list_tasks_list_component__ = __webpack_require__("../../../../../src/app/taskboard/tasks-list/tasks-list.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__welcome_board_welcome_board_welcome_board_component__ = __webpack_require__("../../../../../src/app/welcome-board/welcome-board/welcome-board.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__services_task_details_service__ = __webpack_require__("../../../../../src/app/services/task-details.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__services_board_service__ = __webpack_require__("../../../../../src/app/services/board.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__directives_edit_task_directive__ = __webpack_require__("../../../../../src/app/directives/edit-task.directive.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ngx_bootstrap_dropdown__ = __webpack_require__("../../../../ngx-bootstrap/dropdown/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__routes__ = __webpack_require__("../../../../../src/app/routes.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__app_component__ = __webpack_require__("../../../../../src/app/app.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__common_header_header_component__ = __webpack_require__("../../../../../src/app/common/header/header.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__taskboard_tasks_list_tasks_list_component__ = __webpack_require__("../../../../../src/app/taskboard/tasks-list/tasks-list.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__welcome_board_welcome_board_welcome_board_component__ = __webpack_require__("../../../../../src/app/welcome-board/welcome-board/welcome-board.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__services_task_details_service__ = __webpack_require__("../../../../../src/app/services/task-details.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__services_board_service__ = __webpack_require__("../../../../../src/app/services/board.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__directives_edit_task_directive__ = __webpack_require__("../../../../../src/app/directives/edit-task.directive.ts");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -93,6 +94,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -114,20 +116,21 @@ var AppModule = (function () {
 AppModule = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__angular_core__["b" /* NgModule */])({
         declarations: [
-            __WEBPACK_IMPORTED_MODULE_6__app_component__["a" /* AppComponent */],
-            __WEBPACK_IMPORTED_MODULE_7__common_header_header_component__["a" /* HeaderComponent */],
-            __WEBPACK_IMPORTED_MODULE_8__taskboard_tasks_list_tasks_list_component__["a" /* TasksListComponent */],
-            __WEBPACK_IMPORTED_MODULE_9__welcome_board_welcome_board_welcome_board_component__["a" /* WelcomeBoardComponent */],
-            __WEBPACK_IMPORTED_MODULE_12__directives_edit_task_directive__["a" /* EditTaskDirective */]
+            __WEBPACK_IMPORTED_MODULE_7__app_component__["a" /* AppComponent */],
+            __WEBPACK_IMPORTED_MODULE_8__common_header_header_component__["a" /* HeaderComponent */],
+            __WEBPACK_IMPORTED_MODULE_9__taskboard_tasks_list_tasks_list_component__["a" /* TasksListComponent */],
+            __WEBPACK_IMPORTED_MODULE_10__welcome_board_welcome_board_welcome_board_component__["a" /* WelcomeBoardComponent */],
+            __WEBPACK_IMPORTED_MODULE_13__directives_edit_task_directive__["a" /* EditTaskDirective */]
         ],
         imports: [
             __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
-            __WEBPACK_IMPORTED_MODULE_3__angular_router__["a" /* RouterModule */].forRoot(__WEBPACK_IMPORTED_MODULE_5__routes__["a" /* routes */], { useHash: true }),
+            __WEBPACK_IMPORTED_MODULE_3__angular_router__["a" /* RouterModule */].forRoot(__WEBPACK_IMPORTED_MODULE_6__routes__["a" /* routes */], { useHash: true }),
+            __WEBPACK_IMPORTED_MODULE_5_ngx_bootstrap_dropdown__["a" /* BsDropdownModule */].forRoot(),
             __WEBPACK_IMPORTED_MODULE_1__angular_forms__["a" /* FormsModule */],
             __WEBPACK_IMPORTED_MODULE_4__angular_common_http__["a" /* HttpClientModule */]
         ],
-        providers: [__WEBPACK_IMPORTED_MODULE_10__services_task_details_service__["a" /* TaskDetailsService */], __WEBPACK_IMPORTED_MODULE_11__services_board_service__["a" /* BoardService */]],
-        bootstrap: [__WEBPACK_IMPORTED_MODULE_6__app_component__["a" /* AppComponent */]]
+        providers: [__WEBPACK_IMPORTED_MODULE_11__services_task_details_service__["a" /* TaskDetailsService */], __WEBPACK_IMPORTED_MODULE_12__services_board_service__["a" /* BoardService */]],
+        bootstrap: [__WEBPACK_IMPORTED_MODULE_7__app_component__["a" /* AppComponent */]]
     })
 ], AppModule);
 
@@ -138,7 +141,7 @@ AppModule = __decorate([
 /***/ "../../../../../src/app/common/header/header.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<header>\r\n\t<nav class=\"navbar navbar-inverse navbar-fixed-top\">\r\n\t\t<div class=\"navbar-header\">\r\n\t\t\t<div class=\"title\">\r\n\t\t\t\t<h3>Boards</h3>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t\t<h2>Task Manager</h2>\r\n\t\t<ul class=\"nav navbar-nav navbar-right\">\r\n\t\t\t<li><a href='#'>Vipin</a></li>\r\n\t\t</ul>\r\n\t</nav>\r\n</header>"
+module.exports = "<header>\r\n\t<nav class=\"navbar navbar-inverse navbar-fixed-top\">\r\n\t\t<div class=\"navbar-header\">\r\n\t\t\t<div class=\"title\">\r\n\t\t\t\t<a routerLink='/'><h3>Boards</h3></a>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t\t<h2>Task Manager</h2>\r\n\t\t<ul class=\"nav navbar-nav navbar-right\">\r\n\t\t\t<li><a href='#'>Vipin</a></li>\r\n\t\t</ul>\r\n\t</nav>\r\n</header>"
 
 /***/ }),
 
@@ -150,7 +153,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, ".navbar {\n  color: rgba(255, 255, 255, 0.8);\n  min-height: 0px;\n  padding: 5px 5px 5px 5px; }\n  .navbar.navbar-inverse {\n    background: #11674d;\n    border-bottom: none; }\n  .navbar .navbar-header .title {\n    background: rgba(28, 201, 149, 0.4);\n    padding: 8px 13px;\n    border-radius: 3px; }\n    .navbar .navbar-header .title h3 {\n      font-size: 17px;\n      margin: 0px;\n      font-weight: 600; }\n  .navbar .navbar-nav li a {\n    color: rgba(255, 255, 255, 0.8);\n    padding: 5px 20px;\n    font-weight: 600; }\n  .navbar h2 {\n    margin: 0px;\n    position: absolute;\n    width: 100%;\n    margin-top: 5px;\n    text-align: center;\n    font-size: 20px; }\n", ""]);
+exports.push([module.i, ".navbar {\n  color: rgba(255, 255, 255, 0.8);\n  min-height: 0px;\n  padding: 5px 5px 5px 5px; }\n  .navbar.navbar-inverse {\n    background: #11674d;\n    border-bottom: none; }\n  .navbar .navbar-header .title {\n    position: relative;\n    z-index: 99;\n    background: rgba(28, 201, 149, 0.4);\n    padding: 8px 13px;\n    border-radius: 3px; }\n    .navbar .navbar-header .title a {\n      color: rgba(255, 255, 255, 0.8);\n      text-decoration: none; }\n    .navbar .navbar-header .title h3 {\n      font-size: 17px;\n      margin: 0px;\n      font-weight: 600; }\n  .navbar .navbar-nav li a {\n    color: rgba(255, 255, 255, 0.8);\n    padding: 5px 20px;\n    font-weight: 600; }\n  .navbar h2 {\n    margin: 0px;\n    position: absolute;\n    width: 100%;\n    margin-top: 5px;\n    text-align: center;\n    font-size: 20px; }\n", ""]);
 
 // exports
 
@@ -184,7 +187,7 @@ var HeaderComponent = (function () {
     return HeaderComponent;
 }());
 HeaderComponent = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_14" /* Component */])({
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_5" /* Component */])({
         selector: 'app-header',
         template: __webpack_require__("../../../../../src/app/common/header/header.component.html"),
         styles: [__webpack_require__("../../../../../src/app/common/header/header.component.scss")]
@@ -351,6 +354,15 @@ var TaskDetailsService = (function () {
     TaskDetailsService.prototype.getListDetails = function (listDetailsUrl) {
         return this.http.get(listDetailsUrl);
     };
+    TaskDetailsService.prototype.createList = function (listname, board_id) {
+        var newlist = {
+            list_name: listname
+        };
+        return this.http.put('lists/create/' + board_id, newlist);
+    };
+    TaskDetailsService.prototype.deleteList = function (board_id, list_id) {
+        return this.http.put('lists/delete/' + board_id + '/' + list_id, '');
+    };
     return TaskDetailsService;
 }());
 TaskDetailsService = __decorate([
@@ -366,7 +378,7 @@ var _a;
 /***/ "../../../../../src/app/taskboard/tasks-list/tasks-list.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "\r\n<div class=\"container-fluid\">\r\n\t<div class=\"row\">\r\n\t\t<div class=\"col-md-12\">\r\n\t\t\t<div class=\"list-card\" *ngFor='let task of tasks;let i = index'>\r\n\t\t\t\t<h3 >{{task['0'].list_name}}</h3>\r\n\t\t\t\t<!--<div class=\"task-item\" *ngFor='let taskitem of task.taskCategory.tasks' appEditTask>\r\n\t\t\t\t\t<span class=\"edit\" endableEdit (click)=\"editTask(taskitem.name)\"><img src='assets/pencil-edit-button.svg'></span>\r\n\t\t\t\t\t<h4>{{taskitem.name}}</h4>\r\n\t\t\t\t\t<div class=\"edit-task\">\r\n\t\t\t\t\t\t<input type=\"text\" [(ngModel)]=\"taskitem.name\" class='form-control'>\r\n\t\t\t\t\t\t<button class=\"btn btn-default green\" >Save</button>\r\n\t\t\t\t\t\t<button class=\"btn btn-default\" (click)=\"taskitem.name=taskitemOldname\">Cancel</button>\r\n\t\t\t\t\t\t<div class=\"clear\"></div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>-->\r\n\t\t\t\t<div class=\"task-item new-card\" *ngIf='showCreateTasks'>\r\n\t\t\t\t\t<div class=\"edit-task\">\r\n\t\t\t\t\t\t<textarea class='form-control'></textarea>\r\n\t\t\t\t\t\t<button class=\"btn btn-default green\">Save</button>\r\n\t\t\t\t\t\t<div class=\"clear\"></div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<a href='#' (click)='createList()'>Add a card</a>\r\n\t\t\t</div>\r\n            <div class=\"list-card\">\r\n                <div class='create-list' *ngIf='showCreateLists'>\r\n                    <input type=\"text\" [(ngModel)]='listname' name=\"listname\" class=\"form-control\">\r\n                    <button type=\"button\" class=\"btn btn-default green\">Save</button>\r\n                    <div class=\"clear\"></div>\r\n                </div>\r\n                <div><a href='javascript:;'>Create a new list..</a></div>\r\n            </div> \r\n\t\t</div>\r\n\t</div>\r\n</div>\r\n"
+module.exports = "\r\n<div class=\"container-fluid\">\r\n\t<div class=\"row\">\r\n\t\t<div class=\"col-md-12\">\r\n\t\t\t<div class=\"list-card\" *ngFor='let task of tasksList;let i = index'>\r\n\t\t\t\t<h3 >{{task.list_name}}</h3>\r\n                \r\n <div class=\"btn-group actions list-actions\" dropdown>\r\n  <button dropdownToggle type=\"button\" class=\"dropdown-toggle\">\r\n   ...\r\n  </button>\r\n  <ul *dropdownMenu class=\"dropdown-menu\" role=\"menu\">\r\n    <li role=\"menuitem\"><a class=\"dropdown-item\" href=\"#\">Add card</a></li>\r\n    <li role=\"menuitem\"><a class=\"dropdown-item\" href=\"javascript:;\" (click)='deleteList(tasks.board_id,task._id)'>Delete List</a></li>\r\n   \r\n  </ul>\r\n</div>\r\n                <div class=\"clear\"></div>\r\n\t\t\t\t<!--<div class=\"task-item\" *ngFor='let taskitem of task.taskCategory.tasks' appEditTask>\r\n\t\t\t\t\t<span class=\"edit\" endableEdit (click)=\"editTask(taskitem.name)\"><img src='assets/pencil-edit-button.svg'></span>\r\n\t\t\t\t\t<h4>{{taskitem.name}}</h4>\r\n\t\t\t\t\t<div class=\"edit-task\">\r\n\t\t\t\t\t\t<input type=\"text\" [(ngModel)]=\"taskitem.name\" class='form-control'>\r\n\t\t\t\t\t\t<button class=\"btn btn-default green\" >Save</button>\r\n\t\t\t\t\t\t<button class=\"btn btn-default\" (click)=\"taskitem.name=taskitemOldname\">Cancel</button>\r\n\t\t\t\t\t\t<div class=\"clear\"></div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>-->\r\n\t\t\t\t<div class=\"task-item new-card\" *ngIf='showCreateTasks'>\r\n\t\t\t\t\t<div class=\"edit-task\">\r\n\t\t\t\t\t\t<textarea class='form-control'></textarea>\r\n\t\t\t\t\t\t<button class=\"btn btn-default green\">Save</button>\r\n\t\t\t\t\t\t<div class=\"clear\"></div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<a href='#' (click)='createList()'>Add a card</a>\r\n\t\t\t</div>\r\n            <div class=\"list-card\">\r\n                <div class='create-list' *ngIf='showCreateLists'>\r\n                    <form (submit)='createList(listname,tasks.board_id)'>\r\n                    <input type=\"text\" [(ngModel)]='listname' name=\"listname\" class=\"form-control\">\r\n                    <button type=\"submit\" class=\"btn btn-default green\" >Save</button>\r\n                    <button type=\"button\" class=\"btn btn-default\" (click)='showCreateLists=false'>Cancel</button>\r\n                    <div class=\"clear\"></div>\r\n                    </form>    \r\n                </div>\r\n                <div (click)='showCreateLists=true' [hidden]='showCreateLists'><a href='javascript:;' >Create a new list..</a></div>\r\n            </div> \r\n\t\t</div>\r\n\t</div>\r\n</div>\r\n\r\n"
 
 /***/ }),
 
@@ -378,7 +390,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, ".list-card {\n  margin-top: 20px;\n  background: #eee;\n  display: inline-block;\n  vertical-align: top;\n  margin-right: 20px;\n  width: 280px;\n  padding: 10px;\n  border-radius: 3px; }\n  .list-card h3 {\n    font-size: 16px;\n    margin-top: 0px;\n    font-weight: 600;\n    color: #333 !important; }\n  .list-card .task-item {\n    background: #fff;\n    padding: 2px 15px 15px 10px;\n    border-radius: 3px;\n    margin-bottom: 8px;\n    position: relative; }\n    .list-card .task-item input[type='text'], .list-card .task-item h4 {\n      font-size: 14px;\n      border: none;\n      margin-top: 5px; }\n    .list-card .task-item .form-control {\n      border: 1px solid #eee !important;\n      box-shadow: none; }\n    .list-card .task-item:hover .edit {\n      display: block; }\n    .list-card .task-item .edit {\n      cursor: pointer;\n      display: none;\n      position: absolute;\n      right: 10px;\n      top: 0px; }\n      .list-card .task-item .edit img {\n        width: 10px; }\n    .list-card .task-item .edit-task {\n      display: none; }\n    .list-card .task-item.new-card {\n      padding: 10px; }\n      .list-card .task-item.new-card .edit-task {\n        display: block; }\n        .list-card .task-item.new-card .edit-task textarea {\n          height: 70px;\n          resize: none; }\n  .list-card a {\n    color: #333;\n    font-size: 16px; }\n", ""]);
+exports.push([module.i, ".list-card {\n  margin-top: 20px;\n  background: #eee;\n  display: inline-block;\n  vertical-align: top;\n  margin-right: 20px;\n  width: 280px;\n  padding: 10px;\n  border-radius: 3px; }\n  .list-card h3 {\n    float: left;\n    font-size: 16px;\n    margin-top: 0px;\n    font-weight: 600;\n    color: #333 !important; }\n  .list-card .list-actions {\n    float: right; }\n  .list-card .task-item {\n    background: #fff;\n    padding: 2px 15px 15px 10px;\n    border-radius: 3px;\n    margin-bottom: 8px;\n    position: relative; }\n    .list-card .task-item input[type='text'], .list-card .task-item h4 {\n      font-size: 14px;\n      border: none;\n      margin-top: 5px; }\n    .list-card .task-item .form-control {\n      border: 1px solid #eee !important;\n      box-shadow: none; }\n    .list-card .task-item:hover .edit {\n      display: block; }\n    .list-card .task-item .edit {\n      cursor: pointer;\n      display: none;\n      position: absolute;\n      right: 10px;\n      top: 0px; }\n      .list-card .task-item .edit img {\n        width: 10px; }\n    .list-card .task-item .edit-task {\n      display: none; }\n    .list-card .task-item.new-card {\n      padding: 10px; }\n      .list-card .task-item.new-card .edit-task {\n        display: block; }\n        .list-card .task-item.new-card .edit-task textarea {\n          height: 70px;\n          resize: none; }\n  .list-card a {\n    color: #333;\n    font-size: 16px; }\n", ""]);
 
 // exports
 
@@ -417,8 +429,8 @@ var TasksListComponent = (function () {
     TasksListComponent.prototype.showLists = function () {
         var _this = this;
         this.taskDetails.getListDetails(this.taskDetails.listUrl).subscribe(function (data) {
-            _this.tasks = data['lists'];
-            console.log(_this.tasks);
+            _this.tasks = data;
+            _this.tasksList = _this.tasks['lists'];
         });
     };
     TasksListComponent.prototype.ngOnInit = function () {
@@ -427,6 +439,24 @@ var TasksListComponent = (function () {
     TasksListComponent.prototype.editTask = function (taskitem) {
         this.taskitemOldname = taskitem;
     };
+    TasksListComponent.prototype.createList = function (listname, board_id) {
+        var _this = this;
+        this.taskDetails.createList(listname, board_id).subscribe(function (data) {
+            if (data['success']) {
+                _this.showLists();
+            }
+        });
+    };
+    TasksListComponent.prototype.deleteList = function (board_id, list_id) {
+        var _this = this;
+        console.log(board_id, list_id);
+        this.taskDetails.deleteList(board_id, list_id).subscribe(function (data) {
+            if (data['success']) {
+                _this.showLists();
+            }
+        });
+    };
+    ;
     TasksListComponent.prototype.cancelEdit = function (value) {
         value = '';
         return value;
@@ -434,7 +464,7 @@ var TasksListComponent = (function () {
     return TasksListComponent;
 }());
 TasksListComponent = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_14" /* Component */])({
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_5" /* Component */])({
         selector: 'app-tasks-list',
         template: __webpack_require__("../../../../../src/app/taskboard/tasks-list/tasks-list.component.html"),
         styles: [__webpack_require__("../../../../../src/app/taskboard/tasks-list/tasks-list.component.scss")]
@@ -499,7 +529,6 @@ var WelcomeBoardComponent = (function () {
         this.router = router;
         this.taskDetails = taskDetails;
         this.boardService = boardService;
-        this.showCreate = false;
     }
     WelcomeBoardComponent.prototype.getBoards = function () {
         var _this = this;
@@ -538,7 +567,7 @@ var WelcomeBoardComponent = (function () {
     return WelcomeBoardComponent;
 }());
 WelcomeBoardComponent = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_14" /* Component */])({
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_5" /* Component */])({
         selector: 'app-welcome-board',
         template: __webpack_require__("../../../../../src/app/welcome-board/welcome-board/welcome-board.component.html"),
         styles: [__webpack_require__("../../../../../src/app/welcome-board/welcome-board/welcome-board.component.scss")]

@@ -17,14 +17,10 @@ router.get('/getList/:id',function(req,res){
         }
     })
 })
-router.post('/createList/:id',function(req,res){
+router.put('/create/:id',function(req,res){  
     let list={
-        board_id:req.params.id,
-        list_name:req.body.list_name,
-        members:[{ mem_name:req.body.members.mem_name,
-                 mem_avatar:req.body.members.mem_avatar
-            }]
-    };
+        list_name:req.body.list_name
+    }
      lists.updateList(req.params.id,list,function(err,lists){
                if(err) throw err;
                 else{
@@ -33,5 +29,13 @@ router.post('/createList/:id',function(req,res){
             });
       
 })
-
+router.put('/delete/:bid/:lid',function(req,res){  
+     lists.deleteList(req.params.bid,req.params.lid,function(err,lists){
+               if(err) throw err;
+                else{
+                    res.json({success:lists});
+                }
+            });
+      
+})
 module.exports=router;

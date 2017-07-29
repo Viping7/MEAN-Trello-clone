@@ -12,5 +12,15 @@ setListUrl(id){
 getListDetails(listDetailsUrl){
 	return this.http.get(listDetailsUrl);
 }
+createList(listname,board_id){
+    let newlist={
+        list_name:listname
+    };
+    return this.http.put('lists/create/'+board_id,newlist);
+}
+    
+deleteList(board_id,list_id){
+      return this.http.put('lists/delete/'+board_id+'/'+list_id,'');
+    }
 
 }
