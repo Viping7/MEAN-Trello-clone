@@ -1,17 +1,30 @@
+.task-list-container{
+    background: rgba(17, 103, 77, 0.9);
+    min-height: 100vh;
+    .board-name{
+        color: #fff;
+        font-size: 22px;
+        font-weight: 600;
+        margin-bottom: 0px;
+    }
+}
 .list-card{
 	margin-top: 20px;
-	background: #eee;
+	background: #e2e4e6;
 	display: inline-block;
 	vertical-align:top;
 	margin-right: 20px;
 	width: 280px;
 	padding: 10px;
 	border-radius: 3px;
-	h3{
+	> input[type=text]{
         float: left;
 		font-size: 16px;
 		margin-top: 0px;
 		font-weight: 600;
+        border: none;
+        background: none;
+        margin-bottom: 15px;
 		color: #333 !important;
 	}
     .list-actions{
@@ -64,7 +77,25 @@
 		}
 	}
     a{
-        color: #333;
-        font-size: 16px;
+        color: #666;
+        font-size: 14px;
+        text-decoration: none;;
+    }
+    &.create-list-card{
+        background:rgba(255, 255, 255, 0.12);
+        a{
+          color:rgba(255, 255, 255, 0.48)  
+        }
+        .form-control{
+            &:focus{
+            border:none;    
+            box-shadow: 1px 1px 10px rgba(0,0,0,0.1) !important;
+            }}
+        &.create-open{
+            background: #e2e4e6;
+            a{
+          color:#666;
+        }
+        }
     }
 }

@@ -34,7 +34,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!--The content below is only a placeholder and can be replaced.-->\r\n<app-header></app-header>\r\n<div class=\"page-wrapper\">\r\n<router-outlet></router-outlet>\r\n</div>"
+module.exports = "<!--The content below is only a placeholder and can be replaced.-->\r\n<app-header></app-header>\r\n<router-outlet></router-outlet>\r\n"
 
 /***/ }),
 
@@ -304,6 +304,9 @@ var BoardService = (function () {
     BoardService.prototype.getBoards = function () {
         return this.http.get('/boards/getBoards');
     };
+    BoardService.prototype.getCurrentBoard = function (board_id) {
+        return this.http.get('/boards/getBoard/' + board_id);
+    };
     BoardService.prototype.createBoard = function (board_name) {
         var board = {
             board_name: board_name
@@ -311,8 +314,8 @@ var BoardService = (function () {
         var headers = new __WEBPACK_IMPORTED_MODULE_2__angular_common_http__["b" /* HttpHeaders */]().set('Content-type', 'application/json');
         return this.http.post('boards/createBoard', board, { headers: headers });
     };
-    BoardService.prototype.deleteBoard = function (boardId) {
-        return this.http.delete('boards/deleteBoard/' + boardId);
+    BoardService.prototype.deleteBoard = function (board_id) {
+        return this.http.delete('boards/deleteBoard/' + board_id);
     };
     return BoardService;
 }());
@@ -349,6 +352,7 @@ var TaskDetailsService = (function () {
         this.http = http;
     }
     TaskDetailsService.prototype.setListUrl = function (id) {
+        this.listId = id;
         this.listUrl = 'lists/getList/' + id;
     };
     TaskDetailsService.prototype.getListDetails = function (listDetailsUrl) {
@@ -378,7 +382,7 @@ var _a;
 /***/ "../../../../../src/app/taskboard/tasks-list/tasks-list.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "\r\n<div class=\"container-fluid\">\r\n\t<div class=\"row\">\r\n\t\t<div class=\"col-md-12\">\r\n\t\t\t<div class=\"list-card\" *ngFor='let task of tasksList;let i = index'>\r\n\t\t\t\t<h3 >{{task.list_name}}</h3>\r\n                \r\n <div class=\"btn-group actions list-actions\" dropdown>\r\n  <button dropdownToggle type=\"button\" class=\"dropdown-toggle\">\r\n   ...\r\n  </button>\r\n  <ul *dropdownMenu class=\"dropdown-menu\" role=\"menu\">\r\n    <li role=\"menuitem\"><a class=\"dropdown-item\" href=\"#\">Add card</a></li>\r\n    <li role=\"menuitem\"><a class=\"dropdown-item\" href=\"javascript:;\" (click)='deleteList(tasks.board_id,task._id)'>Delete List</a></li>\r\n   \r\n  </ul>\r\n</div>\r\n                <div class=\"clear\"></div>\r\n\t\t\t\t<!--<div class=\"task-item\" *ngFor='let taskitem of task.taskCategory.tasks' appEditTask>\r\n\t\t\t\t\t<span class=\"edit\" endableEdit (click)=\"editTask(taskitem.name)\"><img src='assets/pencil-edit-button.svg'></span>\r\n\t\t\t\t\t<h4>{{taskitem.name}}</h4>\r\n\t\t\t\t\t<div class=\"edit-task\">\r\n\t\t\t\t\t\t<input type=\"text\" [(ngModel)]=\"taskitem.name\" class='form-control'>\r\n\t\t\t\t\t\t<button class=\"btn btn-default green\" >Save</button>\r\n\t\t\t\t\t\t<button class=\"btn btn-default\" (click)=\"taskitem.name=taskitemOldname\">Cancel</button>\r\n\t\t\t\t\t\t<div class=\"clear\"></div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>-->\r\n\t\t\t\t<div class=\"task-item new-card\" *ngIf='showCreateTasks'>\r\n\t\t\t\t\t<div class=\"edit-task\">\r\n\t\t\t\t\t\t<textarea class='form-control'></textarea>\r\n\t\t\t\t\t\t<button class=\"btn btn-default green\">Save</button>\r\n\t\t\t\t\t\t<div class=\"clear\"></div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<a href='#' (click)='createList()'>Add a card</a>\r\n\t\t\t</div>\r\n            <div class=\"list-card\">\r\n                <div class='create-list' *ngIf='showCreateLists'>\r\n                    <form (submit)='createList(listname,tasks.board_id)'>\r\n                    <input type=\"text\" [(ngModel)]='listname' name=\"listname\" class=\"form-control\">\r\n                    <button type=\"submit\" class=\"btn btn-default green\" >Save</button>\r\n                    <button type=\"button\" class=\"btn btn-default\" (click)='showCreateLists=false'>Cancel</button>\r\n                    <div class=\"clear\"></div>\r\n                    </form>    \r\n                </div>\r\n                <div (click)='showCreateLists=true' [hidden]='showCreateLists'><a href='javascript:;' >Create a new list..</a></div>\r\n            </div> \r\n\t\t</div>\r\n\t</div>\r\n</div>\r\n\r\n"
+module.exports = "<section class=\"page-wrapper task-list-container\"><div class=\"container-fluid\">\r\n\t<div class=\"row\">\r\n\t\t<div class=\"col-md-12\">\r\n            <h3 class=\"board-name\">{{boardName}}</h3>\r\n\t\t\t<div class=\"list-card\" *ngFor='let task of tasksList;let i = index'>\r\n\t\t\t\t<input type=\"text\" [ngModel]='task.list_name' [readonly]='!listReadOnly' (click)='listReadOnly=true' [ngClass]=\"{'editable':false}\">\r\n                \r\n <div class=\"btn-group actions list-actions\" dropdown>\r\n  <button dropdownToggle type=\"button\" class=\"dropdown-toggle\">\r\n   ...\r\n  </button>\r\n  <ul *dropdownMenu class=\"dropdown-menu\" role=\"menu\">\r\n    <li role=\"menuitem\"><a class=\"dropdown-item\" href=\"#\">Add card</a></li>\r\n    <li role=\"menuitem\"><a class=\"dropdown-item\" href=\"javascript:;\" (click)='deleteList(tasks.board_id,task._id)'>Delete List</a></li>\r\n   \r\n  </ul>\r\n</div>\r\n                <div class=\"clear\"></div>\r\n\t\t\t\t<!--<div class=\"task-item\" *ngFor='let taskitem of task.taskCategory.tasks' appEditTask>\r\n\t\t\t\t\t<span class=\"edit\" endableEdit (click)=\"editTask(taskitem.name)\"><img src='assets/pencil-edit-button.svg'></span>\r\n\t\t\t\t\t<h4>{{taskitem.name}}</h4>\r\n\t\t\t\t\t<div class=\"edit-task\">\r\n\t\t\t\t\t\t<input type=\"text\" [(ngModel)]=\"taskitem.name\" class='form-control'>\r\n\t\t\t\t\t\t<button class=\"btn btn-default green\" >Save</button>\r\n\t\t\t\t\t\t<button class=\"btn btn-default\" (click)=\"taskitem.name=taskitemOldname\">Cancel</button>\r\n\t\t\t\t\t\t<div class=\"clear\"></div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>-->\r\n\t\t\t\t<div class=\"task-item new-card\" *ngIf='showCreateTasks'>\r\n\t\t\t\t\t<div class=\"edit-task\">\r\n\t\t\t\t\t\t<textarea class='form-control'></textarea>\r\n\t\t\t\t\t\t<button class=\"btn btn-default green\">Save</button>\r\n\t\t\t\t\t\t<div class=\"clear\"></div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<a href='#' (click)='createList()'>Add a card</a>\r\n\t\t\t</div>\r\n            <div class=\"list-card create-list-card\" [ngClass]=\"{'create-open':showCreateLists}\">\r\n                 <div (click)='showCreateLists=true' ><a href='javascript:;' >Create a new list..</a></div>\r\n                <div class='create-list' *ngIf='showCreateLists'>\r\n                    <form (submit)='createList(listName,tasks.board_id)'>\r\n                    <input type=\"text\" [(ngModel)]='listName' name=\"listname\" class=\"form-control\">\r\n                    <button type=\"submit\" class=\"btn btn-default green\">Save</button>\r\n                    <button type=\"button\" class=\"btn btn-default\" (click)='showCreateLists=false'>Cancel</button>\r\n                    <div class=\"clear\"></div>\r\n                    </form>    \r\n                </div>\r\n               \r\n            </div> \r\n\t\t</div>\r\n\t</div>\r\n</div>\r\n</section>\r\n\r\n"
 
 /***/ }),
 
@@ -390,7 +394,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, ".list-card {\n  margin-top: 20px;\n  background: #eee;\n  display: inline-block;\n  vertical-align: top;\n  margin-right: 20px;\n  width: 280px;\n  padding: 10px;\n  border-radius: 3px; }\n  .list-card h3 {\n    float: left;\n    font-size: 16px;\n    margin-top: 0px;\n    font-weight: 600;\n    color: #333 !important; }\n  .list-card .list-actions {\n    float: right; }\n  .list-card .task-item {\n    background: #fff;\n    padding: 2px 15px 15px 10px;\n    border-radius: 3px;\n    margin-bottom: 8px;\n    position: relative; }\n    .list-card .task-item input[type='text'], .list-card .task-item h4 {\n      font-size: 14px;\n      border: none;\n      margin-top: 5px; }\n    .list-card .task-item .form-control {\n      border: 1px solid #eee !important;\n      box-shadow: none; }\n    .list-card .task-item:hover .edit {\n      display: block; }\n    .list-card .task-item .edit {\n      cursor: pointer;\n      display: none;\n      position: absolute;\n      right: 10px;\n      top: 0px; }\n      .list-card .task-item .edit img {\n        width: 10px; }\n    .list-card .task-item .edit-task {\n      display: none; }\n    .list-card .task-item.new-card {\n      padding: 10px; }\n      .list-card .task-item.new-card .edit-task {\n        display: block; }\n        .list-card .task-item.new-card .edit-task textarea {\n          height: 70px;\n          resize: none; }\n  .list-card a {\n    color: #333;\n    font-size: 16px; }\n", ""]);
+exports.push([module.i, ".task-list-container {\n  background: rgba(17, 103, 77, 0.9);\n  min-height: 100vh; }\n  .task-list-container .board-name {\n    color: #fff;\n    font-size: 22px;\n    font-weight: 600;\n    margin-bottom: 0px; }\n\n.list-card {\n  margin-top: 20px;\n  background: #e2e4e6;\n  display: inline-block;\n  vertical-align: top;\n  margin-right: 20px;\n  width: 280px;\n  padding: 10px;\n  border-radius: 3px; }\n  .list-card > input[type=text] {\n    float: left;\n    font-size: 16px;\n    margin-top: 0px;\n    font-weight: 600;\n    border: none;\n    background: none;\n    margin-bottom: 15px;\n    color: #333 !important; }\n  .list-card .list-actions {\n    float: right; }\n  .list-card .task-item {\n    background: #fff;\n    padding: 2px 15px 15px 10px;\n    border-radius: 3px;\n    margin-bottom: 8px;\n    position: relative; }\n    .list-card .task-item input[type='text'], .list-card .task-item h4 {\n      font-size: 14px;\n      border: none;\n      margin-top: 5px; }\n    .list-card .task-item .form-control {\n      border: 1px solid #eee !important;\n      box-shadow: none; }\n    .list-card .task-item:hover .edit {\n      display: block; }\n    .list-card .task-item .edit {\n      cursor: pointer;\n      display: none;\n      position: absolute;\n      right: 10px;\n      top: 0px; }\n      .list-card .task-item .edit img {\n        width: 10px; }\n    .list-card .task-item .edit-task {\n      display: none; }\n    .list-card .task-item.new-card {\n      padding: 10px; }\n      .list-card .task-item.new-card .edit-task {\n        display: block; }\n        .list-card .task-item.new-card .edit-task textarea {\n          height: 70px;\n          resize: none; }\n  .list-card a {\n    color: #666;\n    font-size: 14px;\n    text-decoration: none; }\n  .list-card.create-list-card {\n    background: rgba(255, 255, 255, 0.12); }\n    .list-card.create-list-card a {\n      color: rgba(255, 255, 255, 0.48); }\n    .list-card.create-list-card .form-control:focus {\n      border: none;\n      box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.1) !important; }\n    .list-card.create-list-card.create-open {\n      background: #e2e4e6; }\n      .list-card.create-list-card.create-open a {\n        color: #666; }\n", ""]);
 
 // exports
 
@@ -406,7 +410,8 @@ module.exports = module.exports.toString();
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_task_details_service__ = __webpack_require__("../../../../../src/app/services/task-details.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_board_service__ = __webpack_require__("../../../../../src/app/services/board.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TasksListComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -420,21 +425,34 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var TasksListComponent = (function () {
-    function TasksListComponent(taskDetails, router) {
+    function TasksListComponent(taskDetails, boardService, router) {
         this.taskDetails = taskDetails;
+        this.boardService = boardService;
         this.router = router;
         this.canEdit = false;
     }
     TasksListComponent.prototype.showLists = function () {
         var _this = this;
-        this.taskDetails.getListDetails(this.taskDetails.listUrl).subscribe(function (data) {
-            _this.tasks = data;
-            _this.tasksList = _this.tasks['lists'];
+        this.boardService.getCurrentBoard(this.taskDetails.listId).subscribe(function (data) {
+            if (data) {
+                _this.boardName = data['board_name'];
+                _this.taskDetails.getListDetails(_this.taskDetails.listUrl).subscribe(function (data) {
+                    console.log(data);
+                    _this.tasks = data;
+                    _this.tasksList = _this.tasks['lists'];
+                });
+            }
         });
     };
     TasksListComponent.prototype.ngOnInit = function () {
-        this.showLists();
+        if (this.taskDetails.listId) {
+            this.showLists();
+        }
+        else {
+            this.router.navigate(['/']);
+        }
     };
     TasksListComponent.prototype.editTask = function (taskitem) {
         this.taskitemOldname = taskitem;
@@ -444,6 +462,8 @@ var TasksListComponent = (function () {
         this.taskDetails.createList(listname, board_id).subscribe(function (data) {
             if (data['success']) {
                 _this.showLists();
+                _this.listName = '';
+                _this.showCreateLists = false;
             }
         });
     };
@@ -469,10 +489,10 @@ TasksListComponent = __decorate([
         template: __webpack_require__("../../../../../src/app/taskboard/tasks-list/tasks-list.component.html"),
         styles: [__webpack_require__("../../../../../src/app/taskboard/tasks-list/tasks-list.component.scss")]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__services_task_details_service__["a" /* TaskDetailsService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_task_details_service__["a" /* TaskDetailsService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* Router */]) === "function" && _b || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__services_task_details_service__["a" /* TaskDetailsService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_task_details_service__["a" /* TaskDetailsService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__services_board_service__["a" /* BoardService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services_board_service__["a" /* BoardService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__angular_router__["b" /* Router */]) === "function" && _c || Object])
 ], TasksListComponent);
 
-var _a, _b;
+var _a, _b, _c;
 //# sourceMappingURL=tasks-list.component.js.map
 
 /***/ }),
@@ -480,7 +500,7 @@ var _a, _b;
 /***/ "../../../../../src/app/welcome-board/welcome-board/welcome-board.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container-fluid\">\r\n\t<div class=\"row\">\r\n\t\t<div class=\"col-md-12\">\r\n\t\t\t<h2>Task Boards</h2>\r\n\t\t</div>\r\n\t</div>\r\n\t<div class=\"row\">\r\n\t\t<div class=\"col-md-12\">\r\n\t\t\t<div *ngFor='let board of boards' class=\"board\" (click)='getListDetails(board._id)'>\r\n\t\t\t\t<h3>{{board.board_name}}</h3>\r\n\t\t\t\t<span class=\"close-board\" (click)=\"deleteBoard(board)\"><img src='assets/cancel-music.svg'/></span>\r\n\t\t\t</div>\r\n\t\t\t<div class=\"board create-board\" (click)='showCreate=true'>\r\n\t\t\t\t<h3>Create new board</h3>\r\n\t\t\t\t<div class=\"create-board-form\" *ngIf='showCreate'>\r\n\t\t\t\t\t<form (submit)=\"addBoard(boardname)\">\r\n\t\t\t\t\t\t<input type=\"text\" placeholder=\"Board name\" [(ngModel)]=\"boardname\" name='taskname' class=\"form-control\">\r\n\t\t\t\t\t\t\r\n\t\t\t\t\t\t<button class=\"submit\" class='btn btn-default green\t'>Save</button>\r\n\t\t\t\t\t\t<button type=\"button\" class='btn btn-default' (click)='hideCreate()'>Cancel</button>\r\n\t\t\t\t\t\t<div class=\"clear\"></div>\r\n\t\t\t\t\t</form>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n</div>\r\n"
+module.exports = "<div class='board-container page-wrapper'><div class=\"container-fluid\">\r\n\t<div class=\"row\">\r\n\t\t<div class=\"col-md-12\">\r\n\t\t\t<h2>Task Boards</h2>\r\n\t\t</div>\r\n\t</div>\r\n\t<div class=\"row\">\r\n\t\t<div class=\"col-md-12\">\r\n\t\t\t<div *ngFor='let board of boards' class=\"board\" (click)='getListDetails(board._id)'>\r\n\t\t\t\t<h3>{{board.board_name}}</h3>\r\n\t\t\t\t<span class=\"close-board\" (click)=\"deleteBoard(board)\"><img src='assets/cancel-music.svg'/></span>\r\n\t\t\t</div>\r\n\t\t\t<div class=\"board create-board\" (click)='showCreate=true'>\r\n\t\t\t\t<h3>Create new board</h3>\r\n\t\t\t\t<div class=\"create-board-form\" *ngIf='showCreate'>\r\n\t\t\t\t\t<form (submit)=\"addBoard(boardname)\">\r\n\t\t\t\t\t\t<input type=\"text\" placeholder=\"Board name\" [(ngModel)]=\"boardname\" name='taskname' class=\"form-control\">\r\n\t\t\t\t\t\t\r\n\t\t\t\t\t\t<button class=\"submit\" class='btn btn-default green\t'>Save</button>\r\n\t\t\t\t\t\t<button type=\"button\" class='btn btn-default' (click)='hideCreate()'>Cancel</button>\r\n\t\t\t\t\t\t<div class=\"clear\"></div>\r\n\t\t\t\t\t</form>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n</div></div>\r\n"
 
 /***/ }),
 
@@ -492,7 +512,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "h2 {\n  font-size: 20px;\n  font-weight: 600; }\n\n.board {\n  position: relative;\n  padding: 10px 15px;\n  background: #11674d;\n  color: #fff;\n  width: 250px;\n  height: 100px;\n  display: inline-block;\n  margin: 0px 10px 10px 0px;\n  border-radius: 3px;\n  vertical-align: middle; }\n  .board h3 {\n    margin-top: 0px;\n    font-size: 18px; }\n  .board .close-board {\n    position: absolute;\n    right: 10px;\n    cursor: pointer;\n    display: none;\n    top: 5px; }\n    .board .close-board img {\n      width: 10px; }\n  .board:hover .close-board {\n    display: block; }\n  .board.create-board {\n    padding: 10px 0px;\n    background: #eee;\n    color: #333;\n    cursor: pointer; }\n    .board.create-board h3 {\n      text-align: center;\n      margin: 25px 0px; }\n    .board.create-board .create-board-form {\n      position: absolute;\n      background: #fff;\n      width: 100%;\n      border: 1px solid #eee;\n      padding: 15px; }\n", ""]);
+exports.push([module.i, "h2 {\n  font-size: 20px;\n  font-weight: 600; }\n\n.board {\n  position: relative;\n  padding: 10px 15px;\n  background: #11674d;\n  color: #fff;\n  cursor: pointer;\n  width: 250px;\n  height: 100px;\n  display: inline-block;\n  margin: 0px 10px 10px 0px;\n  border-radius: 3px;\n  vertical-align: middle; }\n  .board h3 {\n    margin-top: 0px;\n    font-size: 18px; }\n  .board .close-board {\n    position: absolute;\n    right: 10px;\n    cursor: pointer;\n    display: none;\n    top: 5px; }\n    .board .close-board img {\n      width: 10px; }\n  .board:hover {\n    background: rgba(17, 103, 77, 0.95); }\n    .board:hover .close-board {\n      display: block; }\n  .board.create-board {\n    padding: 10px 0px;\n    background: #eee;\n    color: #333;\n    cursor: pointer; }\n    .board.create-board h3 {\n      text-align: center;\n      margin: 25px 0px; }\n    .board.create-board .create-board-form {\n      position: absolute;\n      background: #fff;\n      width: 100%;\n      border: 1px solid #eee;\n      padding: 15px; }\n", ""]);
 
 // exports
 

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TaskDetailsService } from '../../services/task-details.service';
+import { BoardService } from '../../services/board.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -12,15 +13,29 @@ export class TasksListComponent implements OnInit {
 	taskitemOldname;showCreateLists:boolean;
 	canEdit=false;
     tasksList;
-constructor(private taskDetails:TaskDetailsService,private router:Router) { }
+    listName;
+    boardName;
+constructor(private taskDetails:TaskDetailsService,private boardService:BoardService,private router:Router) { }
     showLists(){
-        this.taskDetails.getListDetails(this.taskDetails.listUrl).subscribe(data=>{
-            this.tasks=data;
-            this.tasksList=this.tasks['lists'];
-        });
+        this.boardService.getCurrentBoard(this.taskDetails.listId).subscribe(data=>{
+            if(data){
+                this.boardName=data['board_name'];
+                 this.taskDetails.getListDetails(this.taskDetails.listUrl).subscribe(data=>{
+                 console.log(data);  
+                 this.tasks=data;
+                 this.tasksList=this.tasks['lists'];
+                });
+            }
+        })
+       
     }
   ngOnInit() {
+      if(this.taskDetails.listId){
       this.showLists();
+      }
+      else{
+          this.router.navigate(['/']);
+      }
   	}
 	editTask(taskitem){
 	this.taskitemOldname=taskitem;
@@ -29,6 +44,8 @@ constructor(private taskDetails:TaskDetailsService,private router:Router) { }
       this.taskDetails.createList(listname,board_id).subscribe(data=>{
             if(data['success']){
                this.showLists();
+               this.listName='';
+               this.showCreateLists=false;    
             }
       })
     }

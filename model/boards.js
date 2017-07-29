@@ -17,3 +17,6 @@ module.exports.createBoard=function(boardname,callback){
 module.exports.deleteBoard=function(board,callback){
    Boards.remove(board,callback);
 }
+module.exports.getBoardById=function(boardId,callback){
+    Boards.findById(boardId,callback)
+}

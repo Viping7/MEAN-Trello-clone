@@ -10,6 +10,14 @@ router.get('/getBoards',function(req,res){
         }
     })
 })
+router.get('/getBoard/:id',function(req,res){
+    boards.getBoardById(req.params.id,function(err,board){
+        if(err) throw err;
+        else{
+            res.send(board);
+        }
+    })
+})
 router.post('/createBoard',function(req,res){
     let board=new boards({
         board_name:req.body.board_name

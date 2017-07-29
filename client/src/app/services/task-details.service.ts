@@ -5,9 +5,12 @@ import { HttpClient } from '@angular/common/http';
 @Injectable()
 export class TaskDetailsService {
 listUrl;
+listId;
 constructor(private http:HttpClient) { }
 setListUrl(id){
+     this.listId=id;
     this.listUrl='lists/getList/'+id;
+   
 }   
 getListDetails(listDetailsUrl){
 	return this.http.get(listDetailsUrl);

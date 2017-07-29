@@ -9,6 +9,9 @@ export class BoardService {
 getBoards(){
     return this.http.get('/boards/getBoards');
 }
+getCurrentBoard(board_id){
+    return this.http.get('/boards/getBoard/'+board_id);
+}    
 createBoard(board_name){
     var board={
         board_name:board_name
@@ -16,7 +19,7 @@ createBoard(board_name){
     var headers=new HttpHeaders().set('Content-type','application/json');
     return this.http.post('boards/createBoard',board,{headers:headers});
 }
-deleteBoard(boardId){
-    return this.http.delete('boards/deleteBoard/'+boardId);
+deleteBoard(board_id){
+    return this.http.delete('boards/deleteBoard/'+board_id);
 }
 }

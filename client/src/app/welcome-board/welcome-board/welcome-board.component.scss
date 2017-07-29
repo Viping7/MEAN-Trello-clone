@@ -2,11 +2,13 @@ h2{
 	font-size:20px;
 	font-weight:600;
 }
+
 .board{
 	position: relative;
 	padding:10px 15px;
 	background: #11674d;
 	color: #fff;
+    cursor: pointer;
 	width: 250px;
 	height: 100px;
 	display: inline-block;
@@ -29,6 +31,7 @@ h2{
 		
 	}
 	&:hover{
+        background: rgba(17, 103, 77, 0.95);
 		.close-board{
 			display: block;
 		}
