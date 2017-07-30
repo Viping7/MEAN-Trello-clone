@@ -10,14 +10,16 @@
 				<h3>{{board.board_name}}</h3>
 				<span class="close-board" (click)="deleteBoard(board)"><img src='assets/cancel-music.svg'/></span>
 			</div>
-			<div class="board create-board" (click)='showCreate=true'>
+			<div class="board create-board" >
+                <div class='create-board-padding' (click)='showCreateBoard=true'>
 				<h3>Create new board</h3>
-				<div class="create-board-form" *ngIf='showCreate'>
+				</div>
+                <div class="create-board-form" *ngIf='showCreateBoard'>
 					<form (submit)="addBoard(boardname)">
 						<input type="text" placeholder="Board name" [(ngModel)]="boardname" name='taskname' class="form-control">
 						
 						<button class="submit" class='btn btn-default green	'>Save</button>
-						<button type="button" class='btn btn-default' (click)='hideCreate()'>Cancel</button>
+						<button type="button" class='btn btn-default' (click)='hideCreateBoard()'>Cancel</button>
 						<div class="clear"></div>
 					</form>
 				</div>

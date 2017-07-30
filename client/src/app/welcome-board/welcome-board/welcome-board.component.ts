@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 export class WelcomeBoardComponent implements OnInit {
 	boards;
 	boardname:any;
-	showCreate:boolean;
+	showCreateBoard:boolean;
     constructor(private router:Router,private taskDetails:TaskDetailsService,private boardService:BoardService) { }
     getBoards(){
         this.boardService.getBoards().subscribe(data=>{
@@ -21,7 +21,7 @@ export class WelcomeBoardComponent implements OnInit {
       this.getBoards();
   }
 addBoard(){
-	this.showCreate=false;
+	this.showCreateBoard=false;
 	if(this.boardname){
         this.boardService.createBoard(this.boardname).subscribe(data=>{
             if(data['success']){
@@ -44,5 +44,9 @@ getListDetails(id){
 	this.taskDetails.setListUrl(id);	
 this.router.navigate(['/tasks']);
 
-}	
+}
+    hideCreateBoard(){
+        this.boardname='';
+        this.showCreateBoard=false;
+    }
 }

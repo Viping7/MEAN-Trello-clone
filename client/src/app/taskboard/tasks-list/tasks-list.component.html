@@ -1,9 +1,9 @@
 <section class="page-wrapper task-list-container"><div class="container-fluid">
 	<div class="row">
-		<div class="col-md-12">
+		<div class="col-md-12" dnd-sortable-container [sortableData]="tasksList">
             <h3 class="board-name">{{boardName}}</h3>
-			<div class="list-card" *ngFor='let task of tasksList;let i = index'>
-				<input type="text" [ngModel]='task.list_name' [readonly]='!listReadOnly' (click)='listReadOnly=true' [ngClass]="{'editable':false}">
+			<div class="list-card" *ngFor='let task of tasksList;let i = index' dnd-sortable [sortableIndex]="i">
+				<input type="text" [(ngModel)]='task.list_name' readonly class='dem' (change)='updateListName(task._id,task.list_name)' appEditTask [ngClass]='{"form-control":false}' >
                 
  <div class="btn-group actions list-actions" dropdown>
   <button dropdownToggle type="button" class="dropdown-toggle">
@@ -41,7 +41,7 @@
                     <form (submit)='createList(listName,tasks.board_id)'>
                     <input type="text" [(ngModel)]='listName' name="listname" class="form-control">
                     <button type="submit" class="btn btn-default green">Save</button>
-                    <button type="button" class="btn btn-default" (click)='showCreateLists=false'>Cancel</button>
+                    <button type="button" class="btn btn-default" (click)='hideCreateList()'>Cancel</button>
                     <div class="clear"></div>
                     </form>    
                 </div>
@@ -50,5 +50,7 @@
 		</div>
 	</div>
 </div>
+  
 </section>
+
 

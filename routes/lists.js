@@ -29,6 +29,17 @@ router.put('/create/:id',function(req,res){
             });
       
 })
+router.put('/updateList/:listid',function(req,res){  
+    let list_name=req.body.list_name
+    
+     lists.updateListName(req.params.listid,list_name,function(err,lists){
+               if(err) throw err;
+                else{
+                    res.json({success:true});
+                }
+            });
+      
+})
 router.put('/delete/:bid/:lid',function(req,res){  
      lists.deleteList(req.params.bid,req.params.lid,function(err,lists){
                if(err) throw err;

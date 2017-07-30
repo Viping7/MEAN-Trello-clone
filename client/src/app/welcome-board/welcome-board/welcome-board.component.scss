@@ -37,7 +37,10 @@ h2{
 		}
 	}
 	&.create-board{
-		padding: 10px 0px;
+        padding: 0px;
+        .create-board-padding{
+            padding: 10px 0px;
+        }
 		background: #eee;
 		color: #333;
         cursor: pointer;

@@ -1,3 +1,3 @@
 module.exports={
-     database:"mongodb://viping7:highveld@ds021000.mlab.com:21000/trello-clone"
+     database:"mongodb://testuser:test123@ds021000.mlab.com:21000/trello-clone"
 }

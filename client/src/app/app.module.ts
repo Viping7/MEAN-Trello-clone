@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import {DndModule} from 'ng2-dnd';
 import { HttpClientModule } from '@angular/common/http';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { routes } from './routes';
@@ -28,7 +29,8 @@ import { EditTaskDirective } from './directives/edit-task.directive';
     ),
       BsDropdownModule.forRoot(),
 	FormsModule,
-	HttpClientModule  
+	HttpClientModule ,
+    DndModule.forRoot()  
   ],
   providers: [TaskDetailsService,BoardService],
   bootstrap: [AppComponent]

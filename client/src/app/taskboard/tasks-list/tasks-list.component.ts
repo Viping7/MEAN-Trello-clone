@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 })
 export class TasksListComponent implements OnInit {
   tasks;
+            listOne: Array<string> = ['Coffee', 'Orange Juice', 'Red Wine', 'Unhealty drink!', 'Water'];
 	taskitemOldname;showCreateLists:boolean;
 	canEdit=false;
     tasksList;
@@ -49,6 +50,11 @@ constructor(private taskDetails:TaskDetailsService,private boardService:BoardSer
             }
       })
     }
+    updateListName(list_id,list_name){
+        this.taskDetails.updateListName(list_id,list_name).subscribe(data=>{
+            console.log(data);
+        })
+    }
     deleteList(board_id,list_id){
         console.log(board_id,list_id);
       this.taskDetails.deleteList(board_id,list_id).subscribe(data=>{
@@ -61,5 +67,8 @@ constructor(private taskDetails:TaskDetailsService,private boardService:BoardSer
 		value='';
 		return value;
 	}
-    
+    hideCreateList(){
+        this.listName='';
+        this.showCreateLists=false;
+    }
 }

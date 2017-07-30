@@ -83,6 +83,1077 @@ function toComment(sourceMap) {
 
 /***/ }),
 
+/***/ "../../../../ng2-dnd/index.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_dnd_config__ = __webpack_require__("../../../../ng2-dnd/src/dnd.config.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src_dnd_service__ = __webpack_require__("../../../../ng2-dnd/src/dnd.service.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__src_draggable_component__ = __webpack_require__("../../../../ng2-dnd/src/draggable.component.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__src_droppable_component__ = __webpack_require__("../../../../ng2-dnd/src/droppable.component.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__src_sortable_component__ = __webpack_require__("../../../../ng2-dnd/src/sortable.component.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__src_abstract_component__ = __webpack_require__("../../../../ng2-dnd/src/abstract.component.js");
+/* unused harmony namespace reexport */
+/* unused harmony namespace reexport */
+/* unused harmony namespace reexport */
+/* unused harmony namespace reexport */
+/* unused harmony namespace reexport */
+/* unused harmony namespace reexport */
+/* unused harmony export providers */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DndModule; });
+// Copyright (C) 2016 Sergey Akopkokhyants
+// This project is licensed under the terms of the MIT license.
+// https://github.com/akserg/ng2-dnd
+
+
+
+
+
+
+
+
+
+
+
+
+var providers = [
+    __WEBPACK_IMPORTED_MODULE_1__src_dnd_config__["a" /* DragDropConfig */],
+    { provide: __WEBPACK_IMPORTED_MODULE_2__src_dnd_service__["a" /* DragDropService */], useFactory: __WEBPACK_IMPORTED_MODULE_2__src_dnd_service__["b" /* dragDropServiceFactory */] },
+    { provide: __WEBPACK_IMPORTED_MODULE_2__src_dnd_service__["c" /* DragDropSortableService */], useFactory: __WEBPACK_IMPORTED_MODULE_2__src_dnd_service__["d" /* dragDropSortableServiceFactory */], deps: [__WEBPACK_IMPORTED_MODULE_1__src_dnd_config__["a" /* DragDropConfig */]] }
+];
+var DndModule = (function () {
+    function DndModule() {
+    }
+    DndModule.forRoot = function () {
+        return {
+            ngModule: DndModule,
+            providers: providers
+        };
+    };
+    return DndModule;
+}());
+
+DndModule.decorators = [
+    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["b" /* NgModule */], args: [{
+                declarations: [__WEBPACK_IMPORTED_MODULE_3__src_draggable_component__["a" /* DraggableComponent */], __WEBPACK_IMPORTED_MODULE_3__src_draggable_component__["b" /* DraggableHandleComponent */], __WEBPACK_IMPORTED_MODULE_4__src_droppable_component__["a" /* DroppableComponent */], __WEBPACK_IMPORTED_MODULE_5__src_sortable_component__["a" /* SortableContainer */], __WEBPACK_IMPORTED_MODULE_5__src_sortable_component__["b" /* SortableComponent */], __WEBPACK_IMPORTED_MODULE_5__src_sortable_component__["c" /* SortableHandleComponent */]],
+                exports: [__WEBPACK_IMPORTED_MODULE_3__src_draggable_component__["a" /* DraggableComponent */], __WEBPACK_IMPORTED_MODULE_3__src_draggable_component__["b" /* DraggableHandleComponent */], __WEBPACK_IMPORTED_MODULE_4__src_droppable_component__["a" /* DroppableComponent */], __WEBPACK_IMPORTED_MODULE_5__src_sortable_component__["a" /* SortableContainer */], __WEBPACK_IMPORTED_MODULE_5__src_sortable_component__["b" /* SortableComponent */], __WEBPACK_IMPORTED_MODULE_5__src_sortable_component__["c" /* SortableHandleComponent */]],
+            },] },
+];
+/** @nocollapse */
+DndModule.ctorParameters = function () { return []; };
+
+
+/***/ }),
+
+/***/ "../../../../ng2-dnd/src/abstract.component.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__dnd_config__ = __webpack_require__("../../../../ng2-dnd/src/dnd.config.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__dnd_service__ = __webpack_require__("../../../../ng2-dnd/src/dnd.service.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__dnd_utils__ = __webpack_require__("../../../../ng2-dnd/src/dnd.utils.js");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AbstractComponent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return AbstractHandleComponent; });
+// Copyright (C) 2016 Sergey Akopkokhyants
+// This project is licensed under the terms of the MIT license.
+// https://github.com/akserg/ng2-dnd
+
+
+
+
+
+var AbstractComponent = (function () {
+    function AbstractComponent(elemRef, _dragDropService, _config, _cdr) {
+        var _this = this;
+        this._dragDropService = _dragDropService;
+        this._config = _config;
+        this._cdr = _cdr;
+        /**
+         * Whether the object is draggable. Default is true.
+         */
+        this._dragEnabled = false;
+        /**
+         * Allows drop on this element
+         */
+        this.dropEnabled = false;
+        this.dropZones = [];
+        this.cloneItem = false;
+        // Assign default cursor unless overridden
+        this._defaultCursor = _config.defaultCursor;
+        this._elem = elemRef.nativeElement;
+        this._elem.style.cursor = this._defaultCursor; // set default cursor on our element
+        //
+        // DROP events
+        //
+        this._elem.ondragenter = function (event) {
+            _this._onDragEnter(event);
+        };
+        this._elem.ondragover = function (event) {
+            _this._onDragOver(event);
+            //
+            if (event.dataTransfer != null) {
+                event.dataTransfer.dropEffect = _this._config.dropEffect.name;
+            }
+            return false;
+        };
+        this._elem.ondragleave = function (event) {
+            _this._onDragLeave(event);
+        };
+        this._elem.ondrop = function (event) {
+            _this._onDrop(event);
+        };
+        //
+        // Drag events
+        //
+        this._elem.onmousedown = function (event) {
+            _this._target = event.target;
+        };
+        this._elem.ondragstart = function (event) {
+            if (_this._dragHandle) {
+                if (!_this._dragHandle.contains(_this._target)) {
+                    event.preventDefault();
+                    return;
+                }
+            }
+            _this._onDragStart(event);
+            //
+            if (event.dataTransfer != null) {
+                event.dataTransfer.setData('text', '');
+                // Change drag effect
+                event.dataTransfer.effectAllowed = _this.effectAllowed || _this._config.dragEffect.name;
+                // Change drag image
+                if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__dnd_utils__["a" /* isPresent */])(_this.dragImage)) {
+                    if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__dnd_utils__["b" /* isString */])(_this.dragImage)) {
+                        event.dataTransfer.setDragImage(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__dnd_utils__["c" /* createImage */])(_this.dragImage));
+                    }
+                    else if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__dnd_utils__["d" /* isFunction */])(_this.dragImage)) {
+                        event.dataTransfer.setDragImage(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__dnd_utils__["e" /* callFun */])(_this.dragImage));
+                    }
+                    else {
+                        var img = _this.dragImage;
+                        event.dataTransfer.setDragImage(img.imageElement, img.x_offset, img.y_offset);
+                    }
+                }
+                else if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__dnd_utils__["a" /* isPresent */])(_this._config.dragImage)) {
+                    var dragImage = _this._config.dragImage;
+                    event.dataTransfer.setDragImage(dragImage.imageElement, dragImage.x_offset, dragImage.y_offset);
+                }
+                else if (_this.cloneItem) {
+                    _this._dragHelper = _this._elem.cloneNode(true);
+                    _this._dragHelper.classList.add('dnd-drag-item');
+                    _this._dragHelper.style.position = "absolute";
+                    _this._dragHelper.style.top = "0px";
+                    _this._dragHelper.style.left = "-1000px";
+                    _this._elem.parentElement.appendChild(_this._dragHelper);
+                    event.dataTransfer.setDragImage(_this._dragHelper, event.offsetX, event.offsetY);
+                }
+                // Change drag cursor
+                var cursorelem = (_this._dragHandle) ? _this._dragHandle : _this._elem;
+                if (_this._dragEnabled) {
+                    cursorelem.style.cursor = _this.effectCursor ? _this.effectCursor : _this._config.dragCursor;
+                }
+                else {
+                    cursorelem.style.cursor = _this._defaultCursor;
+                }
+            }
+        };
+        this._elem.ondragend = function (event) {
+            if (_this._elem.parentElement && _this._dragHelper) {
+                _this._elem.parentElement.removeChild(_this._dragHelper);
+            }
+            // console.log('ondragend', event.target);
+            _this._onDragEnd(event);
+            // Restore style of dragged element
+            var cursorelem = (_this._dragHandle) ? _this._dragHandle : _this._elem;
+            cursorelem.style.cursor = _this._defaultCursor;
+        };
+    }
+    Object.defineProperty(AbstractComponent.prototype, "dragEnabled", {
+        get: function () {
+            return this._dragEnabled;
+        },
+        set: function (enabled) {
+            this._dragEnabled = !!enabled;
+            this._elem.draggable = this._dragEnabled;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    AbstractComponent.prototype.setDragHandle = function (elem) {
+        this._dragHandle = elem;
+    };
+    /******* Change detection ******/
+    AbstractComponent.prototype.detectChanges = function () {
+        var _this = this;
+        // Programmatically run change detection to fix issue in Safari
+        setTimeout(function () {
+            _this._cdr.detectChanges();
+        }, 250);
+    };
+    //****** Droppable *******//
+    AbstractComponent.prototype._onDragEnter = function (event) {
+        // console.log('ondragenter._isDropAllowed', this._isDropAllowed);
+        if (this._isDropAllowed(event)) {
+            // event.preventDefault();
+            this._onDragEnterCallback(event);
+        }
+    };
+    AbstractComponent.prototype._onDragOver = function (event) {
+        // // console.log('ondragover._isDropAllowed', this._isDropAllowed);
+        if (this._isDropAllowed(event)) {
+            // The element is over the same source element - do nothing
+            if (event.preventDefault) {
+                // Necessary. Allows us to drop.
+                event.preventDefault();
+            }
+            this._onDragOverCallback(event);
+        }
+    };
+    AbstractComponent.prototype._onDragLeave = function (event) {
+        // console.log('ondragleave._isDropAllowed', this._isDropAllowed);
+        if (this._isDropAllowed(event)) {
+            // event.preventDefault();
+            this._onDragLeaveCallback(event);
+        }
+    };
+    AbstractComponent.prototype._onDrop = function (event) {
+        // Necessary. Allows us to drop.
+        this._preventAndStop(event);
+        // console.log('ondrop._isDropAllowed', this._isDropAllowed);
+        if (this._isDropAllowed(event)) {
+            this._onDropCallback(event);
+            this.detectChanges();
+        }
+    };
+    AbstractComponent.prototype._isDropAllowed = function (event) {
+        if ((this._dragDropService.isDragged || (event.dataTransfer && event.dataTransfer.files)) && this.dropEnabled) {
+            // First, if `allowDrop` is set, call it to determine whether the
+            // dragged element can be dropped here.
+            if (this.allowDrop) {
+                return this.allowDrop(this._dragDropService.dragData);
+            }
+            // Otherwise, use dropZones if they are set.
+            if (this.dropZones.length === 0 && this._dragDropService.allowedDropZones.length === 0) {
+                return true;
+            }
+            for (var i = 0; i < this._dragDropService.allowedDropZones.length; i++) {
+                var dragZone = this._dragDropService.allowedDropZones[i];
+                if (this.dropZones.indexOf(dragZone) !== -1) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    };
+    AbstractComponent.prototype._preventAndStop = function (event) {
+        if (event.preventDefault) {
+            event.preventDefault();
+        }
+        if (event.stopPropagation) {
+            event.stopPropagation();
+        }
+    };
+    //*********** Draggable **********//
+    AbstractComponent.prototype._onDragStart = function (event) {
+        //console.log('ondragstart.dragEnabled', this._dragEnabled);
+        if (this._dragEnabled) {
+            this._dragDropService.allowedDropZones = this.dropZones;
+            // console.log('ondragstart.allowedDropZones', this._dragDropService.allowedDropZones);
+            this._onDragStartCallback(event);
+        }
+    };
+    AbstractComponent.prototype._onDragEnd = function (event) {
+        this._dragDropService.allowedDropZones = [];
+        // console.log('ondragend.allowedDropZones', this._dragDropService.allowedDropZones);
+        this._onDragEndCallback(event);
+    };
+    //**** Drop Callbacks ****//
+    AbstractComponent.prototype._onDragEnterCallback = function (event) { };
+    AbstractComponent.prototype._onDragOverCallback = function (event) { };
+    AbstractComponent.prototype._onDragLeaveCallback = function (event) { };
+    AbstractComponent.prototype._onDropCallback = function (event) { };
+    //**** Drag Callbacks ****//
+    AbstractComponent.prototype._onDragStartCallback = function (event) { };
+    AbstractComponent.prototype._onDragEndCallback = function (event) { };
+    return AbstractComponent;
+}());
+
+AbstractComponent.decorators = [
+    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["c" /* Injectable */] },
+];
+/** @nocollapse */
+AbstractComponent.ctorParameters = function () { return [
+    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* ElementRef */], },
+    { type: __WEBPACK_IMPORTED_MODULE_2__dnd_service__["a" /* DragDropService */], },
+    { type: __WEBPACK_IMPORTED_MODULE_1__dnd_config__["a" /* DragDropConfig */], },
+    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* ChangeDetectorRef */], },
+]; };
+var AbstractHandleComponent = (function () {
+    function AbstractHandleComponent(elemRef, _dragDropService, _config, _Component, _cdr) {
+        this._dragDropService = _dragDropService;
+        this._config = _config;
+        this._Component = _Component;
+        this._cdr = _cdr;
+        this._elem = elemRef.nativeElement;
+        this._Component.setDragHandle(this._elem);
+    }
+    return AbstractHandleComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../ng2-dnd/src/dnd.config.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__dnd_utils__ = __webpack_require__("../../../../ng2-dnd/src/dnd.utils.js");
+/* unused harmony export DataTransferEffect */
+/* unused harmony export DragImage */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DragDropConfig; });
+// Copyright (C) 2016 Sergey Akopkokhyants
+// This project is licensed under the terms of the MIT license.
+// https://github.com/akserg/ng2-dnd
+
+var DataTransferEffect = (function () {
+    function DataTransferEffect(name) {
+        this.name = name;
+    }
+    return DataTransferEffect;
+}());
+
+DataTransferEffect.COPY = new DataTransferEffect('copy');
+DataTransferEffect.LINK = new DataTransferEffect('link');
+DataTransferEffect.MOVE = new DataTransferEffect('move');
+DataTransferEffect.NONE = new DataTransferEffect('none');
+var DragImage = (function () {
+    function DragImage(imageElement, x_offset, y_offset) {
+        if (x_offset === void 0) { x_offset = 0; }
+        if (y_offset === void 0) { y_offset = 0; }
+        this.imageElement = imageElement;
+        this.x_offset = x_offset;
+        this.y_offset = y_offset;
+        if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__dnd_utils__["b" /* isString */])(this.imageElement)) {
+            // Create real image from string source
+            var imgScr = this.imageElement;
+            this.imageElement = new HTMLImageElement();
+            this.imageElement.src = imgScr;
+        }
+    }
+    return DragImage;
+}());
+
+var DragDropConfig = (function () {
+    function DragDropConfig() {
+        this.onDragStartClass = "dnd-drag-start";
+        this.onDragEnterClass = "dnd-drag-enter";
+        this.onDragOverClass = "dnd-drag-over";
+        this.onSortableDragClass = "dnd-sortable-drag";
+        this.dragEffect = DataTransferEffect.MOVE;
+        this.dropEffect = DataTransferEffect.MOVE;
+        this.dragCursor = "move";
+        this.defaultCursor = "pointer";
+    }
+    return DragDropConfig;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../ng2-dnd/src/dnd.service.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__dnd_config__ = __webpack_require__("../../../../ng2-dnd/src/dnd.config.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__dnd_utils__ = __webpack_require__("../../../../ng2-dnd/src/dnd.utils.js");
+/* unused harmony export DragDropData */
+/* harmony export (immutable) */ __webpack_exports__["b"] = dragDropServiceFactory;
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DragDropService; });
+/* harmony export (immutable) */ __webpack_exports__["d"] = dragDropSortableServiceFactory;
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return DragDropSortableService; });
+// Copyright (C) 2016 Sergey Akopkokhyants
+// This project is licensed under the terms of the MIT license.
+// https://github.com/akserg/ng2-dnd
+
+
+
+var DragDropData = (function () {
+    function DragDropData() {
+    }
+    return DragDropData;
+}());
+
+function dragDropServiceFactory() {
+    return new DragDropService();
+}
+var DragDropService = (function () {
+    function DragDropService() {
+        this.allowedDropZones = [];
+    }
+    return DragDropService;
+}());
+
+DragDropService.decorators = [
+    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["c" /* Injectable */] },
+];
+/** @nocollapse */
+DragDropService.ctorParameters = function () { return []; };
+function dragDropSortableServiceFactory(config) {
+    return new DragDropSortableService(config);
+}
+var DragDropSortableService = (function () {
+    function DragDropSortableService(_config) {
+        this._config = _config;
+    }
+    Object.defineProperty(DragDropSortableService.prototype, "elem", {
+        get: function () {
+            return this._elem;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    DragDropSortableService.prototype.markSortable = function (elem) {
+        if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__dnd_utils__["a" /* isPresent */])(this._elem)) {
+            this._elem.classList.remove(this._config.onSortableDragClass);
+        }
+        if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__dnd_utils__["a" /* isPresent */])(elem)) {
+            this._elem = elem;
+            this._elem.classList.add(this._config.onSortableDragClass);
+        }
+    };
+    return DragDropSortableService;
+}());
+
+DragDropSortableService.decorators = [
+    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["c" /* Injectable */] },
+];
+/** @nocollapse */
+DragDropSortableService.ctorParameters = function () { return [
+    { type: __WEBPACK_IMPORTED_MODULE_1__dnd_config__["a" /* DragDropConfig */], },
+]; };
+
+
+/***/ }),
+
+/***/ "../../../../ng2-dnd/src/dnd.utils.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["b"] = isString;
+/* harmony export (immutable) */ __webpack_exports__["a"] = isPresent;
+/* harmony export (immutable) */ __webpack_exports__["d"] = isFunction;
+/* harmony export (immutable) */ __webpack_exports__["c"] = createImage;
+/* harmony export (immutable) */ __webpack_exports__["e"] = callFun;
+/**
+ * Check and return true if an object is type of string
+ */
+/**
+ * Check and return true if an object is type of string
+ */ function isString(obj) {
+    return typeof obj === "string";
+}
+/**
+ * Check and return true if an object not undefined or null
+ */
+function isPresent(obj) {
+    return obj !== undefined && obj !== null;
+}
+/**
+ * Check and return true if an object is type of Function
+ */
+function isFunction(obj) {
+    return typeof obj === "function";
+}
+/**
+ * Create Image element with specified url string
+ */
+function createImage(src) {
+    var img = new HTMLImageElement();
+    img.src = src;
+    return img;
+}
+/**
+ * Call the function
+ */
+function callFun(fun) {
+    return fun();
+}
+
+
+/***/ }),
+
+/***/ "../../../../ng2-dnd/src/draggable.component.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__abstract_component__ = __webpack_require__("../../../../ng2-dnd/src/abstract.component.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__dnd_config__ = __webpack_require__("../../../../ng2-dnd/src/dnd.config.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__dnd_service__ = __webpack_require__("../../../../ng2-dnd/src/dnd.service.js");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DraggableComponent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return DraggableHandleComponent; });
+// Copyright (C) 2016 Sergey Akopkokhyants
+// This project is licensed under the terms of the MIT license.
+// https://github.com/akserg/ng2-dnd
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+
+
+
+
+
+var DraggableComponent = (function (_super) {
+    __extends(DraggableComponent, _super);
+    function DraggableComponent(elemRef, dragDropService, config, cdr) {
+        var _this = _super.call(this, elemRef, dragDropService, config, cdr) || this;
+        /**
+         * Callback function called when the drag actions happened.
+         */
+        _this.onDragStart = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["h" /* EventEmitter */]();
+        _this.onDragEnd = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["h" /* EventEmitter */]();
+        /**
+         * Callback function called when the drag action ends with a valid drop action.
+         * It is activated after the on-drop-success callback
+         */
+        _this.onDragSuccessCallback = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["h" /* EventEmitter */]();
+        _this._defaultCursor = _this._elem.style.cursor;
+        _this.dragEnabled = true;
+        return _this;
+    }
+    Object.defineProperty(DraggableComponent.prototype, "draggable", {
+        set: function (value) {
+            this.dragEnabled = !!value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(DraggableComponent.prototype, "dropzones", {
+        set: function (value) {
+            this.dropZones = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(DraggableComponent.prototype, "effectallowed", {
+        /**
+         * Drag allowed effect
+         */
+        set: function (value) {
+            this.effectAllowed = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(DraggableComponent.prototype, "effectcursor", {
+        /**
+         * Drag effect cursor
+         */
+        set: function (value) {
+            this.effectCursor = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    DraggableComponent.prototype._onDragStartCallback = function (event) {
+        this._dragDropService.isDragged = true;
+        this._dragDropService.dragData = this.dragData;
+        this._dragDropService.onDragSuccessCallback = this.onDragSuccessCallback;
+        this._elem.classList.add(this._config.onDragStartClass);
+        //
+        this.onDragStart.emit({ dragData: this.dragData, mouseEvent: event });
+    };
+    DraggableComponent.prototype._onDragEndCallback = function (event) {
+        this._dragDropService.isDragged = false;
+        this._dragDropService.dragData = null;
+        this._dragDropService.onDragSuccessCallback = null;
+        this._elem.classList.remove(this._config.onDragStartClass);
+        //
+        this.onDragEnd.emit({ dragData: this.dragData, mouseEvent: event });
+    };
+    return DraggableComponent;
+}(__WEBPACK_IMPORTED_MODULE_1__abstract_component__["a" /* AbstractComponent */]));
+
+DraggableComponent.decorators = [
+    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["l" /* Directive */], args: [{ selector: '[dnd-draggable]' },] },
+];
+/** @nocollapse */
+DraggableComponent.ctorParameters = function () { return [
+    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* ElementRef */], },
+    { type: __WEBPACK_IMPORTED_MODULE_3__dnd_service__["a" /* DragDropService */], },
+    { type: __WEBPACK_IMPORTED_MODULE_2__dnd_config__["a" /* DragDropConfig */], },
+    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* ChangeDetectorRef */], },
+]; };
+DraggableComponent.propDecorators = {
+    'draggable': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["q" /* Input */], args: ["dragEnabled",] },],
+    'onDragStart': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Output */] },],
+    'onDragEnd': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Output */] },],
+    'dragData': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["q" /* Input */] },],
+    'onDragSuccessCallback': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Output */], args: ["onDragSuccess",] },],
+    'dropzones': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["q" /* Input */], args: ["dropZones",] },],
+    'effectallowed': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["q" /* Input */], args: ["effectAllowed",] },],
+    'effectcursor': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["q" /* Input */], args: ["effectCursor",] },],
+    'dragImage': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["q" /* Input */] },],
+    'cloneItem': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["q" /* Input */] },],
+};
+var DraggableHandleComponent = (function (_super) {
+    __extends(DraggableHandleComponent, _super);
+    function DraggableHandleComponent(elemRef, dragDropService, config, _Component, cdr) {
+        return _super.call(this, elemRef, dragDropService, config, _Component, cdr) || this;
+    }
+    return DraggableHandleComponent;
+}(__WEBPACK_IMPORTED_MODULE_1__abstract_component__["b" /* AbstractHandleComponent */]));
+
+DraggableHandleComponent.decorators = [
+    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["l" /* Directive */], args: [{ selector: '[dnd-draggable-handle]' },] },
+];
+/** @nocollapse */
+DraggableHandleComponent.ctorParameters = function () { return [
+    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* ElementRef */], },
+    { type: __WEBPACK_IMPORTED_MODULE_3__dnd_service__["a" /* DragDropService */], },
+    { type: __WEBPACK_IMPORTED_MODULE_2__dnd_config__["a" /* DragDropConfig */], },
+    { type: DraggableComponent, },
+    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* ChangeDetectorRef */], },
+]; };
+
+
+/***/ }),
+
+/***/ "../../../../ng2-dnd/src/droppable.component.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__abstract_component__ = __webpack_require__("../../../../ng2-dnd/src/abstract.component.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__dnd_config__ = __webpack_require__("../../../../ng2-dnd/src/dnd.config.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__dnd_service__ = __webpack_require__("../../../../ng2-dnd/src/dnd.service.js");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DroppableComponent; });
+// Copyright (C) 2016 Sergey Akopkokhyants
+// This project is licensed under the terms of the MIT license.
+// https://github.com/akserg/ng2-dnd
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+
+
+
+
+
+var DroppableComponent = (function (_super) {
+    __extends(DroppableComponent, _super);
+    function DroppableComponent(elemRef, dragDropService, config, cdr) {
+        var _this = _super.call(this, elemRef, dragDropService, config, cdr) || this;
+        /**
+         * Callback function called when the drop action completes correctly.
+         * It is activated before the on-drag-success callback.
+         */
+        _this.onDropSuccess = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["h" /* EventEmitter */]();
+        _this.onDragEnter = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["h" /* EventEmitter */]();
+        _this.onDragOver = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["h" /* EventEmitter */]();
+        _this.onDragLeave = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["h" /* EventEmitter */]();
+        _this.dropEnabled = true;
+        return _this;
+    }
+    Object.defineProperty(DroppableComponent.prototype, "droppable", {
+        set: function (value) {
+            this.dropEnabled = !!value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(DroppableComponent.prototype, "allowdrop", {
+        set: function (value) {
+            this.allowDrop = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(DroppableComponent.prototype, "dropzones", {
+        set: function (value) {
+            this.dropZones = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(DroppableComponent.prototype, "effectallowed", {
+        /**
+         * Drag allowed effect
+         */
+        set: function (value) {
+            this.effectAllowed = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(DroppableComponent.prototype, "effectcursor", {
+        /**
+         * Drag effect cursor
+         */
+        set: function (value) {
+            this.effectCursor = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    DroppableComponent.prototype._onDragEnterCallback = function (event) {
+        if (this._dragDropService.isDragged) {
+            this._elem.classList.add(this._config.onDragEnterClass);
+            this.onDragEnter.emit({ dragData: this._dragDropService.dragData, mouseEvent: event });
+        }
+    };
+    DroppableComponent.prototype._onDragOverCallback = function (event) {
+        if (this._dragDropService.isDragged) {
+            this._elem.classList.add(this._config.onDragOverClass);
+            this.onDragOver.emit({ dragData: this._dragDropService.dragData, mouseEvent: event });
+        }
+    };
+    ;
+    DroppableComponent.prototype._onDragLeaveCallback = function (event) {
+        if (this._dragDropService.isDragged) {
+            this._elem.classList.remove(this._config.onDragOverClass);
+            this._elem.classList.remove(this._config.onDragEnterClass);
+            this.onDragLeave.emit({ dragData: this._dragDropService.dragData, mouseEvent: event });
+        }
+    };
+    ;
+    DroppableComponent.prototype._onDropCallback = function (event) {
+        var dataTransfer = event.dataTransfer;
+        if (this._dragDropService.isDragged || (dataTransfer && dataTransfer.files)) {
+            this.onDropSuccess.emit({ dragData: this._dragDropService.dragData, mouseEvent: event });
+            if (this._dragDropService.onDragSuccessCallback) {
+                this._dragDropService.onDragSuccessCallback.emit({ dragData: this._dragDropService.dragData, mouseEvent: event });
+            }
+            this._elem.classList.remove(this._config.onDragOverClass);
+            this._elem.classList.remove(this._config.onDragEnterClass);
+        }
+    };
+    return DroppableComponent;
+}(__WEBPACK_IMPORTED_MODULE_1__abstract_component__["a" /* AbstractComponent */]));
+
+DroppableComponent.decorators = [
+    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["l" /* Directive */], args: [{ selector: '[dnd-droppable]' },] },
+];
+/** @nocollapse */
+DroppableComponent.ctorParameters = function () { return [
+    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* ElementRef */], },
+    { type: __WEBPACK_IMPORTED_MODULE_3__dnd_service__["a" /* DragDropService */], },
+    { type: __WEBPACK_IMPORTED_MODULE_2__dnd_config__["a" /* DragDropConfig */], },
+    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* ChangeDetectorRef */], },
+]; };
+DroppableComponent.propDecorators = {
+    'droppable': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["q" /* Input */], args: ["dropEnabled",] },],
+    'onDropSuccess': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Output */] },],
+    'onDragEnter': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Output */] },],
+    'onDragOver': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Output */] },],
+    'onDragLeave': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Output */] },],
+    'allowdrop': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["q" /* Input */], args: ["allowDrop",] },],
+    'dropzones': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["q" /* Input */], args: ["dropZones",] },],
+    'effectallowed': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["q" /* Input */], args: ["effectAllowed",] },],
+    'effectcursor': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["q" /* Input */], args: ["effectCursor",] },],
+};
+
+
+/***/ }),
+
+/***/ "../../../../ng2-dnd/src/sortable.component.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__abstract_component__ = __webpack_require__("../../../../ng2-dnd/src/abstract.component.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__dnd_config__ = __webpack_require__("../../../../ng2-dnd/src/dnd.config.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__dnd_service__ = __webpack_require__("../../../../ng2-dnd/src/dnd.service.js");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SortableContainer; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return SortableComponent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return SortableHandleComponent; });
+// Copyright (C) 2016 Sergey Akopkokhyants
+// This project is licensed under the terms of the MIT license.
+// https://github.com/akserg/ng2-dnd
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+
+
+
+
+
+var SortableContainer = (function (_super) {
+    __extends(SortableContainer, _super);
+    function SortableContainer(elemRef, dragDropService, config, cdr, _sortableDataService) {
+        var _this = _super.call(this, elemRef, dragDropService, config, cdr) || this;
+        _this._sortableDataService = _sortableDataService;
+        _this._sortableData = [];
+        _this.dragEnabled = false;
+        return _this;
+    }
+    Object.defineProperty(SortableContainer.prototype, "draggable", {
+        set: function (value) {
+            this.dragEnabled = !!value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(SortableContainer.prototype, "sortableData", {
+        get: function () {
+            return this._sortableData;
+        },
+        set: function (sortableData) {
+            this._sortableData = sortableData;
+            //
+            this.dropEnabled = !!this._sortableData;
+            // console.log("collection is changed, drop enabled: " + this.dropEnabled);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(SortableContainer.prototype, "dropzones", {
+        set: function (value) {
+            this.dropZones = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    SortableContainer.prototype._onDragEnterCallback = function (event) {
+        if (this._sortableDataService.isDragged) {
+            var item = this._sortableDataService.sortableContainer._sortableData[this._sortableDataService.index];
+            // Check does element exist in sortableData of this Container
+            if (this._sortableData.indexOf(item) === -1) {
+                // Let's add it
+                // console.log('Container._onDragEnterCallback. drag node [' + this._sortableDataService.index.toString() + '] over parent node');
+                // Remove item from previouse list
+                this._sortableDataService.sortableContainer._sortableData.splice(this._sortableDataService.index, 1);
+                if (this._sortableDataService.sortableContainer._sortableData.length === 0) {
+                    this._sortableDataService.sortableContainer.dropEnabled = true;
+                }
+                // Add item to new list
+                this._sortableData.unshift(item);
+                this._sortableDataService.sortableContainer = this;
+                this._sortableDataService.index = 0;
+            }
+            // Refresh changes in properties of container component
+            this.detectChanges();
+        }
+    };
+    return SortableContainer;
+}(__WEBPACK_IMPORTED_MODULE_1__abstract_component__["a" /* AbstractComponent */]));
+
+SortableContainer.decorators = [
+    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["l" /* Directive */], args: [{ selector: '[dnd-sortable-container]' },] },
+];
+/** @nocollapse */
+SortableContainer.ctorParameters = function () { return [
+    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* ElementRef */], },
+    { type: __WEBPACK_IMPORTED_MODULE_3__dnd_service__["a" /* DragDropService */], },
+    { type: __WEBPACK_IMPORTED_MODULE_2__dnd_config__["a" /* DragDropConfig */], },
+    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* ChangeDetectorRef */], },
+    { type: __WEBPACK_IMPORTED_MODULE_3__dnd_service__["c" /* DragDropSortableService */], },
+]; };
+SortableContainer.propDecorators = {
+    'draggable': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["q" /* Input */], args: ["dragEnabled",] },],
+    'sortableData': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["q" /* Input */] },],
+    'dropzones': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["q" /* Input */], args: ["dropZones",] },],
+};
+var SortableComponent = (function (_super) {
+    __extends(SortableComponent, _super);
+    function SortableComponent(elemRef, dragDropService, config, _sortableContainer, _sortableDataService, cdr) {
+        var _this = _super.call(this, elemRef, dragDropService, config, cdr) || this;
+        _this._sortableContainer = _sortableContainer;
+        _this._sortableDataService = _sortableDataService;
+        /**
+         * Callback function called when the drag action ends with a valid drop action.
+         * It is activated after the on-drop-success callback
+         */
+        _this.onDragSuccessCallback = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["h" /* EventEmitter */]();
+        _this.onDragStartCallback = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["h" /* EventEmitter */]();
+        _this.onDragOverCallback = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["h" /* EventEmitter */]();
+        _this.onDragEndCallback = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["h" /* EventEmitter */]();
+        _this.onDropSuccessCallback = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["h" /* EventEmitter */]();
+        _this.dropZones = _this._sortableContainer.dropZones;
+        _this.dragEnabled = true;
+        _this.dropEnabled = true;
+        return _this;
+    }
+    Object.defineProperty(SortableComponent.prototype, "draggable", {
+        set: function (value) {
+            this.dragEnabled = !!value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(SortableComponent.prototype, "droppable", {
+        set: function (value) {
+            this.dropEnabled = !!value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(SortableComponent.prototype, "effectallowed", {
+        /**
+         * Drag allowed effect
+         */
+        set: function (value) {
+            this.effectAllowed = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(SortableComponent.prototype, "effectcursor", {
+        /**
+         * Drag effect cursor
+         */
+        set: function (value) {
+            this.effectCursor = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    SortableComponent.prototype._onDragStartCallback = function (event) {
+        // console.log('_onDragStartCallback. dragging elem with index ' + this.index);
+        this._sortableDataService.isDragged = true;
+        this._sortableDataService.sortableContainer = this._sortableContainer;
+        this._sortableDataService.index = this.index;
+        this._sortableDataService.markSortable(this._elem);
+        // Add dragData
+        this._dragDropService.isDragged = true;
+        this._dragDropService.dragData = this.dragData;
+        this._dragDropService.onDragSuccessCallback = this.onDragSuccessCallback;
+        //
+        this.onDragStartCallback.emit(this._dragDropService.dragData);
+    };
+    SortableComponent.prototype._onDragOverCallback = function (event) {
+        if (this._sortableDataService.isDragged && this._elem !== this._sortableDataService.elem) {
+            // console.log('_onDragOverCallback. dragging elem with index ' + this.index);
+            this._sortableDataService.sortableContainer = this._sortableContainer;
+            this._sortableDataService.index = this.index;
+            this._sortableDataService.markSortable(this._elem);
+            this.onDragOverCallback.emit(this._dragDropService.dragData);
+        }
+    };
+    SortableComponent.prototype._onDragEndCallback = function (event) {
+        // console.log('_onDragEndCallback. end dragging elem with index ' + this.index);
+        this._sortableDataService.isDragged = false;
+        this._sortableDataService.sortableContainer = null;
+        this._sortableDataService.index = null;
+        this._sortableDataService.markSortable(null);
+        // Add dragGata
+        this._dragDropService.isDragged = false;
+        this._dragDropService.dragData = null;
+        this._dragDropService.onDragSuccessCallback = null;
+        //
+        this.onDragEndCallback.emit(this._dragDropService.dragData);
+    };
+    SortableComponent.prototype._onDragEnterCallback = function (event) {
+        if (this._sortableDataService.isDragged) {
+            this._sortableDataService.markSortable(this._elem);
+            if ((this.index !== this._sortableDataService.index) ||
+                (this._sortableDataService.sortableContainer.sortableData !== this._sortableContainer.sortableData)) {
+                // console.log('Component._onDragEnterCallback. drag node [' + this.index + '] over node [' + this._sortableDataService.index + ']');
+                // Get item
+                var item = this._sortableDataService.sortableContainer.sortableData[this._sortableDataService.index];
+                // Remove item from previouse list
+                this._sortableDataService.sortableContainer.sortableData.splice(this._sortableDataService.index, 1);
+                if (this._sortableDataService.sortableContainer.sortableData.length === 0) {
+                    this._sortableDataService.sortableContainer.dropEnabled = true;
+                }
+                // Add item to new list
+                this._sortableContainer.sortableData.splice(this.index, 0, item);
+                if (this._sortableContainer.dropEnabled) {
+                    this._sortableContainer.dropEnabled = false;
+                }
+                this._sortableDataService.sortableContainer = this._sortableContainer;
+                this._sortableDataService.index = this.index;
+            }
+        }
+    };
+    SortableComponent.prototype._onDropCallback = function (event) {
+        if (this._sortableDataService.isDragged) {
+            // console.log('onDropCallback.onDropSuccessCallback.dragData', this._dragDropService.dragData);
+            this.onDropSuccessCallback.emit(this._dragDropService.dragData);
+            if (this._dragDropService.onDragSuccessCallback) {
+                // console.log('onDropCallback.onDragSuccessCallback.dragData', this._dragDropService.dragData);
+                this._dragDropService.onDragSuccessCallback.emit(this._dragDropService.dragData);
+            }
+            // Refresh changes in properties of container component
+            this._sortableContainer.detectChanges();
+        }
+    };
+    return SortableComponent;
+}(__WEBPACK_IMPORTED_MODULE_1__abstract_component__["a" /* AbstractComponent */]));
+
+SortableComponent.decorators = [
+    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["l" /* Directive */], args: [{ selector: '[dnd-sortable]' },] },
+];
+/** @nocollapse */
+SortableComponent.ctorParameters = function () { return [
+    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* ElementRef */], },
+    { type: __WEBPACK_IMPORTED_MODULE_3__dnd_service__["a" /* DragDropService */], },
+    { type: __WEBPACK_IMPORTED_MODULE_2__dnd_config__["a" /* DragDropConfig */], },
+    { type: SortableContainer, },
+    { type: __WEBPACK_IMPORTED_MODULE_3__dnd_service__["c" /* DragDropSortableService */], },
+    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* ChangeDetectorRef */], },
+]; };
+SortableComponent.propDecorators = {
+    'index': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["q" /* Input */], args: ['sortableIndex',] },],
+    'draggable': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["q" /* Input */], args: ["dragEnabled",] },],
+    'droppable': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["q" /* Input */], args: ["dropEnabled",] },],
+    'dragData': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["q" /* Input */] },],
+    'effectallowed': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["q" /* Input */], args: ["effectAllowed",] },],
+    'effectcursor': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["q" /* Input */], args: ["effectCursor",] },],
+    'onDragSuccessCallback': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Output */], args: ["onDragSuccess",] },],
+    'onDragStartCallback': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Output */], args: ["onDragStart",] },],
+    'onDragOverCallback': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Output */], args: ["onDragOver",] },],
+    'onDragEndCallback': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Output */], args: ["onDragEnd",] },],
+    'onDropSuccessCallback': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Output */], args: ["onDropSuccess",] },],
+};
+var SortableHandleComponent = (function (_super) {
+    __extends(SortableHandleComponent, _super);
+    function SortableHandleComponent(elemRef, dragDropService, config, _Component, cdr) {
+        return _super.call(this, elemRef, dragDropService, config, _Component, cdr) || this;
+    }
+    return SortableHandleComponent;
+}(__WEBPACK_IMPORTED_MODULE_1__abstract_component__["b" /* AbstractHandleComponent */]));
+
+SortableHandleComponent.decorators = [
+    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["l" /* Directive */], args: [{ selector: '[dnd-sortable-handle]' },] },
+];
+/** @nocollapse */
+SortableHandleComponent.ctorParameters = function () { return [
+    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* ElementRef */], },
+    { type: __WEBPACK_IMPORTED_MODULE_3__dnd_service__["a" /* DragDropService */], },
+    { type: __WEBPACK_IMPORTED_MODULE_2__dnd_config__["a" /* DragDropConfig */], },
+    { type: SortableComponent, },
+    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* ChangeDetectorRef */], },
+]; };
+
+
+/***/ }),
+
 /***/ "../../../../ngx-bootstrap/component-loader/component-loader.class.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -329,7 +1400,7 @@ var ComponentLoaderFactory = (function () {
     ComponentLoaderFactory.ctorParameters = function () { return [
         { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["s" /* ComponentFactoryResolver */], },
         { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Q" /* NgZone */], },
-        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["G" /* Injector */], },
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["H" /* Injector */], },
         { type: __WEBPACK_IMPORTED_MODULE_2__positioning__["a" /* PositioningService */], },
         { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["P" /* ApplicationRef */], },
     ]; };
@@ -799,9 +1870,9 @@ var BsDropdownDirective = (function () {
         'autoClose': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["q" /* Input */] },],
         'isDisabled': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["q" /* Input */] },],
         'isOpen': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["q" /* Input */] },],
-        'isOpenChange': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["K" /* Output */] },],
-        'onShown': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["K" /* Output */] },],
-        'onHidden': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["K" /* Output */] },],
+        'isOpenChange': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Output */] },],
+        'onShown': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Output */] },],
+        'onHidden': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Output */] },],
     };
     return BsDropdownDirective;
 }());
@@ -23475,7 +24546,7 @@ Identifiers.RegisterModuleFactoryFn = {
     moduleName: CORE,
     runtime: __WEBPACK_IMPORTED_MODULE_1__angular_core__["_26" /* ɵregisterModuleFactory */],
 };
-Identifiers.Injector = { name: 'Injector', moduleName: CORE, runtime: __WEBPACK_IMPORTED_MODULE_1__angular_core__["G" /* Injector */] };
+Identifiers.Injector = { name: 'Injector', moduleName: CORE, runtime: __WEBPACK_IMPORTED_MODULE_1__angular_core__["H" /* Injector */] };
 Identifiers.ViewEncapsulation = {
     name: 'ViewEncapsulation',
     moduleName: CORE,
@@ -26760,7 +27831,7 @@ var DirectiveResolver = (function () {
                     inputs.push(propName);
                 }
             }
-            var /** @type {?} */ output = findLast(propertyMetadata[propName], function (a) { return a instanceof __WEBPACK_IMPORTED_MODULE_1__angular_core__["K" /* Output */]; });
+            var /** @type {?} */ output = findLast(propertyMetadata[propName], function (a) { return a instanceof __WEBPACK_IMPORTED_MODULE_1__angular_core__["E" /* Output */]; });
             if (output) {
                 if (output.bindingPropertyName) {
                     outputs.push(propName + ": " + output.bindingPropertyName);
@@ -28119,10 +29190,10 @@ var CompileMetadataResolver = (function () {
                     if (paramEntry instanceof __WEBPACK_IMPORTED_MODULE_1__angular_core__["w" /* Host */]) {
                         isHost = true;
                     }
-                    else if (paramEntry instanceof __WEBPACK_IMPORTED_MODULE_1__angular_core__["I" /* Self */]) {
+                    else if (paramEntry instanceof __WEBPACK_IMPORTED_MODULE_1__angular_core__["J" /* Self */]) {
                         isSelf = true;
                     }
-                    else if (paramEntry instanceof __WEBPACK_IMPORTED_MODULE_1__angular_core__["J" /* SkipSelf */]) {
+                    else if (paramEntry instanceof __WEBPACK_IMPORTED_MODULE_1__angular_core__["K" /* SkipSelf */]) {
                         isSkipSelf = true;
                     }
                     else if (paramEntry instanceof __WEBPACK_IMPORTED_MODULE_1__angular_core__["g" /* Optional */]) {
@@ -36938,8 +38009,8 @@ var StaticReflector = (function () {
             this.findDeclaration(ANGULAR_CORE, 'ANALYZE_FOR_ENTRY_COMPONENTS');
         this._registerDecoratorOrConstructor(this.findDeclaration(ANGULAR_CORE, 'Host'), __WEBPACK_IMPORTED_MODULE_1__angular_core__["w" /* Host */]);
         this._registerDecoratorOrConstructor(this.findDeclaration(ANGULAR_CORE, 'Injectable'), __WEBPACK_IMPORTED_MODULE_1__angular_core__["c" /* Injectable */]);
-        this._registerDecoratorOrConstructor(this.findDeclaration(ANGULAR_CORE, 'Self'), __WEBPACK_IMPORTED_MODULE_1__angular_core__["I" /* Self */]);
-        this._registerDecoratorOrConstructor(this.findDeclaration(ANGULAR_CORE, 'SkipSelf'), __WEBPACK_IMPORTED_MODULE_1__angular_core__["J" /* SkipSelf */]);
+        this._registerDecoratorOrConstructor(this.findDeclaration(ANGULAR_CORE, 'Self'), __WEBPACK_IMPORTED_MODULE_1__angular_core__["J" /* Self */]);
+        this._registerDecoratorOrConstructor(this.findDeclaration(ANGULAR_CORE, 'SkipSelf'), __WEBPACK_IMPORTED_MODULE_1__angular_core__["K" /* SkipSelf */]);
         this._registerDecoratorOrConstructor(this.findDeclaration(ANGULAR_CORE, 'Inject'), __WEBPACK_IMPORTED_MODULE_1__angular_core__["e" /* Inject */]);
         this._registerDecoratorOrConstructor(this.findDeclaration(ANGULAR_CORE, 'Optional'), __WEBPACK_IMPORTED_MODULE_1__angular_core__["g" /* Optional */]);
         this._registerDecoratorOrConstructor(this.findDeclaration(ANGULAR_CORE, 'Attribute'), __WEBPACK_IMPORTED_MODULE_1__angular_core__["x" /* Attribute */]);
@@ -36948,7 +38019,7 @@ var StaticReflector = (function () {
         this._registerDecoratorOrConstructor(this.findDeclaration(ANGULAR_CORE, 'ViewChild'), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_58" /* ViewChild */]);
         this._registerDecoratorOrConstructor(this.findDeclaration(ANGULAR_CORE, 'ViewChildren'), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_59" /* ViewChildren */]);
         this._registerDecoratorOrConstructor(this.findDeclaration(ANGULAR_CORE, 'Input'), __WEBPACK_IMPORTED_MODULE_1__angular_core__["q" /* Input */]);
-        this._registerDecoratorOrConstructor(this.findDeclaration(ANGULAR_CORE, 'Output'), __WEBPACK_IMPORTED_MODULE_1__angular_core__["K" /* Output */]);
+        this._registerDecoratorOrConstructor(this.findDeclaration(ANGULAR_CORE, 'Output'), __WEBPACK_IMPORTED_MODULE_1__angular_core__["E" /* Output */]);
         this._registerDecoratorOrConstructor(this.findDeclaration(ANGULAR_CORE, 'Pipe'), __WEBPACK_IMPORTED_MODULE_1__angular_core__["B" /* Pipe */]);
         this._registerDecoratorOrConstructor(this.findDeclaration(ANGULAR_CORE, 'HostBinding'), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_7" /* HostBinding */]);
         this._registerDecoratorOrConstructor(this.findDeclaration(ANGULAR_CORE, 'HostListener'), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_8" /* HostListener */]);
@@ -36957,8 +38028,8 @@ var StaticReflector = (function () {
         this._registerDecoratorOrConstructor(this.findDeclaration(ANGULAR_CORE, 'NgModule'), __WEBPACK_IMPORTED_MODULE_1__angular_core__["b" /* NgModule */]);
         // Note: Some metadata classes can be used directly with Provider.deps.
         this._registerDecoratorOrConstructor(this.findDeclaration(ANGULAR_CORE, 'Host'), __WEBPACK_IMPORTED_MODULE_1__angular_core__["w" /* Host */]);
-        this._registerDecoratorOrConstructor(this.findDeclaration(ANGULAR_CORE, 'Self'), __WEBPACK_IMPORTED_MODULE_1__angular_core__["I" /* Self */]);
-        this._registerDecoratorOrConstructor(this.findDeclaration(ANGULAR_CORE, 'SkipSelf'), __WEBPACK_IMPORTED_MODULE_1__angular_core__["J" /* SkipSelf */]);
+        this._registerDecoratorOrConstructor(this.findDeclaration(ANGULAR_CORE, 'Self'), __WEBPACK_IMPORTED_MODULE_1__angular_core__["J" /* Self */]);
+        this._registerDecoratorOrConstructor(this.findDeclaration(ANGULAR_CORE, 'SkipSelf'), __WEBPACK_IMPORTED_MODULE_1__angular_core__["K" /* SkipSelf */]);
         this._registerDecoratorOrConstructor(this.findDeclaration(ANGULAR_CORE, 'Optional'), __WEBPACK_IMPORTED_MODULE_1__angular_core__["g" /* Optional */]);
         this._registerFunction(this.findDeclaration(ANGULAR_CORE, 'trigger'), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_60" /* trigger */]);
         this._registerFunction(this.findDeclaration(ANGULAR_CORE, 'state'), __WEBPACK_IMPORTED_MODULE_1__angular_core__["_61" /* state */]);
@@ -39409,7 +40480,7 @@ JitCompiler.decorators = [
  * @nocollapse
  */
 JitCompiler.ctorParameters = function () { return [
-    { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["G" /* Injector */], },
+    { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["H" /* Injector */], },
     { type: CompileMetadataResolver, },
     { type: TemplateParser, },
     { type: StyleCompiler, },
@@ -40103,7 +41174,7 @@ function _mergeArrays(parts) {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "_7", function() { return HostBinding; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "_8", function() { return HostListener; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "q", function() { return Input; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "K", function() { return Output; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "E", function() { return Output; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "B", function() { return Pipe; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "_55", function() { return CUSTOM_ELEMENTS_SCHEMA; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "_54", function() { return NO_ERRORS_SCHEMA; });
@@ -40111,9 +41182,9 @@ function _mergeArrays(parts) {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "T", function() { return ViewEncapsulation; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "D", function() { return Version; });
 /* unused harmony export VERSION */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "E", function() { return forwardRef; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "F", function() { return forwardRef; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "_50", function() { return resolveForwardRef; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "G", function() { return Injector; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "H", function() { return Injector; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "_9", function() { return ReflectiveInjector; });
 /* unused harmony export ResolvedReflectiveFactory */
 /* unused harmony export ReflectiveKey */
@@ -40122,13 +41193,13 @@ function _mergeArrays(parts) {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return Inject; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return Optional; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return Injectable; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "I", function() { return Self; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "J", function() { return SkipSelf; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "J", function() { return Self; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "K", function() { return SkipSelf; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "w", function() { return Host; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Q", function() { return NgZone; });
 /* unused harmony export RenderComponentType */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "p", function() { return Renderer; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "F", function() { return Renderer2; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "G", function() { return Renderer2; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "_2", function() { return RendererFactory2; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "U", function() { return RendererStyleFlags2; });
 /* unused harmony export RootRenderer */
@@ -40174,7 +41245,7 @@ function _mergeArrays(parts) {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "_70", function() { return ReflectionCapabilities; });
 /* unused harmony export ɵRenderDebugInfo */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "L", function() { return _global; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "H", function() { return looseIdentical; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "I", function() { return looseIdentical; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return stringify; });
 /* unused harmony export ɵmakeDecorator */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "A", function() { return isObservable; });
@@ -55610,7 +56681,7 @@ var NG_VALUE_ACCESSOR = new __WEBPACK_IMPORTED_MODULE_1__angular_core__["d" /* I
  */
 var CHECKBOX_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["E" /* forwardRef */])(function () { return CheckboxControlValueAccessor; }),
+    useExisting: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["F" /* forwardRef */])(function () { return CheckboxControlValueAccessor; }),
     multi: true,
 };
 /**
@@ -55671,7 +56742,7 @@ CheckboxControlValueAccessor.decorators = [
  * @nocollapse
  */
 CheckboxControlValueAccessor.ctorParameters = function () { return [
-    { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["F" /* Renderer2 */], },
+    { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["G" /* Renderer2 */], },
     { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["o" /* ElementRef */], },
 ]; };
 /**
@@ -55683,7 +56754,7 @@ CheckboxControlValueAccessor.ctorParameters = function () { return [
  */
 var DEFAULT_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["E" /* forwardRef */])(function () { return DefaultValueAccessor; }),
+    useExisting: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["F" /* forwardRef */])(function () { return DefaultValueAccessor; }),
     multi: true
 };
 /**
@@ -55798,7 +56869,7 @@ DefaultValueAccessor.decorators = [
  * @nocollapse
  */
 DefaultValueAccessor.ctorParameters = function () { return [
-    { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["F" /* Renderer2 */], },
+    { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["G" /* Renderer2 */], },
     { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["o" /* ElementRef */], },
     { type: undefined, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["g" /* Optional */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["e" /* Inject */], args: [COMPOSITION_BUFFER_MODE,] },] },
 ]; };
@@ -55842,7 +56913,7 @@ function normalizeAsyncValidator(validator) {
  */
 var NUMBER_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["E" /* forwardRef */])(function () { return NumberValueAccessor; }),
+    useExisting: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["F" /* forwardRef */])(function () { return NumberValueAccessor; }),
     multi: true
 };
 /**
@@ -55910,7 +56981,7 @@ NumberValueAccessor.decorators = [
  * @nocollapse
  */
 NumberValueAccessor.ctorParameters = function () { return [
-    { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["F" /* Renderer2 */], },
+    { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["G" /* Renderer2 */], },
     { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["o" /* ElementRef */], },
 ]; };
 /**
@@ -55988,7 +57059,7 @@ var NgControl = (function (_super) {
  */
 var RADIO_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["E" /* forwardRef */])(function () { return RadioControlValueAccessor; }),
+    useExisting: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["F" /* forwardRef */])(function () { return RadioControlValueAccessor; }),
     multi: true
 };
 /**
@@ -56172,10 +57243,10 @@ RadioControlValueAccessor.decorators = [
  * @nocollapse
  */
 RadioControlValueAccessor.ctorParameters = function () { return [
-    { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["F" /* Renderer2 */], },
+    { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["G" /* Renderer2 */], },
     { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["o" /* ElementRef */], },
     { type: RadioControlRegistry, },
-    { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["G" /* Injector */], },
+    { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["H" /* Injector */], },
 ]; };
 RadioControlValueAccessor.propDecorators = {
     'name': [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["q" /* Input */] },],
@@ -56191,7 +57262,7 @@ RadioControlValueAccessor.propDecorators = {
  */
 var RANGE_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["E" /* forwardRef */])(function () { return RangeValueAccessor; }),
+    useExisting: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["F" /* forwardRef */])(function () { return RangeValueAccessor; }),
     multi: true
 };
 /**
@@ -56257,7 +57328,7 @@ RangeValueAccessor.decorators = [
  * @nocollapse
  */
 RangeValueAccessor.ctorParameters = function () { return [
-    { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["F" /* Renderer2 */], },
+    { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["G" /* Renderer2 */], },
     { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["o" /* ElementRef */], },
 ]; };
 /**
@@ -56269,7 +57340,7 @@ RangeValueAccessor.ctorParameters = function () { return [
  */
 var SELECT_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["E" /* forwardRef */])(function () { return SelectControlValueAccessor; }),
+    useExisting: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["F" /* forwardRef */])(function () { return SelectControlValueAccessor; }),
     multi: true
 };
 /**
@@ -56372,7 +57443,7 @@ var SelectControlValueAccessor = (function () {
         this._idCounter = 0;
         this.onChange = function (_) { };
         this.onTouched = function () { };
-        this._compareWith = __WEBPACK_IMPORTED_MODULE_1__angular_core__["H" /* ɵlooseIdentical */];
+        this._compareWith = __WEBPACK_IMPORTED_MODULE_1__angular_core__["I" /* ɵlooseIdentical */];
     }
     Object.defineProperty(SelectControlValueAccessor.prototype, "compareWith", {
         /**
@@ -56464,7 +57535,7 @@ SelectControlValueAccessor.decorators = [
  * @nocollapse
  */
 SelectControlValueAccessor.ctorParameters = function () { return [
-    { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["F" /* Renderer2 */], },
+    { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["G" /* Renderer2 */], },
     { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["o" /* ElementRef */], },
 ]; };
 SelectControlValueAccessor.propDecorators = {
@@ -56547,7 +57618,7 @@ NgSelectOption.decorators = [
  */
 NgSelectOption.ctorParameters = function () { return [
     { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["o" /* ElementRef */], },
-    { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["F" /* Renderer2 */], },
+    { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["G" /* Renderer2 */], },
     { type: SelectControlValueAccessor, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["g" /* Optional */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["w" /* Host */] },] },
 ]; };
 NgSelectOption.propDecorators = {
@@ -56563,7 +57634,7 @@ NgSelectOption.propDecorators = {
  */
 var SELECT_MULTIPLE_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["E" /* forwardRef */])(function () { return SelectMultipleControlValueAccessor; }),
+    useExisting: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["F" /* forwardRef */])(function () { return SelectMultipleControlValueAccessor; }),
     multi: true
 };
 /**
@@ -56635,7 +57706,7 @@ var SelectMultipleControlValueAccessor = (function () {
         this._idCounter = 0;
         this.onChange = function (_) { };
         this.onTouched = function () { };
-        this._compareWith = __WEBPACK_IMPORTED_MODULE_1__angular_core__["H" /* ɵlooseIdentical */];
+        this._compareWith = __WEBPACK_IMPORTED_MODULE_1__angular_core__["I" /* ɵlooseIdentical */];
     }
     Object.defineProperty(SelectMultipleControlValueAccessor.prototype, "compareWith", {
         /**
@@ -56756,7 +57827,7 @@ SelectMultipleControlValueAccessor.decorators = [
  * @nocollapse
  */
 SelectMultipleControlValueAccessor.ctorParameters = function () { return [
-    { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["F" /* Renderer2 */], },
+    { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["G" /* Renderer2 */], },
     { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["o" /* ElementRef */], },
 ]; };
 SelectMultipleControlValueAccessor.propDecorators = {
@@ -56855,7 +57926,7 @@ NgSelectMultipleOption.decorators = [
  */
 NgSelectMultipleOption.ctorParameters = function () { return [
     { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["o" /* ElementRef */], },
-    { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["F" /* Renderer2 */], },
+    { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["G" /* Renderer2 */], },
     { type: SelectMultipleControlValueAccessor, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["g" /* Optional */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["w" /* Host */] },] },
 ]; };
 NgSelectMultipleOption.propDecorators = {
@@ -57004,7 +58075,7 @@ function isPropertyUpdated(changes, viewModel) {
     var /** @type {?} */ change = changes['model'];
     if (change.isFirstChange())
         return true;
-    return !__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["H" /* ɵlooseIdentical */])(viewModel, change.currentValue);
+    return !__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["I" /* ɵlooseIdentical */])(viewModel, change.currentValue);
 }
 var BUILTIN_ACCESSORS = [
     CheckboxControlValueAccessor,
@@ -57244,7 +58315,7 @@ NgControlStatus.decorators = [
  * @nocollapse
  */
 NgControlStatus.ctorParameters = function () { return [
-    { type: NgControl, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["I" /* Self */] },] },
+    { type: NgControl, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["J" /* Self */] },] },
 ]; };
 /**
  * Directive automatically applied to Angular form groups that sets CSS classes
@@ -57272,7 +58343,7 @@ NgControlStatusGroup.decorators = [
  * @nocollapse
  */
 NgControlStatusGroup.ctorParameters = function () { return [
-    { type: ControlContainer, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["I" /* Self */] },] },
+    { type: ControlContainer, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["J" /* Self */] },] },
 ]; };
 /**
  * @license
@@ -58907,7 +59978,7 @@ var FormArray = (function (_super) {
  */
 var formDirectiveProvider = {
     provide: ControlContainer,
-    useExisting: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["E" /* forwardRef */])(function () { return NgForm; })
+    useExisting: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["F" /* forwardRef */])(function () { return NgForm; })
 };
 var resolvedPromise = Promise.resolve(null);
 /**
@@ -59121,8 +60192,8 @@ NgForm.decorators = [
  * @nocollapse
  */
 NgForm.ctorParameters = function () { return [
-    { type: Array, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["g" /* Optional */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["I" /* Self */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["e" /* Inject */], args: [NG_VALIDATORS,] },] },
-    { type: Array, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["g" /* Optional */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["I" /* Self */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["e" /* Inject */], args: [NG_ASYNC_VALIDATORS,] },] },
+    { type: Array, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["g" /* Optional */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["J" /* Self */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["e" /* Inject */], args: [NG_VALIDATORS,] },] },
+    { type: Array, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["g" /* Optional */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["J" /* Self */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["e" /* Inject */], args: [NG_ASYNC_VALIDATORS,] },] },
 ]; };
 /**
  * @license
@@ -59183,7 +60254,7 @@ var TemplateDrivenErrors = (function () {
  */
 var modelGroupProvider = {
     provide: ControlContainer,
-    useExisting: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["E" /* forwardRef */])(function () { return NgModelGroup; })
+    useExisting: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["F" /* forwardRef */])(function () { return NgModelGroup; })
 };
 /**
  * \@whatItDoes Creates and binds a {\@link FormGroup} instance to a DOM element.
@@ -59242,9 +60313,9 @@ NgModelGroup.decorators = [
  * @nocollapse
  */
 NgModelGroup.ctorParameters = function () { return [
-    { type: ControlContainer, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["w" /* Host */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["J" /* SkipSelf */] },] },
-    { type: Array, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["g" /* Optional */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["I" /* Self */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["e" /* Inject */], args: [NG_VALIDATORS,] },] },
-    { type: Array, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["g" /* Optional */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["I" /* Self */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["e" /* Inject */], args: [NG_ASYNC_VALIDATORS,] },] },
+    { type: ControlContainer, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["w" /* Host */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["K" /* SkipSelf */] },] },
+    { type: Array, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["g" /* Optional */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["J" /* Self */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["e" /* Inject */], args: [NG_VALIDATORS,] },] },
+    { type: Array, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["g" /* Optional */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["J" /* Self */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["e" /* Inject */], args: [NG_ASYNC_VALIDATORS,] },] },
 ]; };
 NgModelGroup.propDecorators = {
     'name': [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["q" /* Input */], args: ['ngModelGroup',] },],
@@ -59258,7 +60329,7 @@ NgModelGroup.propDecorators = {
  */
 var formControlBinding = {
     provide: NgControl,
-    useExisting: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["E" /* forwardRef */])(function () { return NgModel; })
+    useExisting: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["F" /* forwardRef */])(function () { return NgModel; })
 };
 /**
  * `ngModel` forces an additional change detection run when its inputs change:
@@ -59524,16 +60595,16 @@ NgModel.decorators = [
  */
 NgModel.ctorParameters = function () { return [
     { type: ControlContainer, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["g" /* Optional */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["w" /* Host */] },] },
-    { type: Array, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["g" /* Optional */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["I" /* Self */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["e" /* Inject */], args: [NG_VALIDATORS,] },] },
-    { type: Array, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["g" /* Optional */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["I" /* Self */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["e" /* Inject */], args: [NG_ASYNC_VALIDATORS,] },] },
-    { type: Array, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["g" /* Optional */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["I" /* Self */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["e" /* Inject */], args: [NG_VALUE_ACCESSOR,] },] },
+    { type: Array, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["g" /* Optional */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["J" /* Self */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["e" /* Inject */], args: [NG_VALIDATORS,] },] },
+    { type: Array, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["g" /* Optional */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["J" /* Self */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["e" /* Inject */], args: [NG_ASYNC_VALIDATORS,] },] },
+    { type: Array, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["g" /* Optional */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["J" /* Self */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["e" /* Inject */], args: [NG_VALUE_ACCESSOR,] },] },
 ]; };
 NgModel.propDecorators = {
     'name': [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["q" /* Input */] },],
     'isDisabled': [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["q" /* Input */], args: ['disabled',] },],
     'model': [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["q" /* Input */], args: ['ngModel',] },],
     'options': [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["q" /* Input */], args: ['ngModelOptions',] },],
-    'update': [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["K" /* Output */], args: ['ngModelChange',] },],
+    'update': [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["E" /* Output */], args: ['ngModelChange',] },],
 };
 /**
  * @license
@@ -59592,7 +60663,7 @@ var ReactiveErrors = (function () {
  */
 var formControlBinding$1 = {
     provide: NgControl,
-    useExisting: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["E" /* forwardRef */])(function () { return FormControlDirective; })
+    useExisting: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["F" /* forwardRef */])(function () { return FormControlDirective; })
 };
 /**
  * \@whatItDoes Syncs a standalone {\@link FormControl} instance to a form control element.
@@ -59735,14 +60806,14 @@ FormControlDirective.decorators = [
  * @nocollapse
  */
 FormControlDirective.ctorParameters = function () { return [
-    { type: Array, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["g" /* Optional */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["I" /* Self */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["e" /* Inject */], args: [NG_VALIDATORS,] },] },
-    { type: Array, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["g" /* Optional */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["I" /* Self */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["e" /* Inject */], args: [NG_ASYNC_VALIDATORS,] },] },
-    { type: Array, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["g" /* Optional */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["I" /* Self */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["e" /* Inject */], args: [NG_VALUE_ACCESSOR,] },] },
+    { type: Array, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["g" /* Optional */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["J" /* Self */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["e" /* Inject */], args: [NG_VALIDATORS,] },] },
+    { type: Array, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["g" /* Optional */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["J" /* Self */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["e" /* Inject */], args: [NG_ASYNC_VALIDATORS,] },] },
+    { type: Array, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["g" /* Optional */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["J" /* Self */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["e" /* Inject */], args: [NG_VALUE_ACCESSOR,] },] },
 ]; };
 FormControlDirective.propDecorators = {
     'form': [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["q" /* Input */], args: ['formControl',] },],
     'model': [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["q" /* Input */], args: ['ngModel',] },],
-    'update': [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["K" /* Output */], args: ['ngModelChange',] },],
+    'update': [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["E" /* Output */], args: ['ngModelChange',] },],
     'isDisabled': [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["q" /* Input */], args: ['disabled',] },],
 };
 /**
@@ -59754,7 +60825,7 @@ FormControlDirective.propDecorators = {
  */
 var formDirectiveProvider$1 = {
     provide: ControlContainer,
-    useExisting: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["E" /* forwardRef */])(function () { return FormGroupDirective; })
+    useExisting: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["F" /* forwardRef */])(function () { return FormGroupDirective; })
 };
 /**
  * \@whatItDoes Binds an existing {\@link FormGroup} to a DOM element.
@@ -59999,12 +61070,12 @@ FormGroupDirective.decorators = [
  * @nocollapse
  */
 FormGroupDirective.ctorParameters = function () { return [
-    { type: Array, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["g" /* Optional */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["I" /* Self */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["e" /* Inject */], args: [NG_VALIDATORS,] },] },
-    { type: Array, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["g" /* Optional */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["I" /* Self */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["e" /* Inject */], args: [NG_ASYNC_VALIDATORS,] },] },
+    { type: Array, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["g" /* Optional */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["J" /* Self */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["e" /* Inject */], args: [NG_VALIDATORS,] },] },
+    { type: Array, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["g" /* Optional */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["J" /* Self */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["e" /* Inject */], args: [NG_ASYNC_VALIDATORS,] },] },
 ]; };
 FormGroupDirective.propDecorators = {
     'form': [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["q" /* Input */], args: ['formGroup',] },],
-    'ngSubmit': [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["K" /* Output */] },],
+    'ngSubmit': [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["E" /* Output */] },],
 };
 /**
  * @template T
@@ -60027,7 +61098,7 @@ function remove(list, el) {
  */
 var formGroupNameProvider = {
     provide: ControlContainer,
-    useExisting: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["E" /* forwardRef */])(function () { return FormGroupName; })
+    useExisting: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["F" /* forwardRef */])(function () { return FormGroupName; })
 };
 /**
  * \@whatItDoes Syncs a nested {\@link FormGroup} to a DOM element.
@@ -60105,16 +61176,16 @@ FormGroupName.decorators = [
  * @nocollapse
  */
 FormGroupName.ctorParameters = function () { return [
-    { type: ControlContainer, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["g" /* Optional */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["w" /* Host */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["J" /* SkipSelf */] },] },
-    { type: Array, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["g" /* Optional */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["I" /* Self */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["e" /* Inject */], args: [NG_VALIDATORS,] },] },
-    { type: Array, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["g" /* Optional */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["I" /* Self */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["e" /* Inject */], args: [NG_ASYNC_VALIDATORS,] },] },
+    { type: ControlContainer, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["g" /* Optional */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["w" /* Host */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["K" /* SkipSelf */] },] },
+    { type: Array, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["g" /* Optional */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["J" /* Self */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["e" /* Inject */], args: [NG_VALIDATORS,] },] },
+    { type: Array, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["g" /* Optional */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["J" /* Self */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["e" /* Inject */], args: [NG_ASYNC_VALIDATORS,] },] },
 ]; };
 FormGroupName.propDecorators = {
     'name': [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["q" /* Input */], args: ['formGroupName',] },],
 };
 var formArrayNameProvider = {
     provide: ControlContainer,
-    useExisting: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["E" /* forwardRef */])(function () { return FormArrayName; })
+    useExisting: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["F" /* forwardRef */])(function () { return FormArrayName; })
 };
 /**
  * \@whatItDoes Syncs a nested {\@link FormArray} to a DOM element.
@@ -60253,9 +61324,9 @@ FormArrayName.decorators = [
  * @nocollapse
  */
 FormArrayName.ctorParameters = function () { return [
-    { type: ControlContainer, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["g" /* Optional */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["w" /* Host */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["J" /* SkipSelf */] },] },
-    { type: Array, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["g" /* Optional */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["I" /* Self */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["e" /* Inject */], args: [NG_VALIDATORS,] },] },
-    { type: Array, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["g" /* Optional */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["I" /* Self */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["e" /* Inject */], args: [NG_ASYNC_VALIDATORS,] },] },
+    { type: ControlContainer, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["g" /* Optional */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["w" /* Host */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["K" /* SkipSelf */] },] },
+    { type: Array, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["g" /* Optional */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["J" /* Self */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["e" /* Inject */], args: [NG_VALIDATORS,] },] },
+    { type: Array, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["g" /* Optional */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["J" /* Self */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["e" /* Inject */], args: [NG_ASYNC_VALIDATORS,] },] },
 ]; };
 FormArrayName.propDecorators = {
     'name': [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["q" /* Input */], args: ['formArrayName',] },],
@@ -60277,7 +61348,7 @@ function _hasInvalidParent(parent) {
  */
 var controlNameBinding = {
     provide: NgControl,
-    useExisting: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["E" /* forwardRef */])(function () { return FormControlName; })
+    useExisting: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["F" /* forwardRef */])(function () { return FormControlName; })
 };
 /**
  * \@whatItDoes Syncs a {\@link FormControl} in an existing {\@link FormGroup} to a form control
@@ -60460,15 +61531,15 @@ FormControlName.decorators = [
  * @nocollapse
  */
 FormControlName.ctorParameters = function () { return [
-    { type: ControlContainer, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["g" /* Optional */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["w" /* Host */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["J" /* SkipSelf */] },] },
-    { type: Array, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["g" /* Optional */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["I" /* Self */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["e" /* Inject */], args: [NG_VALIDATORS,] },] },
-    { type: Array, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["g" /* Optional */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["I" /* Self */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["e" /* Inject */], args: [NG_ASYNC_VALIDATORS,] },] },
-    { type: Array, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["g" /* Optional */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["I" /* Self */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["e" /* Inject */], args: [NG_VALUE_ACCESSOR,] },] },
+    { type: ControlContainer, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["g" /* Optional */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["w" /* Host */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["K" /* SkipSelf */] },] },
+    { type: Array, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["g" /* Optional */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["J" /* Self */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["e" /* Inject */], args: [NG_VALIDATORS,] },] },
+    { type: Array, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["g" /* Optional */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["J" /* Self */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["e" /* Inject */], args: [NG_ASYNC_VALIDATORS,] },] },
+    { type: Array, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["g" /* Optional */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["J" /* Self */] }, { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["e" /* Inject */], args: [NG_VALUE_ACCESSOR,] },] },
 ]; };
 FormControlName.propDecorators = {
     'name': [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["q" /* Input */], args: ['formControlName',] },],
     'model': [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["q" /* Input */], args: ['ngModel',] },],
-    'update': [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["K" /* Output */], args: ['ngModelChange',] },],
+    'update': [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["E" /* Output */], args: ['ngModelChange',] },],
     'isDisabled': [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["q" /* Input */], args: ['disabled',] },],
 };
 /**
@@ -60480,12 +61551,12 @@ FormControlName.propDecorators = {
  */
 var REQUIRED_VALIDATOR = {
     provide: NG_VALIDATORS,
-    useExisting: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["E" /* forwardRef */])(function () { return RequiredValidator; }),
+    useExisting: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["F" /* forwardRef */])(function () { return RequiredValidator; }),
     multi: true
 };
 var CHECKBOX_REQUIRED_VALIDATOR = {
     provide: NG_VALIDATORS,
-    useExisting: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["E" /* forwardRef */])(function () { return CheckboxRequiredValidator; }),
+    useExisting: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["F" /* forwardRef */])(function () { return CheckboxRequiredValidator; }),
     multi: true
 };
 /**
@@ -60590,7 +61661,7 @@ CheckboxRequiredValidator.ctorParameters = function () { return []; };
  */
 var EMAIL_VALIDATOR = {
     provide: NG_VALIDATORS,
-    useExisting: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["E" /* forwardRef */])(function () { return EmailValidator; }),
+    useExisting: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["F" /* forwardRef */])(function () { return EmailValidator; }),
     multi: true
 };
 /**
@@ -60659,7 +61730,7 @@ EmailValidator.propDecorators = {
  */
 var MIN_LENGTH_VALIDATOR = {
     provide: NG_VALIDATORS,
-    useExisting: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["E" /* forwardRef */])(function () { return MinLengthValidator; }),
+    useExisting: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["F" /* forwardRef */])(function () { return MinLengthValidator; }),
     multi: true
 };
 /**
@@ -60725,7 +61796,7 @@ MinLengthValidator.propDecorators = {
  */
 var MAX_LENGTH_VALIDATOR = {
     provide: NG_VALIDATORS,
-    useExisting: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["E" /* forwardRef */])(function () { return MaxLengthValidator; }),
+    useExisting: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["F" /* forwardRef */])(function () { return MaxLengthValidator; }),
     multi: true
 };
 /**
@@ -60785,7 +61856,7 @@ MaxLengthValidator.propDecorators = {
 };
 var PATTERN_VALIDATOR = {
     provide: NG_VALIDATORS,
-    useExisting: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["E" /* forwardRef */])(function () { return PatternValidator; }),
+    useExisting: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["F" /* forwardRef */])(function () { return PatternValidator; }),
     multi: true
 };
 /**
@@ -63519,7 +64590,7 @@ var SERVER_TRANSITION_PROVIDERS = [
     {
         provide: __WEBPACK_IMPORTED_MODULE_2__angular_core__["N" /* APP_INITIALIZER */],
         useFactory: appInitializerFactory,
-        deps: [TRANSITION_ID, DOCUMENT$1, __WEBPACK_IMPORTED_MODULE_2__angular_core__["G" /* Injector */]],
+        deps: [TRANSITION_ID, DOCUMENT$1, __WEBPACK_IMPORTED_MODULE_2__angular_core__["H" /* Injector */]],
         multi: true
     },
 ];
@@ -65590,7 +66661,7 @@ BrowserModule.decorators = [
  * @nocollapse
  */
 BrowserModule.ctorParameters = function () { return [
-    { type: BrowserModule, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_2__angular_core__["g" /* Optional */] }, { type: __WEBPACK_IMPORTED_MODULE_2__angular_core__["J" /* SkipSelf */] },] },
+    { type: BrowserModule, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_2__angular_core__["g" /* Optional */] }, { type: __WEBPACK_IMPORTED_MODULE_2__angular_core__["K" /* SkipSelf */] },] },
 ]; };
 /**
  * @license
@@ -70907,7 +71978,7 @@ RouterLink.ctorParameters = function () { return [
     { type: Router, },
     { type: ActivatedRoute, },
     { type: undefined, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_2__angular_core__["x" /* Attribute */], args: ['tabindex',] },] },
-    { type: __WEBPACK_IMPORTED_MODULE_2__angular_core__["F" /* Renderer2 */], },
+    { type: __WEBPACK_IMPORTED_MODULE_2__angular_core__["G" /* Renderer2 */], },
     { type: __WEBPACK_IMPORTED_MODULE_2__angular_core__["o" /* ElementRef */], },
 ]; };
 RouterLink.propDecorators = {
@@ -71243,7 +72314,7 @@ RouterLinkActive.decorators = [
 RouterLinkActive.ctorParameters = function () { return [
     { type: Router, },
     { type: __WEBPACK_IMPORTED_MODULE_2__angular_core__["o" /* ElementRef */], },
-    { type: __WEBPACK_IMPORTED_MODULE_2__angular_core__["F" /* Renderer2 */], },
+    { type: __WEBPACK_IMPORTED_MODULE_2__angular_core__["G" /* Renderer2 */], },
     { type: __WEBPACK_IMPORTED_MODULE_2__angular_core__["C" /* ChangeDetectorRef */], },
 ]; };
 RouterLinkActive.propDecorators = {
@@ -71553,8 +72624,8 @@ RouterOutlet.ctorParameters = function () { return [
     { type: __WEBPACK_IMPORTED_MODULE_2__angular_core__["C" /* ChangeDetectorRef */], },
 ]; };
 RouterOutlet.propDecorators = {
-    'activateEvents': [{ type: __WEBPACK_IMPORTED_MODULE_2__angular_core__["K" /* Output */], args: ['activate',] },],
-    'deactivateEvents': [{ type: __WEBPACK_IMPORTED_MODULE_2__angular_core__["K" /* Output */], args: ['deactivate',] },],
+    'activateEvents': [{ type: __WEBPACK_IMPORTED_MODULE_2__angular_core__["E" /* Output */], args: ['activate',] },],
+    'deactivateEvents': [{ type: __WEBPACK_IMPORTED_MODULE_2__angular_core__["E" /* Output */], args: ['deactivate',] },],
 };
 var OutletInjector = (function () {
     /**
@@ -71752,7 +72823,7 @@ RouterPreloader.ctorParameters = function () { return [
     { type: Router, },
     { type: __WEBPACK_IMPORTED_MODULE_2__angular_core__["_12" /* NgModuleFactoryLoader */], },
     { type: __WEBPACK_IMPORTED_MODULE_2__angular_core__["_13" /* Compiler */], },
-    { type: __WEBPACK_IMPORTED_MODULE_2__angular_core__["G" /* Injector */], },
+    { type: __WEBPACK_IMPORTED_MODULE_2__angular_core__["H" /* Injector */], },
     { type: PreloadingStrategy, },
 ]; };
 /**
@@ -71783,7 +72854,7 @@ var ROUTER_PROVIDERS = [
         provide: Router,
         useFactory: setupRouter,
         deps: [
-            __WEBPACK_IMPORTED_MODULE_2__angular_core__["P" /* ApplicationRef */], UrlSerializer, ChildrenOutletContexts, __WEBPACK_IMPORTED_MODULE_1__angular_common__["g" /* Location */], __WEBPACK_IMPORTED_MODULE_2__angular_core__["G" /* Injector */],
+            __WEBPACK_IMPORTED_MODULE_2__angular_core__["P" /* ApplicationRef */], UrlSerializer, ChildrenOutletContexts, __WEBPACK_IMPORTED_MODULE_1__angular_common__["g" /* Location */], __WEBPACK_IMPORTED_MODULE_2__angular_core__["H" /* Injector */],
             __WEBPACK_IMPORTED_MODULE_2__angular_core__["_12" /* NgModuleFactoryLoader */], __WEBPACK_IMPORTED_MODULE_2__angular_core__["_13" /* Compiler */], ROUTES, ROUTER_CONFIGURATION,
             [UrlHandlingStrategy, new __WEBPACK_IMPORTED_MODULE_2__angular_core__["g" /* Optional */]()], [RouteReuseStrategy, new __WEBPACK_IMPORTED_MODULE_2__angular_core__["g" /* Optional */]()]
         ]
@@ -71883,7 +72954,7 @@ var RouterModule = (function () {
                 {
                     provide: ROUTER_FORROOT_GUARD,
                     useFactory: provideForRootGuard,
-                    deps: [[Router, new __WEBPACK_IMPORTED_MODULE_2__angular_core__["g" /* Optional */](), new __WEBPACK_IMPORTED_MODULE_2__angular_core__["J" /* SkipSelf */]()]]
+                    deps: [[Router, new __WEBPACK_IMPORTED_MODULE_2__angular_core__["g" /* Optional */](), new __WEBPACK_IMPORTED_MODULE_2__angular_core__["K" /* SkipSelf */]()]]
                 },
                 { provide: ROUTER_CONFIGURATION, useValue: config ? config : {} },
                 {
@@ -72117,7 +73188,7 @@ RouterInitializer.decorators = [
  * @nocollapse
  */
 RouterInitializer.ctorParameters = function () { return [
-    { type: __WEBPACK_IMPORTED_MODULE_2__angular_core__["G" /* Injector */], },
+    { type: __WEBPACK_IMPORTED_MODULE_2__angular_core__["H" /* Injector */], },
 ]; };
 /**
  * @param {?} r

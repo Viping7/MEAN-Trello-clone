@@ -9,6 +9,7 @@
     }
 }
 .list-card{
+    cursor:move;
 	margin-top: 20px;
 	background: #e2e4e6;
 	display: inline-block;
@@ -25,7 +26,14 @@
         border: none;
         background: none;
         margin-bottom: 15px;
+        cursor: pointer;
 		color: #333 !important;
+        &.form-control{
+            background: #fff;
+            border-color: #ccc;
+            box-shadow: 1px 1px 10px rgba(0,0,0,0.1) !important;
+
+        }
 	}
     .list-actions{
         float: right;
@@ -98,4 +106,13 @@
         }
         }
     }
+}
+
+
+.dnd-sortable-drag {
+  -moz-transform:scale(0.9);
+  -webkit-transform:scale(0.9);
+  transform:scale(0.9);
+  opacity:0.7;
+  border: 1px dashed #000;
 }

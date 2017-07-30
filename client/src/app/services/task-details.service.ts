@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 @Injectable()
 export class TaskDetailsService {
 listUrl;
+
 listId;
 constructor(private http:HttpClient) { }
 setListUrl(id){
@@ -12,12 +13,12 @@ setListUrl(id){
     this.listUrl='lists/getList/'+id;
    
 }   
-getListDetails(listDetailsUrl){
-	return this.http.get(listDetailsUrl);
+getListDetails(list_details_url){
+	return this.http.get(list_details_url);
 }
-createList(listname,board_id){
+createList(list_name,board_id){
     let newlist={
-        list_name:listname
+        list_name:list_name
     };
     return this.http.put('lists/create/'+board_id,newlist);
 }
@@ -25,5 +26,10 @@ createList(listname,board_id){
 deleteList(board_id,list_id){
       return this.http.put('lists/delete/'+board_id+'/'+list_id,'');
     }
-
+updateListName(list_id,list_name){
+    let list={
+        list_name:list_name
+    }
+    return this.http.put('/lists/updateList/'+list_id,list);
+}
 }
