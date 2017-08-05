@@ -32,4 +32,13 @@ updateListName(list_id,list_name){
     }
     return this.http.put('/lists/updateList/'+list_id,list);
 }
+getTasks(listname){
+    return this.http.get('/tasks/getTasks/'+listname);
+}
+addTask(taskname,listname){
+    let task={
+        task_name:taskname
+    }
+    return this.http.post('/tasks/create/'+listname,task);
+}    
 }

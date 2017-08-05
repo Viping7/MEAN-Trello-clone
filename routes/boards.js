@@ -42,7 +42,7 @@ router.delete('/deleteBoard/:id',function(req,res){
    boards.deleteBoard(board,function(err,boards){
         if(err) throw err;
         else{
-            lists.deleteList({board_id:req.params.id},function(err,board){
+            lists.deleteEntireList({board_id:req.params.id},function(err,board){
                 if(err) throw err;
                 else{
                     res.json({success:true});

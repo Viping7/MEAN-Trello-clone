@@ -16,15 +16,33 @@ export class TasksListComponent implements OnInit {
     tasksList;
     listName;
     boardName;
+    updateError;
+    updateErrorMsg;
+    taskName;
+    newTasksList=[];
+    taskCard=[];
+    showCreateTasks;
 constructor(private taskDetails:TaskDetailsService,private boardService:BoardService,private router:Router) { }
     showLists(){
         this.boardService.getCurrentBoard(this.taskDetails.listId).subscribe(data=>{
             if(data){
                 this.boardName=data['board_name'];
                  this.taskDetails.getListDetails(this.taskDetails.listUrl).subscribe(data=>{
-                 console.log(data);  
+                     
                  this.tasks=data;
                  this.tasksList=this.tasks['lists'];
+                     this.newTasksList=[];
+                    this.tasksList.forEach(val=>{
+                        this.taskDetails.getTasks(val.list_name).subscribe(data=>{
+                       // console.log(data['task'])
+                            if(data['task']){
+                            val.tasks=data['task']['tasks'];
+                                }
+                            this.newTasksList.push(val);
+                            console.log(this.newTasksList);
+                        })
+                    });
+                   /* */
                 });
             }
         })
@@ -47,12 +65,25 @@ constructor(private taskDetails:TaskDetailsService,private boardService:BoardSer
                this.showLists();
                this.listName='';
                this.showCreateLists=false;    
+                              this.updateError=false;
             }
+          else{
+              this.updateError=true;
+                this.updateErrorMsg="List with the same name already exists";
+                console.log(data);
+          }
       })
     }
     updateListName(list_id,list_name){
         this.taskDetails.updateListName(list_id,list_name).subscribe(data=>{
-            console.log(data);
+            if(!data['success']){
+                this.updateError=true;
+                this.updateErrorMsg="List with the same name already exists";
+                console.log(data);
+            }
+            else{
+                 this.updateError=false;
+            }
         })
     }
     deleteList(board_id,list_id){
@@ -70,5 +101,17 @@ constructor(private taskDetails:TaskDetailsService,private boardService:BoardSer
     hideCreateList(){
         this.listName='';
         this.showCreateLists=false;
+    }
+    addCard(taskname,listname){
+        this.taskDetails.addTask(taskname,listname).subscribe(data=>{
+            if(data['success']){
+                this.showCreateTasks=false;
+                 this.taskName='';
+                this.showLists();
+            }
+        })
+    }
+    get self(){
+        return this;
     }
 }

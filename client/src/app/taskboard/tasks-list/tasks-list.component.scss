@@ -9,7 +9,6 @@
     }
 }
 .list-card{
-    cursor:move;
 	margin-top: 20px;
 	background: #e2e4e6;
 	display: inline-block;
@@ -27,6 +26,7 @@
         background: none;
         margin-bottom: 15px;
         cursor: pointer;
+        text-transform: capitalize;
 		color: #333 !important;
         &.form-control{
             background: #fff;

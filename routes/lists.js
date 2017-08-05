@@ -1,6 +1,7 @@
 const express=require('express');
 const router=express.Router();
-const lists=require('../model/lists')
+const lists=require('../model/lists');
+const tasks=require('../model/tasks');
 router.get('/getLists',function(req,res){
     lists.getLists(function(err,lists){
         if(err) throw err;
@@ -19,32 +20,62 @@ router.get('/getList/:id',function(req,res){
 })
 router.put('/create/:id',function(req,res){  
     let list={
-        list_name:req.body.list_name
+        list_name:req.body.list_name.toLowerCase()
     }
-     lists.updateList(req.params.id,list,function(err,lists){
-               if(err) throw err;
-                else{
-                    res.json({success:true});
-                }
-            });
+    lists.getListsByListName(list,function(err,retrievedlist){
+        if(err) throw err;
+        else{
+            if(retrievedlist){
+                res.json({success:false,msg:"name_exists"})
+            }
+            else{
+             lists.updateList(req.params.id,list,function(err,lists){
+                       if(err) throw err;
+                        else{
+                            tasks.createTaskList(list.list_name,function(err,tasks){
+                                if(err) throw err
+                                else{
+                                    res.json({success:true,msg:retrievedlist});
+                                }
+                            })
+                        }
+                });
+            }
+        }
+    })
       
 })
 router.put('/updateList/:listid',function(req,res){  
-    let list_name=req.body.list_name
-    
-     lists.updateListName(req.params.listid,list_name,function(err,lists){
+    let list_name=req.body.list_name.toLowerCase();
+    lists.getListsByListName({list_name:list_name},function(err,retrievedlist){
+        if(err) throw err;
+        else{
+            if(retrievedlist){
+                res.json({success:false,msg:"name_exists"})
+            }
+            else{
+                
+            lists.updateListName(req.params.listid,list_name,function(err,lists){
                if(err) throw err;
                 else{
                     res.json({success:true});
                 }
             });
-      
+            }
+        }
+    })
 })
 router.put('/delete/:bid/:lid',function(req,res){  
      lists.deleteList(req.params.bid,req.params.lid,function(err,lists){
                if(err) throw err;
                 else{
-                    res.json({success:lists});
+                    res.json({success:lists})
+                    /*tasks.deleteTask(lists.lists[0].list_name,function(err,lists){
+                        if(err) throw err;
+                        else{
+                            res.jsonp({success:true});
+                        }
+                    })*/
                 }
             });
       

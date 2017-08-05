@@ -1,31 +1,49 @@
 const mongoose=require('mongoose');
-var listItemSchema=mongoose.Schema({
+var taskSchema=mongoose.Schema({
         list_name:{
             type:String
-        }
+        },
+        tasks:[
+            {
+                task_name:String
+            }
+        ]
 });
-var listSchema=mongoose.Schema({
-    board_id:{
-        type:String
-    },
-    lists:[listItemSchema]
-})
-const List=module.exports=mongoose.model('lists',listSchema);
 
+const Task=module.exports=mongoose.model('tasks',taskSchema);
+/*
 module.exports.getListsById=function(boardId,callback){
     var boardData={
         board_id:boardId
     }
     List.findOne(boardData,callback);
 }
-module.exports.getListsByListName=function(listName,callback){
-    List.findOne({lists:{$elemMatch:listName}},callback);
+*/
+module.exports.getTasks=function(listname,callback){
+    Task.findOne(listname,callback);
 }
-module.exports.createList=function(boardId,callback){
-    let newList=new List({
-        board_id:boardId});
+module.exports.createTaskList=function(listname,callback){
+    let newList=new Task({
+        list_name:listname});
     newList.save(callback);
 }
+module.exports.createTask=function(listname,taskname,callback){
+    let taskData={
+        tasks:taskname
+    }
+    let listData={
+        list_name:listname
+    }
+        Task.update(listData,{$push:taskData},{},callback);
+
+}
+module.exports.deleteTask=function(listname,callback){
+    let listData={
+        list_name:listname
+    }
+    Task.remove(listData,callback);
+}
+/*
 module.exports.updateList=function(id,list,callback){
     let listItems={
         lists:list    
@@ -42,7 +60,4 @@ module.exports.updateListName=function(listid,list_name,callback){
 
 module.exports.deleteList=function(bid,lid,callback){   
     List.findOneAndUpdate({board_id:bid},{$pull:{lists:{_id: lid}}},{new:true},callback);
-}
-module.exports.deleteEntireList=function(bid,callback){   
-    List.remove(bid,callback);
-}
+}*/
