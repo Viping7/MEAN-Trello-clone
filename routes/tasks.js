@@ -1,29 +1,57 @@
-const express=require('express');
-const router=express.Router();
-const tasks=require('../model/tasks');
+const express = require('express');
+const router = express.Router();
+const tasks = require('../model/tasks');
 
-router.get('/getTasks/:listname',function(req,res){  
-     let taskItem={
-        list_name:req.params.listname
+router.get('/getTasks/:listId', function (req, res) {
+    let taskItem = {
+        list_id: req.params.listId
     }
-    tasks.getTasks(taskItem,function(err,task){
-        if(err) throw err;
-        else{
-            res.json({success:true,task:task});
+    tasks.getTasks(taskItem, function (err, task) {
+        if (err) throw err;
+        else {
+            res.json({
+                success: true,
+                task: task
+            });
         }
     })
 })
 
-router.post('/create/:listname',function(req,res){  
-    let taskItem={
-        task_name:req.body.task_name
+router.post('/create/:listId', function (req, res) {
+    let taskItem = {
+        task_name: req.body.task_name
     }
-    tasks.createTask(req.params.listname,taskItem,function(err,task){
-        if(err) throw err;
-        else{
-            res.json({success:true});
+     let getTaskItem = {
+        list_id: req.params.listId
+    }
+    tasks.getTasks(getTaskItem, function (err, task) {
+        if (err) throw err;
+        console.log(task);
+        if (task) {
+            tasks.createTask(req.params.listId, taskItem, function (err, task) {
+                if (err) throw err;
+                else {
+                    res.json({
+                        success: true,msg:"sadsa"
+                    });
+                }
+            });
+        } else {
+            tasks.createTaskList(req.params.listId, function (err, task) {
+                if (err) throw err
+                else {
+                    tasks.createTask(req.params.listId, taskItem, function (err, task) {
+                        if (err) throw err;
+                        else {
+                            res.json({
+                                success: true,msg:"treu"
+                            });
+                        }
+                    })
+                }
+            })
         }
-    })
+    });
 })
 
-module.exports=router;
+module.exports = router;

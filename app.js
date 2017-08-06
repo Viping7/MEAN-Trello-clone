@@ -8,7 +8,7 @@ const config=require('./config/database');
 const boards=require('./routes/boards');
 const lists=require('./routes/lists');
 const tasks=require('./routes/tasks');
-const port=3000;
+const port=process.env.PORT || 8080;
 mongoose.connect(config.database);
 mongoose.connection.on("connected",function(){
     console.log("connected");

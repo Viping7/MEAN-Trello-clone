@@ -1,6 +1,6 @@
 const mongoose=require('mongoose');
 var taskSchema=mongoose.Schema({
-        list_name:{
+        list_id:{
             type:String
         },
         tasks:[
@@ -19,27 +19,27 @@ module.exports.getListsById=function(boardId,callback){
     List.findOne(boardData,callback);
 }
 */
-module.exports.getTasks=function(listname,callback){
-    Task.findOne(listname,callback);
+module.exports.getTasks=function(listid,callback){
+    Task.findOne(listid,callback);
 }
-module.exports.createTaskList=function(listname,callback){
+module.exports.createTaskList=function(listid,callback){
     let newList=new Task({
-        list_name:listname});
+        list_id:listid});
     newList.save(callback);
 }
-module.exports.createTask=function(listname,taskname,callback){
+module.exports.createTask=function(listid,taskname,callback){
     let taskData={
         tasks:taskname
     }
     let listData={
-        list_name:listname
+        list_id:listid
     }
         Task.update(listData,{$push:taskData},{},callback);
 
 }
-module.exports.deleteTask=function(listname,callback){
+module.exports.deleteTask=function(listid,callback){
     let listData={
-        list_name:listname
+        list_id:listid
     }
     Task.remove(listData,callback);
 }

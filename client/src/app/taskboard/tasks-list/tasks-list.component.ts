@@ -33,7 +33,7 @@ constructor(private taskDetails:TaskDetailsService,private boardService:BoardSer
                  this.tasksList=this.tasks['lists'];
                      this.newTasksList=[];
                     this.tasksList.forEach(val=>{
-                        this.taskDetails.getTasks(val.list_name).subscribe(data=>{
+                        this.taskDetails.getTasks(val._id).subscribe(data=>{
                        // console.log(data['task'])
                             if(data['task']){
                             val.tasks=data['task']['tasks'];

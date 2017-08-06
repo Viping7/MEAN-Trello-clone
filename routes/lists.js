@@ -32,12 +32,7 @@ router.put('/create/:id',function(req,res){
              lists.updateList(req.params.id,list,function(err,lists){
                        if(err) throw err;
                         else{
-                            tasks.createTaskList(list.list_name,function(err,tasks){
-                                if(err) throw err
-                                else{
-                                    res.json({success:true,msg:retrievedlist});
-                                }
-                            })
+                           res.json({success:true})
                         }
                 });
             }
@@ -69,15 +64,13 @@ router.put('/delete/:bid/:lid',function(req,res){
      lists.deleteList(req.params.bid,req.params.lid,function(err,lists){
                if(err) throw err;
                 else{
-                    res.json({success:lists})
-                    /*tasks.deleteTask(lists.lists[0].list_name,function(err,lists){
+                    tasks.deleteTask(req.params.lid,function(err,lists){
                         if(err) throw err;
                         else{
-                            res.jsonp({success:true});
+                            res.json({success:true});
                         }
-                    })*/
+                    })
                 }
-            });
-      
+        });
 })
 module.exports=router;
