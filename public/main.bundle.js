@@ -58,7 +58,7 @@ var AppComponent = (function () {
     return AppComponent;
 }());
 AppComponent = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_5" /* Component */])({
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_6" /* Component */])({
         selector: 'app-root',
         template: __webpack_require__("../../../../../src/app/app.component.html"),
         styles: [__webpack_require__("../../../../../src/app/app.component.css")]
@@ -80,15 +80,16 @@ AppComponent = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ng2_dnd__ = __webpack_require__("../../../../ng2-dnd/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_common_http__ = __webpack_require__("../../../common/@angular/common/http.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ngx_bootstrap_dropdown__ = __webpack_require__("../../../../ngx-bootstrap/dropdown/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__routes__ = __webpack_require__("../../../../../src/app/routes.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__app_component__ = __webpack_require__("../../../../../src/app/app.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__common_header_header_component__ = __webpack_require__("../../../../../src/app/common/header/header.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__taskboard_tasks_list_tasks_list_component__ = __webpack_require__("../../../../../src/app/taskboard/tasks-list/tasks-list.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__welcome_board_welcome_board_welcome_board_component__ = __webpack_require__("../../../../../src/app/welcome-board/welcome-board/welcome-board.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__services_task_details_service__ = __webpack_require__("../../../../../src/app/services/task-details.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__services_board_service__ = __webpack_require__("../../../../../src/app/services/board.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__directives_edit_task_directive__ = __webpack_require__("../../../../../src/app/directives/edit-task.directive.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__taskboard_task_item_task_item_component__ = __webpack_require__("../../../../../src/app/taskboard/task-item/task-item.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_ngx_bootstrap__ = __webpack_require__("../../../../ngx-bootstrap/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__routes__ = __webpack_require__("../../../../../src/app/routes.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__app_component__ = __webpack_require__("../../../../../src/app/app.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__common_header_header_component__ = __webpack_require__("../../../../../src/app/common/header/header.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__taskboard_tasks_list_tasks_list_component__ = __webpack_require__("../../../../../src/app/taskboard/tasks-list/tasks-list.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__welcome_board_welcome_board_welcome_board_component__ = __webpack_require__("../../../../../src/app/welcome-board/welcome-board/welcome-board.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__services_task_details_service__ = __webpack_require__("../../../../../src/app/services/task-details.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__services_board_service__ = __webpack_require__("../../../../../src/app/services/board.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__directives_edit_task_directive__ = __webpack_require__("../../../../../src/app/directives/edit-task.directive.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__taskboard_task_item_task_item_component__ = __webpack_require__("../../../../../src/app/taskboard/task-item/task-item.component.ts");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -96,6 +97,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -120,23 +122,24 @@ var AppModule = (function () {
 AppModule = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__angular_core__["b" /* NgModule */])({
         declarations: [
-            __WEBPACK_IMPORTED_MODULE_8__app_component__["a" /* AppComponent */],
-            __WEBPACK_IMPORTED_MODULE_9__common_header_header_component__["a" /* HeaderComponent */],
-            __WEBPACK_IMPORTED_MODULE_10__taskboard_tasks_list_tasks_list_component__["a" /* TasksListComponent */],
-            __WEBPACK_IMPORTED_MODULE_11__welcome_board_welcome_board_welcome_board_component__["a" /* WelcomeBoardComponent */],
-            __WEBPACK_IMPORTED_MODULE_14__directives_edit_task_directive__["a" /* EditTaskDirective */],
-            __WEBPACK_IMPORTED_MODULE_15__taskboard_task_item_task_item_component__["a" /* TaskItemComponent */]
+            __WEBPACK_IMPORTED_MODULE_9__app_component__["a" /* AppComponent */],
+            __WEBPACK_IMPORTED_MODULE_10__common_header_header_component__["a" /* HeaderComponent */],
+            __WEBPACK_IMPORTED_MODULE_11__taskboard_tasks_list_tasks_list_component__["a" /* TasksListComponent */],
+            __WEBPACK_IMPORTED_MODULE_12__welcome_board_welcome_board_welcome_board_component__["a" /* WelcomeBoardComponent */],
+            __WEBPACK_IMPORTED_MODULE_15__directives_edit_task_directive__["a" /* EditTaskDirective */],
+            __WEBPACK_IMPORTED_MODULE_16__taskboard_task_item_task_item_component__["a" /* TaskItemComponent */]
         ],
         imports: [
             __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
-            __WEBPACK_IMPORTED_MODULE_3__angular_router__["a" /* RouterModule */].forRoot(__WEBPACK_IMPORTED_MODULE_7__routes__["a" /* routes */], { useHash: true }),
+            __WEBPACK_IMPORTED_MODULE_3__angular_router__["a" /* RouterModule */].forRoot(__WEBPACK_IMPORTED_MODULE_8__routes__["a" /* routes */], { useHash: true }),
             __WEBPACK_IMPORTED_MODULE_6_ngx_bootstrap_dropdown__["a" /* BsDropdownModule */].forRoot(),
             __WEBPACK_IMPORTED_MODULE_1__angular_forms__["a" /* FormsModule */],
             __WEBPACK_IMPORTED_MODULE_5__angular_common_http__["a" /* HttpClientModule */],
-            __WEBPACK_IMPORTED_MODULE_4_ng2_dnd__["a" /* DndModule */].forRoot()
+            __WEBPACK_IMPORTED_MODULE_4_ng2_dnd__["a" /* DndModule */].forRoot(),
+            __WEBPACK_IMPORTED_MODULE_7_ngx_bootstrap__["a" /* SortableModule */].forRoot()
         ],
-        providers: [__WEBPACK_IMPORTED_MODULE_12__services_task_details_service__["a" /* TaskDetailsService */], __WEBPACK_IMPORTED_MODULE_13__services_board_service__["a" /* BoardService */]],
-        bootstrap: [__WEBPACK_IMPORTED_MODULE_8__app_component__["a" /* AppComponent */]]
+        providers: [__WEBPACK_IMPORTED_MODULE_13__services_task_details_service__["a" /* TaskDetailsService */], __WEBPACK_IMPORTED_MODULE_14__services_board_service__["a" /* BoardService */]],
+        bootstrap: [__WEBPACK_IMPORTED_MODULE_9__app_component__["a" /* AppComponent */]]
     })
 ], AppModule);
 
@@ -193,7 +196,7 @@ var HeaderComponent = (function () {
     return HeaderComponent;
 }());
 HeaderComponent = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_5" /* Component */])({
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_6" /* Component */])({
         selector: 'app-header',
         template: __webpack_require__("../../../../../src/app/common/header/header.component.html"),
         styles: [__webpack_require__("../../../../../src/app/common/header/header.component.scss")]
@@ -261,7 +264,7 @@ EditTaskDirective = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["l" /* Directive */])({
         selector: '[appEditTask]'
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* ElementRef */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* ElementRef */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["G" /* Renderer2 */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["G" /* Renderer2 */]) === "function" && _b || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* ElementRef */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* ElementRef */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["H" /* Renderer2 */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["H" /* Renderer2 */]) === "function" && _b || Object])
 ], EditTaskDirective);
 
 var _a, _b;
@@ -457,7 +460,7 @@ var TaskItemComponent = (function () {
     return TaskItemComponent;
 }());
 TaskItemComponent = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_5" /* Component */])({
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_6" /* Component */])({
         selector: 'app-task-item',
         template: __webpack_require__("../../../../../src/app/taskboard/task-item/task-item.component.html"),
         styles: [__webpack_require__("../../../../../src/app/taskboard/task-item/task-item.component.scss")]
@@ -472,7 +475,7 @@ TaskItemComponent = __decorate([
 /***/ "../../../../../src/app/taskboard/tasks-list/tasks-list.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<section class=\"page-wrapper task-list-container\"><div class=\"container-fluid\">\r\n\t<div class=\"row\">\r\n\t\t<div class=\"col-md-12\" dnd-sortable-container [sortableData]=\"tasksList\">\r\n            <h3 class=\"board-name\">{{boardName}}</h3>\r\n\t\t\t<div class=\"list-card\" *ngFor='let task of newTasksList;let i = index' dnd-sortable [sortableIndex]=\"i\">\r\n\t\t\t\t<input type=\"text\" [(ngModel)]='task.list_name' readonly class='dem' (change)='updateListName(task._id,task.list_name)' appEditTask [ngClass]='{\"form-control\":false}' >\r\n                <span *ngIf='updateError'>{{updateErrorMsg}}</span>\r\n <div class=\"btn-group actions list-actions\" dropdown>\r\n  <button dropdownToggle type=\"button\" class=\"dropdown-toggle\">\r\n   ...\r\n  </button>\r\n  <ul *dropdownMenu class=\"dropdown-menu\" role=\"menu\">\r\n    <li role=\"menuitem\"><a class=\"dropdown-item\" (click)='showCreateTasks=true' href='javascript:;'>Add card</a></li>\r\n    <li role=\"menuitem\"><a class=\"dropdown-item\" href=\"javascript:;\" (click)='deleteList(tasks.board_id,task._id)'>Delete List</a></li>\r\n   \r\n  </ul>\r\n</div>\r\n                <div class=\"clear\"></div>\r\n\t\t\t\t<div class=\"task-item\" *ngFor='let taskitem of task.tasks;let index=index;trackBy:trackByIndex' >\r\n\t\t\t\t\t<h4>{{taskitem.task_name}}</h4>\r\n\t\t\t\t\t<!--<div class=\"edit-task\">\r\n\t\t\t\t\t\t<input type=\"text\" [(ngModel)]=\"taskitem.name\" class='form-control'>\r\n\t\t\t\t\t\t<button class=\"btn btn-default green\" >Save</button>\r\n\t\t\t\t\t\t<button class=\"btn btn-default\" (click)=\"taskitem.name=taskitemOldname\">Cancel</button>\r\n\t\t\t\t\t\t<div class=\"clear\"></div>\r\n\t\t\t\t\t</div>-->\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"task-item new-card\" *ngIf='showCreateTasks'>\r\n\t\t\t\t\t<div class=\"edit-task\">\r\n\t\t\t\t\t\t<textarea class='form-control' [(ngModel)]='taskName'></textarea>\r\n\t\t\t\t\t\t<button class=\"btn btn-default green\" (click)='addCard(taskName,task._id)'>Save</button>\r\n\t\t\t\t\t\t<div class=\"clear\"></div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<a href='javascript:;' (click)='showCreateTasks=true'>Add a card</a>\r\n\t\t\t</div>\r\n            <div class=\"list-card create-list-card\" [ngClass]=\"{'create-open':showCreateLists}\">\r\n                 <div (click)='showCreateLists=true' ><a href='javascript:;' >Create a new list..</a></div>\r\n                <div class='create-list' *ngIf='showCreateLists'>\r\n                    <form (submit)='createList(listName,tasks.board_id)'>\r\n                    <input type=\"text\" [(ngModel)]='listName' name=\"listname\" class=\"form-control\">\r\n                    <span *ngIf='updateError'>{{updateErrorMsg}}</span>\r\n                    <button type=\"submit\" class=\"btn btn-default green\">Save</button>\r\n                    <button type=\"button\" class=\"btn btn-default\" (click)='hideCreateList()'>Cancel</button>\r\n                    <div class=\"clear\"></div>\r\n                    </form>    \r\n                </div>\r\n               \r\n            </div> \r\n\t\t</div>\r\n\t</div>\r\n</div>\r\n  \r\n</section>\r\n\r\n\r\n"
+module.exports = "<section class=\"page-wrapper task-list-container\"><div class=\"container-fluid\">\r\n\t<div class=\"row\">\r\n\t\t<div class=\"col-md-12\" >\r\n            <h3 class=\"board-name\">{{boardName}}</h3>\r\n            \r\n\t\t\t<div class=\"list-card\" *ngFor='let task of newTasksList;let i = index' >\r\n\t\t\t\t<input type=\"text\" [(ngModel)]='task.list_name' readonly class='dem' (change)='updateListName(task._id,task.list_name)' appEditTask [ngClass]='{\"form-control\":false}' >\r\n                <span *ngIf='updateError'>{{updateErrorMsg}}</span>\r\n <div class=\"btn-group actions list-actions\" dropdown>\r\n  <button dropdownToggle type=\"button\" class=\"dropdown-toggle\">\r\n   ...\r\n  </button>\r\n  <ul *dropdownMenu class=\"dropdown-menu\" role=\"menu\">\r\n    <li role=\"menuitem\"><a class=\"dropdown-item\" (click)='showCreateTasks=true' href='javascript:;'>Add card</a></li>\r\n    <li role=\"menuitem\"><a class=\"dropdown-item\" href=\"javascript:;\" (click)='deleteList(tasks.board_id,task._id)'>Delete List</a></li>\r\n   \r\n  </ul>\r\n</div>\r\n                <div class=\"clear\"></div>\r\n                <template #itemTemplate let-item=\"item\" let-index=\"index\">\r\n                    \t\t\t\t\t<h4>{{item.value.task_name}}</h4>\r\n                </template>\r\n                 <bs-sortable\r\n    [(ngModel)]=\"task.tasks\"\r\n    [itemTemplate]=\"itemTemplate\"\r\n    itemClass=\"task-item sortable-item\"\r\n    itemActiveClass=\"sortable-item-active\"\r\n    placeholderItem=\"Drag here\"\r\n    placeholderClass=\"placeholderStyle\"\r\n    wrapperClass=\"sortable-wrapper\"\r\n    (onChange)=\"updateTaskOrder(task.tasks)\"\r\n    (mouseUp)=\"updateTaskOrder1('a')\"\r\n  ></bs-sortable>\r\n\t\t\t<!--\t<div class=\"task-item\" *ngFor='let taskitem of task.tasks;let index=index;trackBy:trackByIndex' >\r\n\t\t\t\t\t<h4>{{taskitem.task_name}}</h4>\r\n\t\t\t\t\t<div class=\"edit-task\">\r\n\t\t\t\t\t\t<input type=\"text\" [(ngModel)]=\"taskitem.name\" class='form-control'>\r\n\t\t\t\t\t\t<button class=\"btn btn-default green\" >Save</button>\r\n\t\t\t\t\t\t<button class=\"btn btn-default\" (click)=\"taskitem.name=taskitemOldname\">Cancel</button>\r\n\t\t\t\t\t\t<div class=\"clear\"></div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>-->\r\n\t\t\t\t<div class=\"task-item new-card\" *ngIf='showCreateTasks'>\r\n\t\t\t\t\t<div class=\"edit-task\">\r\n\t\t\t\t\t\t<textarea class='form-control' [(ngModel)]='taskName'></textarea>\r\n\t\t\t\t\t\t<button class=\"btn btn-default green\" (click)='addCard(taskName,task._id)'>Save</button>\r\n\t\t\t\t\t\t<div class=\"clear\"></div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<a href='javascript:;' (click)='showCreateTasks=true'>Add a card</a>\r\n\t\t\t</div>\r\n            <div class=\"list-card create-list-card\" [ngClass]=\"{'create-open':showCreateLists}\">\r\n                 <div (click)='showCreateLists=true' ><a href='javascript:;' >Create a new list..</a></div>\r\n                <div class='create-list' *ngIf='showCreateLists'>\r\n                    <form (submit)='createList(listName,tasks.board_id)'>\r\n                    <input type=\"text\" [(ngModel)]='listName' name=\"listname\" class=\"form-control\">\r\n                    <span *ngIf='updateError'>{{updateErrorMsg}}</span>\r\n                    <button type=\"submit\" class=\"btn btn-default green\">Save</button>\r\n                    <button type=\"button\" class=\"btn btn-default\" (click)='hideCreateList()'>Cancel</button>\r\n                    <div class=\"clear\"></div>\r\n                    </form>    \r\n                </div>\r\n               \r\n            </div> \r\n\t\t</div>\r\n\t</div>\r\n</div>\r\n  \r\n</section>\r\n\r\n\r\n"
 
 /***/ }),
 
@@ -525,6 +528,12 @@ var TasksListComponent = (function () {
         this.canEdit = false;
         this.newTasksList = [];
         this.taskCard = [];
+        this.itemStringsLeft = [
+            'Windstorm',
+            'Bombasto',
+            'Magneta',
+            'Tornado'
+        ];
     }
     TasksListComponent.prototype.showLists = function () {
         var _this = this;
@@ -557,6 +566,8 @@ var TasksListComponent = (function () {
         else {
             this.router.navigate(['/']);
         }
+    };
+    TasksListComponent.prototype.updateTaskOrder = function (newt) {
     };
     TasksListComponent.prototype.editTask = function (taskitem) {
         this.taskitemOldname = taskitem;
@@ -618,17 +629,10 @@ var TasksListComponent = (function () {
             }
         });
     };
-    Object.defineProperty(TasksListComponent.prototype, "self", {
-        get: function () {
-            return this;
-        },
-        enumerable: true,
-        configurable: true
-    });
     return TasksListComponent;
 }());
 TasksListComponent = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_5" /* Component */])({
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_6" /* Component */])({
         selector: 'app-tasks-list',
         template: __webpack_require__("../../../../../src/app/taskboard/tasks-list/tasks-list.component.html"),
         styles: [__webpack_require__("../../../../../src/app/taskboard/tasks-list/tasks-list.component.scss")]
@@ -735,7 +739,7 @@ var WelcomeBoardComponent = (function () {
     return WelcomeBoardComponent;
 }());
 WelcomeBoardComponent = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_5" /* Component */])({
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_6" /* Component */])({
         selector: 'app-welcome-board',
         template: __webpack_require__("../../../../../src/app/welcome-board/welcome-board/welcome-board.component.html"),
         styles: [__webpack_require__("../../../../../src/app/welcome-board/welcome-board/welcome-board.component.scss")]
@@ -783,6 +787,259 @@ if (__WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment *
 }
 __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__["a" /* platformBrowserDynamic */])().bootstrapModule(__WEBPACK_IMPORTED_MODULE_2__app_app_module__["a" /* AppModule */]);
 //# sourceMappingURL=main.js.map
+
+/***/ }),
+
+/***/ "../../../../moment/locale recursive ^\\.\\/.*$":
+/***/ (function(module, exports, __webpack_require__) {
+
+var map = {
+	"./af": "../../../../moment/locale/af.js",
+	"./af.js": "../../../../moment/locale/af.js",
+	"./ar": "../../../../moment/locale/ar.js",
+	"./ar-dz": "../../../../moment/locale/ar-dz.js",
+	"./ar-dz.js": "../../../../moment/locale/ar-dz.js",
+	"./ar-kw": "../../../../moment/locale/ar-kw.js",
+	"./ar-kw.js": "../../../../moment/locale/ar-kw.js",
+	"./ar-ly": "../../../../moment/locale/ar-ly.js",
+	"./ar-ly.js": "../../../../moment/locale/ar-ly.js",
+	"./ar-ma": "../../../../moment/locale/ar-ma.js",
+	"./ar-ma.js": "../../../../moment/locale/ar-ma.js",
+	"./ar-sa": "../../../../moment/locale/ar-sa.js",
+	"./ar-sa.js": "../../../../moment/locale/ar-sa.js",
+	"./ar-tn": "../../../../moment/locale/ar-tn.js",
+	"./ar-tn.js": "../../../../moment/locale/ar-tn.js",
+	"./ar.js": "../../../../moment/locale/ar.js",
+	"./az": "../../../../moment/locale/az.js",
+	"./az.js": "../../../../moment/locale/az.js",
+	"./be": "../../../../moment/locale/be.js",
+	"./be.js": "../../../../moment/locale/be.js",
+	"./bg": "../../../../moment/locale/bg.js",
+	"./bg.js": "../../../../moment/locale/bg.js",
+	"./bn": "../../../../moment/locale/bn.js",
+	"./bn.js": "../../../../moment/locale/bn.js",
+	"./bo": "../../../../moment/locale/bo.js",
+	"./bo.js": "../../../../moment/locale/bo.js",
+	"./br": "../../../../moment/locale/br.js",
+	"./br.js": "../../../../moment/locale/br.js",
+	"./bs": "../../../../moment/locale/bs.js",
+	"./bs.js": "../../../../moment/locale/bs.js",
+	"./ca": "../../../../moment/locale/ca.js",
+	"./ca.js": "../../../../moment/locale/ca.js",
+	"./cs": "../../../../moment/locale/cs.js",
+	"./cs.js": "../../../../moment/locale/cs.js",
+	"./cv": "../../../../moment/locale/cv.js",
+	"./cv.js": "../../../../moment/locale/cv.js",
+	"./cy": "../../../../moment/locale/cy.js",
+	"./cy.js": "../../../../moment/locale/cy.js",
+	"./da": "../../../../moment/locale/da.js",
+	"./da.js": "../../../../moment/locale/da.js",
+	"./de": "../../../../moment/locale/de.js",
+	"./de-at": "../../../../moment/locale/de-at.js",
+	"./de-at.js": "../../../../moment/locale/de-at.js",
+	"./de-ch": "../../../../moment/locale/de-ch.js",
+	"./de-ch.js": "../../../../moment/locale/de-ch.js",
+	"./de.js": "../../../../moment/locale/de.js",
+	"./dv": "../../../../moment/locale/dv.js",
+	"./dv.js": "../../../../moment/locale/dv.js",
+	"./el": "../../../../moment/locale/el.js",
+	"./el.js": "../../../../moment/locale/el.js",
+	"./en-au": "../../../../moment/locale/en-au.js",
+	"./en-au.js": "../../../../moment/locale/en-au.js",
+	"./en-ca": "../../../../moment/locale/en-ca.js",
+	"./en-ca.js": "../../../../moment/locale/en-ca.js",
+	"./en-gb": "../../../../moment/locale/en-gb.js",
+	"./en-gb.js": "../../../../moment/locale/en-gb.js",
+	"./en-ie": "../../../../moment/locale/en-ie.js",
+	"./en-ie.js": "../../../../moment/locale/en-ie.js",
+	"./en-nz": "../../../../moment/locale/en-nz.js",
+	"./en-nz.js": "../../../../moment/locale/en-nz.js",
+	"./eo": "../../../../moment/locale/eo.js",
+	"./eo.js": "../../../../moment/locale/eo.js",
+	"./es": "../../../../moment/locale/es.js",
+	"./es-do": "../../../../moment/locale/es-do.js",
+	"./es-do.js": "../../../../moment/locale/es-do.js",
+	"./es.js": "../../../../moment/locale/es.js",
+	"./et": "../../../../moment/locale/et.js",
+	"./et.js": "../../../../moment/locale/et.js",
+	"./eu": "../../../../moment/locale/eu.js",
+	"./eu.js": "../../../../moment/locale/eu.js",
+	"./fa": "../../../../moment/locale/fa.js",
+	"./fa.js": "../../../../moment/locale/fa.js",
+	"./fi": "../../../../moment/locale/fi.js",
+	"./fi.js": "../../../../moment/locale/fi.js",
+	"./fo": "../../../../moment/locale/fo.js",
+	"./fo.js": "../../../../moment/locale/fo.js",
+	"./fr": "../../../../moment/locale/fr.js",
+	"./fr-ca": "../../../../moment/locale/fr-ca.js",
+	"./fr-ca.js": "../../../../moment/locale/fr-ca.js",
+	"./fr-ch": "../../../../moment/locale/fr-ch.js",
+	"./fr-ch.js": "../../../../moment/locale/fr-ch.js",
+	"./fr.js": "../../../../moment/locale/fr.js",
+	"./fy": "../../../../moment/locale/fy.js",
+	"./fy.js": "../../../../moment/locale/fy.js",
+	"./gd": "../../../../moment/locale/gd.js",
+	"./gd.js": "../../../../moment/locale/gd.js",
+	"./gl": "../../../../moment/locale/gl.js",
+	"./gl.js": "../../../../moment/locale/gl.js",
+	"./gom-latn": "../../../../moment/locale/gom-latn.js",
+	"./gom-latn.js": "../../../../moment/locale/gom-latn.js",
+	"./he": "../../../../moment/locale/he.js",
+	"./he.js": "../../../../moment/locale/he.js",
+	"./hi": "../../../../moment/locale/hi.js",
+	"./hi.js": "../../../../moment/locale/hi.js",
+	"./hr": "../../../../moment/locale/hr.js",
+	"./hr.js": "../../../../moment/locale/hr.js",
+	"./hu": "../../../../moment/locale/hu.js",
+	"./hu.js": "../../../../moment/locale/hu.js",
+	"./hy-am": "../../../../moment/locale/hy-am.js",
+	"./hy-am.js": "../../../../moment/locale/hy-am.js",
+	"./id": "../../../../moment/locale/id.js",
+	"./id.js": "../../../../moment/locale/id.js",
+	"./is": "../../../../moment/locale/is.js",
+	"./is.js": "../../../../moment/locale/is.js",
+	"./it": "../../../../moment/locale/it.js",
+	"./it.js": "../../../../moment/locale/it.js",
+	"./ja": "../../../../moment/locale/ja.js",
+	"./ja.js": "../../../../moment/locale/ja.js",
+	"./jv": "../../../../moment/locale/jv.js",
+	"./jv.js": "../../../../moment/locale/jv.js",
+	"./ka": "../../../../moment/locale/ka.js",
+	"./ka.js": "../../../../moment/locale/ka.js",
+	"./kk": "../../../../moment/locale/kk.js",
+	"./kk.js": "../../../../moment/locale/kk.js",
+	"./km": "../../../../moment/locale/km.js",
+	"./km.js": "../../../../moment/locale/km.js",
+	"./kn": "../../../../moment/locale/kn.js",
+	"./kn.js": "../../../../moment/locale/kn.js",
+	"./ko": "../../../../moment/locale/ko.js",
+	"./ko.js": "../../../../moment/locale/ko.js",
+	"./ky": "../../../../moment/locale/ky.js",
+	"./ky.js": "../../../../moment/locale/ky.js",
+	"./lb": "../../../../moment/locale/lb.js",
+	"./lb.js": "../../../../moment/locale/lb.js",
+	"./lo": "../../../../moment/locale/lo.js",
+	"./lo.js": "../../../../moment/locale/lo.js",
+	"./lt": "../../../../moment/locale/lt.js",
+	"./lt.js": "../../../../moment/locale/lt.js",
+	"./lv": "../../../../moment/locale/lv.js",
+	"./lv.js": "../../../../moment/locale/lv.js",
+	"./me": "../../../../moment/locale/me.js",
+	"./me.js": "../../../../moment/locale/me.js",
+	"./mi": "../../../../moment/locale/mi.js",
+	"./mi.js": "../../../../moment/locale/mi.js",
+	"./mk": "../../../../moment/locale/mk.js",
+	"./mk.js": "../../../../moment/locale/mk.js",
+	"./ml": "../../../../moment/locale/ml.js",
+	"./ml.js": "../../../../moment/locale/ml.js",
+	"./mr": "../../../../moment/locale/mr.js",
+	"./mr.js": "../../../../moment/locale/mr.js",
+	"./ms": "../../../../moment/locale/ms.js",
+	"./ms-my": "../../../../moment/locale/ms-my.js",
+	"./ms-my.js": "../../../../moment/locale/ms-my.js",
+	"./ms.js": "../../../../moment/locale/ms.js",
+	"./my": "../../../../moment/locale/my.js",
+	"./my.js": "../../../../moment/locale/my.js",
+	"./nb": "../../../../moment/locale/nb.js",
+	"./nb.js": "../../../../moment/locale/nb.js",
+	"./ne": "../../../../moment/locale/ne.js",
+	"./ne.js": "../../../../moment/locale/ne.js",
+	"./nl": "../../../../moment/locale/nl.js",
+	"./nl-be": "../../../../moment/locale/nl-be.js",
+	"./nl-be.js": "../../../../moment/locale/nl-be.js",
+	"./nl.js": "../../../../moment/locale/nl.js",
+	"./nn": "../../../../moment/locale/nn.js",
+	"./nn.js": "../../../../moment/locale/nn.js",
+	"./pa-in": "../../../../moment/locale/pa-in.js",
+	"./pa-in.js": "../../../../moment/locale/pa-in.js",
+	"./pl": "../../../../moment/locale/pl.js",
+	"./pl.js": "../../../../moment/locale/pl.js",
+	"./pt": "../../../../moment/locale/pt.js",
+	"./pt-br": "../../../../moment/locale/pt-br.js",
+	"./pt-br.js": "../../../../moment/locale/pt-br.js",
+	"./pt.js": "../../../../moment/locale/pt.js",
+	"./ro": "../../../../moment/locale/ro.js",
+	"./ro.js": "../../../../moment/locale/ro.js",
+	"./ru": "../../../../moment/locale/ru.js",
+	"./ru.js": "../../../../moment/locale/ru.js",
+	"./sd": "../../../../moment/locale/sd.js",
+	"./sd.js": "../../../../moment/locale/sd.js",
+	"./se": "../../../../moment/locale/se.js",
+	"./se.js": "../../../../moment/locale/se.js",
+	"./si": "../../../../moment/locale/si.js",
+	"./si.js": "../../../../moment/locale/si.js",
+	"./sk": "../../../../moment/locale/sk.js",
+	"./sk.js": "../../../../moment/locale/sk.js",
+	"./sl": "../../../../moment/locale/sl.js",
+	"./sl.js": "../../../../moment/locale/sl.js",
+	"./sq": "../../../../moment/locale/sq.js",
+	"./sq.js": "../../../../moment/locale/sq.js",
+	"./sr": "../../../../moment/locale/sr.js",
+	"./sr-cyrl": "../../../../moment/locale/sr-cyrl.js",
+	"./sr-cyrl.js": "../../../../moment/locale/sr-cyrl.js",
+	"./sr.js": "../../../../moment/locale/sr.js",
+	"./ss": "../../../../moment/locale/ss.js",
+	"./ss.js": "../../../../moment/locale/ss.js",
+	"./sv": "../../../../moment/locale/sv.js",
+	"./sv.js": "../../../../moment/locale/sv.js",
+	"./sw": "../../../../moment/locale/sw.js",
+	"./sw.js": "../../../../moment/locale/sw.js",
+	"./ta": "../../../../moment/locale/ta.js",
+	"./ta.js": "../../../../moment/locale/ta.js",
+	"./te": "../../../../moment/locale/te.js",
+	"./te.js": "../../../../moment/locale/te.js",
+	"./tet": "../../../../moment/locale/tet.js",
+	"./tet.js": "../../../../moment/locale/tet.js",
+	"./th": "../../../../moment/locale/th.js",
+	"./th.js": "../../../../moment/locale/th.js",
+	"./tl-ph": "../../../../moment/locale/tl-ph.js",
+	"./tl-ph.js": "../../../../moment/locale/tl-ph.js",
+	"./tlh": "../../../../moment/locale/tlh.js",
+	"./tlh.js": "../../../../moment/locale/tlh.js",
+	"./tr": "../../../../moment/locale/tr.js",
+	"./tr.js": "../../../../moment/locale/tr.js",
+	"./tzl": "../../../../moment/locale/tzl.js",
+	"./tzl.js": "../../../../moment/locale/tzl.js",
+	"./tzm": "../../../../moment/locale/tzm.js",
+	"./tzm-latn": "../../../../moment/locale/tzm-latn.js",
+	"./tzm-latn.js": "../../../../moment/locale/tzm-latn.js",
+	"./tzm.js": "../../../../moment/locale/tzm.js",
+	"./uk": "../../../../moment/locale/uk.js",
+	"./uk.js": "../../../../moment/locale/uk.js",
+	"./ur": "../../../../moment/locale/ur.js",
+	"./ur.js": "../../../../moment/locale/ur.js",
+	"./uz": "../../../../moment/locale/uz.js",
+	"./uz-latn": "../../../../moment/locale/uz-latn.js",
+	"./uz-latn.js": "../../../../moment/locale/uz-latn.js",
+	"./uz.js": "../../../../moment/locale/uz.js",
+	"./vi": "../../../../moment/locale/vi.js",
+	"./vi.js": "../../../../moment/locale/vi.js",
+	"./x-pseudo": "../../../../moment/locale/x-pseudo.js",
+	"./x-pseudo.js": "../../../../moment/locale/x-pseudo.js",
+	"./yo": "../../../../moment/locale/yo.js",
+	"./yo.js": "../../../../moment/locale/yo.js",
+	"./zh-cn": "../../../../moment/locale/zh-cn.js",
+	"./zh-cn.js": "../../../../moment/locale/zh-cn.js",
+	"./zh-hk": "../../../../moment/locale/zh-hk.js",
+	"./zh-hk.js": "../../../../moment/locale/zh-hk.js",
+	"./zh-tw": "../../../../moment/locale/zh-tw.js",
+	"./zh-tw.js": "../../../../moment/locale/zh-tw.js"
+};
+function webpackContext(req) {
+	return __webpack_require__(webpackContextResolve(req));
+};
+function webpackContextResolve(req) {
+	var id = map[req];
+	if(!(id + 1)) // check for number or string
+		throw new Error("Cannot find module '" + req + "'.");
+	return id;
+};
+webpackContext.keys = function webpackContextKeys() {
+	return Object.keys(map);
+};
+webpackContext.resolve = webpackContextResolve;
+module.exports = webpackContext;
+webpackContext.id = "../../../../moment/locale recursive ^\\.\\/.*$";
 
 /***/ }),
 

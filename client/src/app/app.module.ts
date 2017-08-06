@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import {DndModule} from 'ng2-dnd';
 import { HttpClientModule } from '@angular/common/http';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { SortableModule } from 'ngx-bootstrap';
 import { routes } from './routes';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './common/header/header.component';
@@ -32,7 +33,8 @@ import { TaskItemComponent } from './taskboard/task-item/task-item.component';
       BsDropdownModule.forRoot(),
 	FormsModule,
 	HttpClientModule ,
-    DndModule.forRoot()  
+    DndModule.forRoot(),
+      SortableModule.forRoot()
   ],
   providers: [TaskDetailsService,BoardService],
   bootstrap: [AppComponent]

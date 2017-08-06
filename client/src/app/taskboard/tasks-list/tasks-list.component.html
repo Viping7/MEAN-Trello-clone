@@ -1,8 +1,9 @@
 <section class="page-wrapper task-list-container"><div class="container-fluid">
 	<div class="row">
-		<div class="col-md-12" dnd-sortable-container [sortableData]="tasksList">
+		<div class="col-md-12" >
             <h3 class="board-name">{{boardName}}</h3>
-			<div class="list-card" *ngFor='let task of newTasksList;let i = index' dnd-sortable [sortableIndex]="i">
+            
+			<div class="list-card" *ngFor='let task of newTasksList;let i = index' >
 				<input type="text" [(ngModel)]='task.list_name' readonly class='dem' (change)='updateListName(task._id,task.list_name)' appEditTask [ngClass]='{"form-control":false}' >
                 <span *ngIf='updateError'>{{updateErrorMsg}}</span>
  <div class="btn-group actions list-actions" dropdown>
@@ -16,15 +17,29 @@
   </ul>
 </div>
                 <div class="clear"></div>
-				<div class="task-item" *ngFor='let taskitem of task.tasks;let index=index;trackBy:trackByIndex' >
+                <template #itemTemplate let-item="item" let-index="index">
+                    					<h4>{{item.value.task_name}}</h4>
+                </template>
+                 <bs-sortable
+    [(ngModel)]="task.tasks"
+    [itemTemplate]="itemTemplate"
+    itemClass="task-item sortable-item"
+    itemActiveClass="sortable-item-active"
+    placeholderItem="Drag here"
+    placeholderClass="placeholderStyle"
+    wrapperClass="sortable-wrapper"
+    (onChange)="updateTaskOrder(task.tasks)"
+    (mouseUp)="updateTaskOrder1('a')"
+  ></bs-sortable>
+			<!--	<div class="task-item" *ngFor='let taskitem of task.tasks;let index=index;trackBy:trackByIndex' >
 					<h4>{{taskitem.task_name}}</h4>
-					<!--<div class="edit-task">
+					<div class="edit-task">
 						<input type="text" [(ngModel)]="taskitem.name" class='form-control'>
 						<button class="btn btn-default green" >Save</button>
 						<button class="btn btn-default" (click)="taskitem.name=taskitemOldname">Cancel</button>
 						<div class="clear"></div>
-					</div>-->
-				</div>
+					</div>
+				</div>-->
 				<div class="task-item new-card" *ngIf='showCreateTasks'>
 					<div class="edit-task">
 						<textarea class='form-control' [(ngModel)]='taskName'></textarea>

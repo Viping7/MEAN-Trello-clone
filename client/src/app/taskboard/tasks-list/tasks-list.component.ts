@@ -47,7 +47,7 @@ constructor(private taskDetails:TaskDetailsService,private boardService:BoardSer
             }
         })
        
-    }
+    }   
   ngOnInit() {
       if(this.taskDetails.listId){
       this.showLists();
@@ -56,6 +56,9 @@ constructor(private taskDetails:TaskDetailsService,private boardService:BoardSer
           this.router.navigate(['/']);
       }
   	}
+    updateTaskOrder(newt){
+    }
+   
 	editTask(taskitem){
 	this.taskitemOldname=taskitem;
 	}
@@ -111,7 +114,10 @@ constructor(private taskDetails:TaskDetailsService,private boardService:BoardSer
             }
         })
     }
-    get self(){
-        return this;
-    }
+    public itemStringsLeft: any[] = [
+    'Windstorm',
+    'Bombasto',
+    'Magneta',
+    'Tornado'
+  ];
 }

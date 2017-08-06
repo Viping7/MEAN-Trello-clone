@@ -47,3 +47,57 @@ a{
         }
     }
 }
+	.task-item{
+		background: #fff;
+		padding:2px 15px 15px 10px;
+		border-radius: 3px;
+		margin-bottom: 8px;
+		position: relative;
+		input[type='text'],h4{
+			font-size: 14px;
+			border: none;
+			margin-top: 5px;
+		}
+		.form-control{
+			border:1px solid #eee !important;
+			box-shadow: none;
+		}
+		&:hover{
+			.edit{
+				display: block ;
+			}
+		}
+		.edit{
+			cursor: pointer;
+			display: none;
+			position: absolute;
+			right: 10px;
+			top: 0px;
+			img{
+				width: 10px;
+			}
+		}
+		.edit-task{
+			display: none;
+		}
+		&.new-card{
+			padding: 10px;
+			.edit-task{
+				display: block;
+				textarea{
+					height: 70px;
+					resize: none;
+				}
+
+			}
+		}
+	}
+
+.placeholderStyle{
+color: transparent;
+    font-size: 1px;
+}
+.sortable-item-active{
+    color: transparent;
+    background: rgba(51,51,51,0.1);
+}
