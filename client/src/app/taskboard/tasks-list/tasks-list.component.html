@@ -1,37 +1,28 @@
-<section class="page-wrapper task-list-container"><div class="container-fluid">
-	<div class="row">
-		<div class="col-md-12" >
-            <h3 class="board-name">{{boardName}}</h3>
-            
-			<div class="list-card" *ngFor='let task of newTasksList;let i = index' >
-				<input type="text" [(ngModel)]='task.list_name' readonly class='dem' (change)='updateListName(task._id,task.list_name)' appEditTask [ngClass]='{"form-control":false}' >
-                <span *ngIf='updateError'>{{updateErrorMsg}}</span>
- <div class="btn-group actions list-actions" dropdown>
-  <button dropdownToggle type="button" class="dropdown-toggle">
+<section class="page-wrapper task-list-container">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="board-name">{{boardName}}</h3>
+
+                <div class="list-card" *ngFor='let task of newTasksList;let i = index'>
+                    <input type="text" [(ngModel)]='task.list_name' readonly class='edit-list-name' (change)='updateListName(task._id,task.list_name)' appEditTask [ngClass]='{"form-control":false}'>
+                    <span *ngIf='updateError'>{{updateErrorMsg}}</span>
+                    <div class="btn-group actions list-actions" dropdown>
+                        <button dropdownToggle type="button" class="dropdown-toggle">
    ...
   </button>
-  <ul *dropdownMenu class="dropdown-menu" role="menu">
-    <li role="menuitem"><a class="dropdown-item" (click)='showCreateTasks=true' href='javascript:;'>Add card</a></li>
-    <li role="menuitem"><a class="dropdown-item" href="javascript:;" (click)='deleteList(tasks.board_id,task._id)'>Delete List</a></li>
-   
-  </ul>
-</div>
-                <div class="clear"></div>
-                <template #itemTemplate let-item="item" let-index="index">
+                        <ul *dropdownMenu class="dropdown-menu" role="menu">
+                            <li role="menuitem"><a class="dropdown-item" (click)='showCreateTasks=true' href='javascript:;'>Add card</a></li>
+                            <li role="menuitem"><a class="dropdown-item" href="javascript:;" (click)='deleteList(tasks.board_id,task._id)'>Delete List</a></li>
+
+                        </ul>
+                    </div>
+                    <div class="clear"></div>
+                    <template #itemTemplate let-item="item" let-index="index">
                     					<h4>{{item.value.task_name}}</h4>
                 </template>
-                 <bs-sortable
-    [(ngModel)]="task.tasks"
-    [itemTemplate]="itemTemplate"
-    itemClass="task-item sortable-item"
-    itemActiveClass="sortable-item-active"
-    placeholderItem="Drag here"
-    placeholderClass="placeholderStyle"
-    wrapperClass="sortable-wrapper"
-    (onChange)="updateTaskOrder(task.tasks)"
-    (mouseUp)="updateTaskOrder1('a')"
-  ></bs-sortable>
-			<!--	<div class="task-item" *ngFor='let taskitem of task.tasks;let index=index;trackBy:trackByIndex' >
+                    <bs-sortable [(ngModel)]="task.tasks" [itemTemplate]="itemTemplate" itemClass="task-item sortable-item" itemActiveClass="sortable-item-active" placeholderItem="Drag here" placeholderClass="placeholderStyle" wrapperClass="sortable-wrapper" (onChange)="updateTaskOrder(task.tasks)"></bs-sortable>
+                    <!--	<div class="task-item" *ngFor='let taskitem of task.tasks;let index=index;trackBy:trackByIndex' >
 					<h4>{{taskitem.task_name}}</h4>
 					<div class="edit-task">
 						<input type="text" [(ngModel)]="taskitem.name" class='form-control'>
@@ -40,32 +31,30 @@
 						<div class="clear"></div>
 					</div>
 				</div>-->
-				<div class="task-item new-card" *ngIf='showCreateTasks'>
-					<div class="edit-task">
-						<textarea class='form-control' [(ngModel)]='taskName'></textarea>
-						<button class="btn btn-default green" (click)='addCard(taskName,task._id)'>Save</button>
-						<div class="clear"></div>
-					</div>
-				</div>
-				<a href='javascript:;' (click)='showCreateTasks=true'>Add a card</a>
-			</div>
-            <div class="list-card create-list-card" [ngClass]="{'create-open':showCreateLists}">
-                 <div (click)='showCreateLists=true' ><a href='javascript:;' >Create a new list..</a></div>
-                <div class='create-list' *ngIf='showCreateLists'>
-                    <form (submit)='createList(listName,tasks.board_id)'>
-                    <input type="text" [(ngModel)]='listName' name="listname" class="form-control">
-                    <span *ngIf='updateError'>{{updateErrorMsg}}</span>
-                    <button type="submit" class="btn btn-default green">Save</button>
-                    <button type="button" class="btn btn-default" (click)='hideCreateList()'>Cancel</button>
-                    <div class="clear"></div>
-                    </form>    
+                    <div class="task-item new-card" >
+                        <div class="edit-task">
+                            <textarea class='form-control' [(ngModel)]='taskName'></textarea>
+                            <button class="btn btn-default green" (click)='addCard(taskName,task._id)'>Save</button>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <a href='javascript:;' class="add-card" appEditTask>Add a card</a>
                 </div>
-               
-            </div> 
-		</div>
-	</div>
-</div>
-  
+                <div class="list-card create-list-card" [ngClass]="{'create-open':showCreateLists}">
+                    <div (click)='showCreateLists=true'><a href='javascript:;'>Create a new list..</a></div>
+                    <div class='create-list' *ngIf='showCreateLists'>
+                        <form (submit)='createList(listName,tasks.board_id)'>
+                            <input type="text" [(ngModel)]='listName' name="listname" class="form-control">
+                            <span *ngIf='updateError'>{{updateErrorMsg}}</span>
+                            <button type="submit" class="btn btn-default green">Save</button>
+                            <button type="button" class="btn btn-default" (click)='hideCreateList()'>Cancel</button>
+                            <div class="clear"></div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
 </section>
-
-

@@ -4,6 +4,7 @@ import {
     ElementRef,
     Renderer2
 } from '@angular/core';
+declare var $:any;
 
 @Directive({
     selector: '[appEditTask]'
@@ -15,8 +16,23 @@ export class EditTaskDirective implements AfterViewInit {
     }*/
 
     ngAfterViewInit() {
+        $(document).ready(function(){
+             $('.edit-list-name').click(function(event){
+                $('.edit-list-name').removeClass('form-control').attr('readonly');
+                $(this).addClass('form-control').removeAttr('readonly');
+                                 event.stopPropagation();
+
+            });
+            $('body').click(function(event){
+                $('.edit-list-name').removeClass('form-control').attr('readonly');
+            })
+           $('.add-card').click(function(){
+               $('.new-card').hide();
+               $(this).prev().show();
+           })
+        })
         
-        let parentNode=this.render.parentNode(this.el.nativeElement);
+      /*  let parentNode=this.render.parentNode(this.el.nativeElement);
         let siblings=this.render.nextSibling(parentNode);
         console.log(siblings.children);  
         this.render.listen(this.el.nativeElement, 'click', (event) => {
@@ -29,7 +45,7 @@ export class EditTaskDirective implements AfterViewInit {
                 this.render.removeClass(this.el.nativeElement,"form-control");
                 this.render.setAttribute(this.el.nativeElement,"readonly","","");
     
-                });
+                });*/
        
         /*this.render.listen(this.el.nativeElement.children[2].children[1], 'click', (event) => {
             this.render.setStyle(this.el.nativeElement.children[2], "display", "none", null);

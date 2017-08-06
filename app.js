@@ -19,5 +19,5 @@ app.use('/boards',boards);
 app.use('/lists',lists);
 app.use('/tasks',tasks);
 app.listen(port,()=>{
-    console.log("listening to 3000");
+    console.log("listening to 8080");
 })
