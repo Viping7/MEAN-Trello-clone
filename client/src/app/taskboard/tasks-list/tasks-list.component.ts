@@ -34,15 +34,12 @@ constructor(private taskDetails:TaskDetailsService,private boardService:BoardSer
                      this.newTasksList=[];
                     this.tasksList.forEach(val=>{
                         this.taskDetails.getTasks(val._id).subscribe(data=>{
-                       // console.log(data['task'])
                             if(data['task']){
                             val.tasks=data['task']['tasks'];
                                 }
                             this.newTasksList.push(val);
-                            console.log(this.newTasksList);
                         })
                     });
-                   /* */
                 });
             }
         })
@@ -56,9 +53,6 @@ constructor(private taskDetails:TaskDetailsService,private boardService:BoardSer
           this.router.navigate(['/']);
       }
   	}
-    updateTaskOrder(newt){
-    }
-   
 	editTask(taskitem){
 	this.taskitemOldname=taskitem;
 	}
@@ -114,10 +108,7 @@ constructor(private taskDetails:TaskDetailsService,private boardService:BoardSer
             }
         })
     }
-    public itemStringsLeft: any[] = [
-    'Windstorm',
-    'Bombasto',
-    'Magneta',
-    'Tornado'
-  ];
+   cancelAddCard(){
+       this.taskName='';
+   }
 }

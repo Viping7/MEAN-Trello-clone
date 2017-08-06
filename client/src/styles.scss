@@ -1,103 +1,93 @@
 /* You can add global styles to this file, and also import other style files */
+
 @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900');
-body{
-	font-family: 'Source Sans Pro', sans-serif;
-	background: #fff;
+body {
+    font-family: 'Source Sans Pro', sans-serif;
+    background: #fff;
 }
-a{
+
+a {
     text-decoration: none;
-    
 }
-.page-wrapper{
-	padding-top:40px;
+
+.page-wrapper {
+    padding-top: 40px;
 }
-.btn-default{
-	margin-top: 10px;
-	float: right;
-	&.green{
-	background: #11674d;
-	color: #fff;
-	box-shadow: none;
-	margin-left: 10px;
-	border-color: transparent;
-	}
+
+.btn-default {
+    margin-top: 10px;
+    float: right;
+    &.green {
+        background: #11674d;
+        color: #fff;
+        box-shadow: none;
+        margin-left: 10px;
+        border-color: transparent;
+    }
 }
-.clear{
-	clear: both;
+
+.clear {
+    clear: both;
 }
-.actions{
-    .dropdown-toggle{
+
+.actions {
+    .dropdown-toggle {
         background: none;
         border: none;
         padding: 0px;
-            box-shadow: none !important;
+        box-shadow: none !important;
         font-size: 20px;
         display: inline-block;
         vertical-align: middle;
         margin-top: -16px;
-        &:focus{
+        &:focus {
             box-shadow: none;
         }
     }
-    .dropdown-menu{
-        li{
-            a{
+    .dropdown-menu {
+        li {
+            a {
                 font-size: 14px !important;
             }
         }
     }
 }
-	.task-item{
-		background: #fff;
-		padding:2px 15px 15px 10px;
-		border-radius: 3px;
-		margin-bottom: 8px;
-		position: relative;
-		input[type='text'],h4{
-			font-size: 14px;
-			border: none;
-			margin-top: 5px;
-		}
-		.form-control{
-			border:1px solid #eee !important;
-			box-shadow: none;
-		}
-		&:hover{
-			.edit{
-				display: block ;
-			}
-		}
-		.edit{
-			cursor: pointer;
-			display: none;
-			position: absolute;
-			right: 10px;
-			top: 0px;
-			img{
-				width: 10px;
-			}
-		}
-		.edit-task{
-			display: none;
-		}
-		&.new-card{
-			padding: 10px;
-			.edit-task{
-				display: block;
-				textarea{
-					height: 70px;
-					resize: none;
-				}
 
-			}
-		}
-	}
+.task-item {
+    background: #fff;
+    padding: 2px 15px 15px 10px;
+    border-radius: 3px;
+    margin-bottom: 8px;
+    position: relative;
+    .selected-card,&.selected-card {
+        position: relative;
+        z-index: 999;
+    }
+    .edit-task-name {
+        background: #fff;
+        padding: 10px;
+        border-radius: 3px;
+        margin: 0px -14px -14px -9px;
+        display: none;
+    }
+    input[type='text'],
+    h4 {
+        font-size: 14px;
+        border: none;
+        margin-top: 5px;
+    }
+    .form-control {
+        border: 1px solid #eee !important;
+        box-shadow: none;
+    }
+}
 
-.placeholderStyle{
-color: transparent;
+.placeholderStyle {
+    color: transparent;
     font-size: 1px;
 }
-.sortable-item-active{
+
+.sortable-item-active {
     color: transparent;
-    background: rgba(51,51,51,0.1);
+    background: rgba(51, 51, 51, 0.1);
 }

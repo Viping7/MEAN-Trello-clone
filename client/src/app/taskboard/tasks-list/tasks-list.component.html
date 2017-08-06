@@ -19,22 +19,20 @@
                     </div>
                     <div class="clear"></div>
                     <template #itemTemplate let-item="item" let-index="index">
-                    					<h4>{{item.value.task_name}}</h4>
+                                        <h4 class="task-name">{{item.value.task_name}}</h4>
+                                        <div class="edit-task-name">
+                                            <input type="text"  [(ngModel)]='item.value.task_name' class="form-control">
+                                            <button class="btn btn-default green">Save</button>
+                                            <button class="btn btn-default">Cancel</button>
+                                            <div class="clear"></div>
+                                        </div>
                 </template>
-                    <bs-sortable [(ngModel)]="task.tasks" [itemTemplate]="itemTemplate" itemClass="task-item sortable-item" itemActiveClass="sortable-item-active" placeholderItem="Drag here" placeholderClass="placeholderStyle" wrapperClass="sortable-wrapper" (onChange)="updateTaskOrder(task.tasks)"></bs-sortable>
-                    <!--	<div class="task-item" *ngFor='let taskitem of task.tasks;let index=index;trackBy:trackByIndex' >
-					<h4>{{taskitem.task_name}}</h4>
-					<div class="edit-task">
-						<input type="text" [(ngModel)]="taskitem.name" class='form-control'>
-						<button class="btn btn-default green" >Save</button>
-						<button class="btn btn-default" (click)="taskitem.name=taskitemOldname">Cancel</button>
-						<div class="clear"></div>
-					</div>
-				</div>-->
-                    <div class="task-item new-card" >
+                    <bs-sortable [(ngModel)]="task.tasks" [itemTemplate]="itemTemplate" itemClass="task-item sortable-item" itemActiveClass="sortable-item-active" placeholderItem="Drag here" placeholderClass="placeholderStyle" wrapperClass="sortable-wrapper"></bs-sortable>
+                    <div class="task-item new-card">
                         <div class="edit-task">
                             <textarea class='form-control' [(ngModel)]='taskName'></textarea>
-                            <button class="btn btn-default green" (click)='addCard(taskName,task._id)'>Save</button>
+                            <button class="btn btn-default green save-card" (click)='addCard(taskName,task._id)'>Save</button>
+                            <button class="btn btn-default cancel-card" (click)='cancelAddCard()'>Cancel</button>
                             <div class="clear"></div>
                         </div>
                     </div>
@@ -56,5 +54,5 @@
             </div>
         </div>
     </div>
-
+    <div class="overlay"></div>
 </section>

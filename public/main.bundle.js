@@ -162,7 +162,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, ".navbar {\n  color: rgba(255, 255, 255, 0.8);\n  min-height: 0px;\n  padding: 5px 5px 5px 5px; }\n  .navbar.navbar-inverse {\n    background: #11674d;\n    border-bottom: none; }\n  .navbar .navbar-header .title {\n    position: relative;\n    z-index: 99;\n    background: rgba(28, 201, 149, 0.4);\n    padding: 8px 13px;\n    border-radius: 3px; }\n    .navbar .navbar-header .title a {\n      color: rgba(255, 255, 255, 0.8);\n      text-decoration: none; }\n    .navbar .navbar-header .title h3 {\n      font-size: 17px;\n      margin: 0px;\n      font-weight: 600; }\n  .navbar .navbar-nav li a {\n    color: rgba(255, 255, 255, 0.8);\n    padding: 5px 20px;\n    font-weight: 600; }\n  .navbar h2 {\n    margin: 0px;\n    position: absolute;\n    width: 100%;\n    margin-top: 5px;\n    text-align: center;\n    font-size: 20px; }\n", ""]);
+exports.push([module.i, ".navbar {\n  color: rgba(255, 255, 255, 0.8);\n  min-height: 0px;\n  padding: 5px 5px 5px 5px; }\n  .navbar.navbar-inverse {\n    background: #11674d;\n    border-bottom: none; }\n    .navbar.navbar-inverse.navbar-fixed-top {\n      z-index: 10 !important; }\n  .navbar .navbar-header .title {\n    position: relative;\n    z-index: 9;\n    background: rgba(28, 201, 149, 0.4);\n    padding: 8px 13px;\n    border-radius: 3px; }\n    .navbar .navbar-header .title a {\n      color: rgba(255, 255, 255, 0.8);\n      text-decoration: none; }\n    .navbar .navbar-header .title h3 {\n      font-size: 17px;\n      margin: 0px;\n      font-weight: 600; }\n  .navbar .navbar-nav li a {\n    color: rgba(255, 255, 255, 0.8);\n    padding: 5px 20px;\n    font-weight: 600; }\n  .navbar h2 {\n    margin: 0px;\n    position: absolute;\n    width: 100%;\n    margin-top: 5px;\n    text-align: center;\n    font-size: 20px; }\n", ""]);
 
 // exports
 
@@ -229,9 +229,6 @@ var EditTaskDirective = (function () {
         this.el = el;
         this.render = render;
     }
-    /*@HostListener('click') endableEdit(){
-        this.el.nativeElement.children[0];
-    }*/
     EditTaskDirective.prototype.ngAfterViewInit = function () {
         $(document).ready(function () {
             $('.edit-list-name').click(function (event) {
@@ -241,36 +238,30 @@ var EditTaskDirective = (function () {
             });
             $('body').click(function (event) {
                 $('.edit-list-name').removeClass('form-control').attr('readonly');
+                $('.edit-task-name').removeClass('selected-card').hide();
+                $('.task-name').show();
             });
-            $('.add-card').click(function () {
+            $('.add-card').click(function (event) {
                 $('.new-card').hide();
-                $(this).prev().show();
+                $(this).prev().addClass('selected-card').show();
+                $('.overlay').show();
+                event.stopPropagation();
+            });
+            $('.new-card,.edit-task-name').click(function (event) {
+                event.stopPropagation();
+            });
+            $(".cancel-card").click(function () {
+                $('.new-card,.overlay').hide();
+            });
+            $('.task-name').click(function (event) {
+                $('.overlay').show();
+                $(this).hide().next().show().addClass('selected-card');
+                event.stopPropagation();
+            });
+            $('.overlay,.save-card').click(function () {
+                $('.overlay,.new-card').hide();
             });
         });
-        /*  let parentNode=this.render.parentNode(this.el.nativeElement);
-          let siblings=this.render.nextSibling(parentNode);
-          console.log(siblings.children);
-          this.render.listen(this.el.nativeElement, 'click', (event) => {
-                  this.render.addClass(this.el.nativeElement,"form-control");
-               //   this.render.removeClass(siblings.children,"form-control");
-                  this.render.removeAttribute(this.el.nativeElement,"readonly");
-                  event.stopPropagation();
-                  });
-                  this.render.listen('body', 'click', (event) => {
-                  this.render.removeClass(this.el.nativeElement,"form-control");
-                  this.render.setAttribute(this.el.nativeElement,"readonly","","");
-      
-                  });*/
-        /*this.render.listen(this.el.nativeElement.children[2].children[1], 'click', (event) => {
-            this.render.setStyle(this.el.nativeElement.children[2], "display", "none", null);
-            this.render.setStyle(this.el.nativeElement.children[1], "display", "block", null);
-            this.render.setStyle(this.el.nativeElement.children[0], "visibility", "visible", null);
-        });
-        this.render.listen(this.el.nativeElement.children[2].children[2], 'click', (event) => {
-            this.render.setStyle(this.el.nativeElement.children[2], "display", "none", null);
-            this.render.setStyle(this.el.nativeElement.children[1], "display", "block", null);
-            this.render.setStyle(this.el.nativeElement.children[0], "visibility", "visible", null);
-        });*/
     };
     return EditTaskDirective;
 }());
@@ -489,7 +480,7 @@ TaskItemComponent = __decorate([
 /***/ "../../../../../src/app/taskboard/tasks-list/tasks-list.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<section class=\"page-wrapper task-list-container\">\r\n    <div class=\"container-fluid\">\r\n        <div class=\"row\">\r\n            <div class=\"col-md-12\">\r\n                <h3 class=\"board-name\">{{boardName}}</h3>\r\n\r\n                <div class=\"list-card\" *ngFor='let task of newTasksList;let i = index'>\r\n                    <input type=\"text\" [(ngModel)]='task.list_name' readonly class='edit-list-name' (change)='updateListName(task._id,task.list_name)' appEditTask [ngClass]='{\"form-control\":false}'>\r\n                    <span *ngIf='updateError'>{{updateErrorMsg}}</span>\r\n                    <div class=\"btn-group actions list-actions\" dropdown>\r\n                        <button dropdownToggle type=\"button\" class=\"dropdown-toggle\">\r\n   ...\r\n  </button>\r\n                        <ul *dropdownMenu class=\"dropdown-menu\" role=\"menu\">\r\n                            <li role=\"menuitem\"><a class=\"dropdown-item\" (click)='showCreateTasks=true' href='javascript:;'>Add card</a></li>\r\n                            <li role=\"menuitem\"><a class=\"dropdown-item\" href=\"javascript:;\" (click)='deleteList(tasks.board_id,task._id)'>Delete List</a></li>\r\n\r\n                        </ul>\r\n                    </div>\r\n                    <div class=\"clear\"></div>\r\n                    <template #itemTemplate let-item=\"item\" let-index=\"index\">\r\n                    \t\t\t\t\t<h4>{{item.value.task_name}}</h4>\r\n                </template>\r\n                    <bs-sortable [(ngModel)]=\"task.tasks\" [itemTemplate]=\"itemTemplate\" itemClass=\"task-item sortable-item\" itemActiveClass=\"sortable-item-active\" placeholderItem=\"Drag here\" placeholderClass=\"placeholderStyle\" wrapperClass=\"sortable-wrapper\" (onChange)=\"updateTaskOrder(task.tasks)\"></bs-sortable>\r\n                    <!--\t<div class=\"task-item\" *ngFor='let taskitem of task.tasks;let index=index;trackBy:trackByIndex' >\r\n\t\t\t\t\t<h4>{{taskitem.task_name}}</h4>\r\n\t\t\t\t\t<div class=\"edit-task\">\r\n\t\t\t\t\t\t<input type=\"text\" [(ngModel)]=\"taskitem.name\" class='form-control'>\r\n\t\t\t\t\t\t<button class=\"btn btn-default green\" >Save</button>\r\n\t\t\t\t\t\t<button class=\"btn btn-default\" (click)=\"taskitem.name=taskitemOldname\">Cancel</button>\r\n\t\t\t\t\t\t<div class=\"clear\"></div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>-->\r\n                    <div class=\"task-item new-card\" >\r\n                        <div class=\"edit-task\">\r\n                            <textarea class='form-control' [(ngModel)]='taskName'></textarea>\r\n                            <button class=\"btn btn-default green\" (click)='addCard(taskName,task._id)'>Save</button>\r\n                            <div class=\"clear\"></div>\r\n                        </div>\r\n                    </div>\r\n                    <a href='javascript:;' class=\"add-card\" appEditTask>Add a card</a>\r\n                </div>\r\n                <div class=\"list-card create-list-card\" [ngClass]=\"{'create-open':showCreateLists}\">\r\n                    <div (click)='showCreateLists=true'><a href='javascript:;'>Create a new list..</a></div>\r\n                    <div class='create-list' *ngIf='showCreateLists'>\r\n                        <form (submit)='createList(listName,tasks.board_id)'>\r\n                            <input type=\"text\" [(ngModel)]='listName' name=\"listname\" class=\"form-control\">\r\n                            <span *ngIf='updateError'>{{updateErrorMsg}}</span>\r\n                            <button type=\"submit\" class=\"btn btn-default green\">Save</button>\r\n                            <button type=\"button\" class=\"btn btn-default\" (click)='hideCreateList()'>Cancel</button>\r\n                            <div class=\"clear\"></div>\r\n                        </form>\r\n                    </div>\r\n\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r\n</section>"
+module.exports = "<section class=\"page-wrapper task-list-container\">\r\n    <div class=\"container-fluid\">\r\n        <div class=\"row\">\r\n            <div class=\"col-md-12\">\r\n                <h3 class=\"board-name\">{{boardName}}</h3>\r\n\r\n                <div class=\"list-card\" *ngFor='let task of newTasksList;let i = index'>\r\n                    <input type=\"text\" [(ngModel)]='task.list_name' readonly class='edit-list-name' (change)='updateListName(task._id,task.list_name)' appEditTask [ngClass]='{\"form-control\":false}'>\r\n                    <span *ngIf='updateError'>{{updateErrorMsg}}</span>\r\n                    <div class=\"btn-group actions list-actions\" dropdown>\r\n                        <button dropdownToggle type=\"button\" class=\"dropdown-toggle\">\r\n   ...\r\n  </button>\r\n                        <ul *dropdownMenu class=\"dropdown-menu\" role=\"menu\">\r\n                            <li role=\"menuitem\"><a class=\"dropdown-item\" (click)='showCreateTasks=true' href='javascript:;'>Add card</a></li>\r\n                            <li role=\"menuitem\"><a class=\"dropdown-item\" href=\"javascript:;\" (click)='deleteList(tasks.board_id,task._id)'>Delete List</a></li>\r\n\r\n                        </ul>\r\n                    </div>\r\n                    <div class=\"clear\"></div>\r\n                    <template #itemTemplate let-item=\"item\" let-index=\"index\">\r\n                                        <h4 class=\"task-name\">{{item.value.task_name}}</h4>\r\n                                        <div class=\"edit-task-name\">\r\n                                            <input type=\"text\"  [(ngModel)]='item.value.task_name' class=\"form-control\">\r\n                                            <button class=\"btn btn-default green\">Save</button>\r\n                                            <button class=\"btn btn-default\">Cancel</button>\r\n                                            <div class=\"clear\"></div>\r\n                                        </div>\r\n                </template>\r\n                    <bs-sortable [(ngModel)]=\"task.tasks\" [itemTemplate]=\"itemTemplate\" itemClass=\"task-item sortable-item\" itemActiveClass=\"sortable-item-active\" placeholderItem=\"Drag here\" placeholderClass=\"placeholderStyle\" wrapperClass=\"sortable-wrapper\"></bs-sortable>\r\n                    <div class=\"task-item new-card\">\r\n                        <div class=\"edit-task\">\r\n                            <textarea class='form-control' [(ngModel)]='taskName'></textarea>\r\n                            <button class=\"btn btn-default green save-card\" (click)='addCard(taskName,task._id)'>Save</button>\r\n                            <button class=\"btn btn-default cancel-card\" (click)='cancelAddCard()'>Cancel</button>\r\n                            <div class=\"clear\"></div>\r\n                        </div>\r\n                    </div>\r\n                    <a href='javascript:;' class=\"add-card\" appEditTask>Add a card</a>\r\n                </div>\r\n                <div class=\"list-card create-list-card\" [ngClass]=\"{'create-open':showCreateLists}\">\r\n                    <div (click)='showCreateLists=true'><a href='javascript:;'>Create a new list..</a></div>\r\n                    <div class='create-list' *ngIf='showCreateLists'>\r\n                        <form (submit)='createList(listName,tasks.board_id)'>\r\n                            <input type=\"text\" [(ngModel)]='listName' name=\"listname\" class=\"form-control\">\r\n                            <span *ngIf='updateError'>{{updateErrorMsg}}</span>\r\n                            <button type=\"submit\" class=\"btn btn-default green\">Save</button>\r\n                            <button type=\"button\" class=\"btn btn-default\" (click)='hideCreateList()'>Cancel</button>\r\n                            <div class=\"clear\"></div>\r\n                        </form>\r\n                    </div>\r\n\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div class=\"overlay\"></div>\r\n</section>"
 
 /***/ }),
 
@@ -501,7 +492,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, ".task-list-container {\n  background: rgba(17, 103, 77, 0.9);\n  min-height: 100vh; }\n  .task-list-container .board-name {\n    color: #fff;\n    font-size: 22px;\n    font-weight: 600;\n    margin-bottom: 0px; }\n\n.list-card {\n  margin-top: 20px;\n  background: #e2e4e6;\n  display: inline-block;\n  vertical-align: top;\n  margin-right: 20px;\n  width: 280px;\n  padding: 10px;\n  border-radius: 3px; }\n  .list-card > input[type=text] {\n    float: left;\n    font-size: 16px;\n    margin-top: 0px;\n    font-weight: 600;\n    border: none;\n    background: none;\n    margin-bottom: 15px;\n    cursor: pointer;\n    text-transform: capitalize;\n    color: #333 !important; }\n    .list-card > input[type=text].form-control {\n      background: #fff;\n      border-color: #ccc;\n      box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.1) !important;\n      width: 92%; }\n  .list-card .list-actions {\n    float: right; }\n  .list-card .task-item {\n    background: #fff;\n    padding: 2px 15px 15px 10px;\n    border-radius: 3px;\n    margin-bottom: 8px;\n    position: relative; }\n    .list-card .task-item input[type='text'], .list-card .task-item h4 {\n      font-size: 14px;\n      border: none;\n      margin-top: 5px; }\n    .list-card .task-item .form-control {\n      border: 1px solid #eee !important;\n      box-shadow: none; }\n    .list-card .task-item:hover .edit {\n      display: block; }\n    .list-card .task-item .edit {\n      cursor: pointer;\n      display: none;\n      position: absolute;\n      right: 10px;\n      top: 0px; }\n      .list-card .task-item .edit img {\n        width: 10px; }\n    .list-card .task-item .edit-task {\n      display: none; }\n    .list-card .task-item.new-card {\n      padding: 10px;\n      display: none;\n      background: rgba(255, 255, 255, 0.64);\n      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); }\n      .list-card .task-item.new-card .edit-task {\n        display: block; }\n        .list-card .task-item.new-card .edit-task textarea {\n          height: 70px;\n          resize: none;\n          border: 1px solid rgba(51, 51, 51, 0.16) !important; }\n  .list-card a {\n    color: #666;\n    font-size: 14px;\n    text-decoration: none; }\n  .list-card.create-list-card {\n    background: rgba(255, 255, 255, 0.12); }\n    .list-card.create-list-card a {\n      color: rgba(255, 255, 255, 0.48); }\n    .list-card.create-list-card .form-control:focus {\n      border: none;\n      box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.1) !important; }\n    .list-card.create-list-card.create-open {\n      background: #e2e4e6; }\n      .list-card.create-list-card.create-open a {\n        color: #666; }\n\n.dnd-sortable-drag {\n  -webkit-transform: scale(0.9);\n  transform: scale(0.9);\n  opacity: 0.7;\n  border: 1px dashed #000; }\n", ""]);
+exports.push([module.i, ".task-list-container {\n  background: rgba(17, 103, 77, 0.9);\n  min-height: 100vh; }\n  .task-list-container .board-name {\n    color: #fff;\n    font-size: 22px;\n    font-weight: 600;\n    margin-bottom: 0px; }\n\n.list-card {\n  margin-top: 20px;\n  background: #e2e4e6;\n  display: inline-block;\n  vertical-align: top;\n  margin-right: 20px;\n  width: 280px;\n  padding: 10px;\n  border-radius: 3px; }\n  .list-card > input[type=text] {\n    float: left;\n    font-size: 16px;\n    margin-top: 0px;\n    font-weight: 600;\n    border: none;\n    background: none;\n    margin-bottom: 15px;\n    cursor: pointer;\n    text-transform: capitalize;\n    color: #333 !important; }\n    .list-card > input[type=text].form-control {\n      background: #fff;\n      border-color: #ccc;\n      box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.1) !important;\n      width: 92%; }\n  .list-card .list-actions {\n    float: right; }\n  .list-card .task-item.new-card {\n    padding: 10px;\n    display: none;\n    background: rgba(255, 255, 255, 0.64);\n    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); }\n  .list-card a {\n    color: #666;\n    font-size: 14px;\n    text-decoration: none; }\n  .list-card.create-list-card {\n    background: rgba(255, 255, 255, 0.12); }\n    .list-card.create-list-card a {\n      color: rgba(255, 255, 255, 0.48); }\n    .list-card.create-list-card .form-control:focus {\n      border: none;\n      box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.1) !important; }\n    .list-card.create-list-card.create-open {\n      background: #e2e4e6; }\n      .list-card.create-list-card.create-open a {\n        color: #666; }\n\n.overlay {\n  position: fixed;\n  width: 100%;\n  height: 100%;\n  left: 0px;\n  top: 0px;\n  display: none;\n  z-index: 11;\n  background: rgba(0, 0, 0, 0.6); }\n\n.dnd-sortable-drag {\n  -webkit-transform: scale(0.9);\n  transform: scale(0.9);\n  opacity: 0.7;\n  border: 1px dashed #000; }\n", ""]);
 
 // exports
 
@@ -542,12 +533,6 @@ var TasksListComponent = (function () {
         this.canEdit = false;
         this.newTasksList = [];
         this.taskCard = [];
-        this.itemStringsLeft = [
-            'Windstorm',
-            'Bombasto',
-            'Magneta',
-            'Tornado'
-        ];
     }
     TasksListComponent.prototype.showLists = function () {
         var _this = this;
@@ -560,15 +545,12 @@ var TasksListComponent = (function () {
                     _this.newTasksList = [];
                     _this.tasksList.forEach(function (val) {
                         _this.taskDetails.getTasks(val._id).subscribe(function (data) {
-                            // console.log(data['task'])
                             if (data['task']) {
                                 val.tasks = data['task']['tasks'];
                             }
                             _this.newTasksList.push(val);
-                            console.log(_this.newTasksList);
                         });
                     });
-                    /* */
                 });
             }
         });
@@ -580,8 +562,6 @@ var TasksListComponent = (function () {
         else {
             this.router.navigate(['/']);
         }
-    };
-    TasksListComponent.prototype.updateTaskOrder = function (newt) {
     };
     TasksListComponent.prototype.editTask = function (taskitem) {
         this.taskitemOldname = taskitem;
@@ -642,6 +622,9 @@ var TasksListComponent = (function () {
                 _this.showLists();
             }
         });
+    };
+    TasksListComponent.prototype.cancelAddCard = function () {
+        this.taskName = '';
     };
     return TasksListComponent;
 }());
