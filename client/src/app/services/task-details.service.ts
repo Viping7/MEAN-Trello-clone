@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
-
 @Injectable()
 export class TaskDetailsService {
 listUrl;
 
 listId;
 constructor(private http:HttpClient) { }
+    
+/******************* Task Lists *****************/    
 setListUrl(id){
      this.listId=id;
     this.listUrl='lists/getList/'+id;
@@ -32,13 +32,25 @@ updateListName(list_id,list_name){
     }
     return this.http.put('/lists/updateList/'+list_id,list);
 }
-getTasks(listname){
+
+/******************* Task Items *****************/
+
+    getTasks(listname){
     return this.http.get('/tasks/getTasks/'+listname);
 }
-addTask(taskname,listname){
+    createTask(taskname,listname){
     let task={
         task_name:taskname
     }
     return this.http.post('/tasks/create/'+listname,task);
-}    
+}
+    updateTaskName(task_id,task_name){
+    let list={
+        task_name:task_name
+    }
+    return this.http.put('/tasks/update/'+task_id,list);
+}
+    deleteTask(list_id,task_id){
+      return this.http.put('tasks/delete/'+list_id+'/'+task_id,'');
+    }
 }

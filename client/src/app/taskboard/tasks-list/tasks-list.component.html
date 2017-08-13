@@ -12,7 +12,6 @@
    ...
   </button>
                         <ul *dropdownMenu class="dropdown-menu" role="menu">
-                            <li role="menuitem"><a class="dropdown-item" (click)='showCreateTasks=true' href='javascript:;'>Add card</a></li>
                             <li role="menuitem"><a class="dropdown-item" href="javascript:;" (click)='deleteList(tasks.board_id,task._id)'>Delete List</a></li>
 
                         </ul>
@@ -20,23 +19,24 @@
                     <div class="clear"></div>
                     <template #itemTemplate let-item="item" let-index="index">
                                         <h4 class="task-name">{{item.value.task_name}}</h4>
-                                        <div class="edit-task-name">
+                                        <div class="edit-task-name edit-dialog">
                                             <input type="text"  [(ngModel)]='item.value.task_name' class="form-control">
-                                            <button class="btn btn-default green">Save</button>
-                                            <button class="btn btn-default">Cancel</button>
+                                            <button class="btn btn-default green save-card" (click)='updateTaskName(item.value._id,item.value.task_name)'>Save</button>
+                                            <button class="btn btn-default cancel-card">Cancel</button>
                                             <div class="clear"></div>
+                                            <div class="close-btn cancel-card" (click)='deleteTask(task._id,item.value._id)'>&times; Delete Task </div>
                                         </div>
                 </template>
-                    <bs-sortable [(ngModel)]="task.tasks" [itemTemplate]="itemTemplate" itemClass="task-item sortable-item" itemActiveClass="sortable-item-active" placeholderItem="Drag here" placeholderClass="placeholderStyle" wrapperClass="sortable-wrapper"></bs-sortable>
-                    <div class="task-item new-card">
+                    <bs-sortable [(ngModel)]="task.tasks" [itemTemplate]="itemTemplate" itemClass="task-item sortable-item" itemActiveClass="sortable-item-active" placeholderItem="Drag here" placeholderClass="placeholderStyle" wrapperClass="sortable-wrapper" onChange='console.log("sadsd")'></bs-sortable>
+                    <div class="task-item new-card edit-dialog">
                         <div class="edit-task">
                             <textarea class='form-control' [(ngModel)]='taskName'></textarea>
-                            <button class="btn btn-default green save-card" (click)='addCard(taskName,task._id)'>Save</button>
+                            <button class="btn btn-default green save-card" (click)='createTask(taskName,task._id)'>Save</button>
                             <button class="btn btn-default cancel-card" (click)='cancelAddCard()'>Cancel</button>
                             <div class="clear"></div>
                         </div>
                     </div>
-                    <a href='javascript:;' class="add-card" appEditTask>Add a card</a>
+                    <a href='javascript:;' class="add-card" appEditTask>Add a task</a>
                 </div>
                 <div class="list-card create-list-card" [ngClass]="{'create-open':showCreateLists}">
                     <div (click)='showCreateLists=true'><a href='javascript:;'>Create a new list..</a></div>

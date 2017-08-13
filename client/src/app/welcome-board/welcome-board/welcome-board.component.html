@@ -6,9 +6,12 @@
 	</div>
 	<div class="row">
 		<div class="col-md-12">
-			<div *ngFor='let board of boards' class="board" (click)='getListDetails(board._id)'>
+			<div *ngFor='let board of boards' class='board-cont'>
+                
+				<span class="close-board" (click)="deleteBoard(board)"><img src='assets/cancel-music.svg' class='img-responsive'/></span>
+                <div  (click)='getListDetails(board._id)' class="board">
 				<h3>{{board.board_name}}</h3>
-				<span class="close-board" (click)="deleteBoard(board)"><img src='assets/cancel-music.svg'/></span>
+                    </div>
 			</div>
 			<div class="board create-board" >
                 <div class='create-board-padding' (click)='showCreateBoard=true'>
@@ -20,7 +23,7 @@
 						
 						<button class="submit" class='btn btn-default green	'>Save</button>
 						<button type="button" class='btn btn-default' (click)='hideCreateBoard()'>Cancel</button>
-						<div class="clear"></div>
+                        <div class="clear"></div>
 					</form>
 				</div>
 			</div>

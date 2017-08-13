@@ -34,9 +34,17 @@ addBoard(){
 deleteBoard(board){
     let boardid=board['_id'];
         var index=this.boards.indexOf(board);
-        this.boards.splice(index,index);
-	this.boardService.deleteBoard(boardid).subscribe(data=>{
+        
+        this.boardService.deleteBoard(boardid).subscribe(data=>{
             if(data['success']){
+                if(index>0){
+        this.boards.splice(index,index);
+        }
+        else{
+            if(index==0){
+             this.boards.splice(0);   
+            }
+        }
             }
         });
 }

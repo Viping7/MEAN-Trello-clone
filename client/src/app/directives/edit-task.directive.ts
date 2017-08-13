@@ -34,16 +34,14 @@ export class EditTaskDirective implements AfterViewInit {
             $('.new-card,.edit-task-name').click(function(event){
                 event.stopPropagation();
             })
-            $(".cancel-card").click(function(){
-                $('.new-card,.overlay').hide();
-            })
             $('.task-name').click(function(event){
                 $('.overlay').show();
                 $(this).hide().next().show().addClass('selected-card');
                 event.stopPropagation();
             })
-            $('.overlay,.save-card').click(function(){
-                $('.overlay,.new-card').hide();
+            $('.overlay,.save-card,.cancel-card').click(function(){
+                $('.overlay,.edit-dialog').hide();
+                $(this).parent().prev().show();
 
             })
         })

@@ -89,7 +89,6 @@ AppComponent = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__services_task_details_service__ = __webpack_require__("../../../../../src/app/services/task-details.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__services_board_service__ = __webpack_require__("../../../../../src/app/services/board.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__directives_edit_task_directive__ = __webpack_require__("../../../../../src/app/directives/edit-task.directive.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__taskboard_task_item_task_item_component__ = __webpack_require__("../../../../../src/app/taskboard/task-item/task-item.component.ts");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -114,6 +113,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
+__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__angular_core__["a" /* enableProdMode */])();
 var AppModule = (function () {
     function AppModule() {
     }
@@ -126,8 +126,7 @@ AppModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_10__common_header_header_component__["a" /* HeaderComponent */],
             __WEBPACK_IMPORTED_MODULE_11__taskboard_tasks_list_tasks_list_component__["a" /* TasksListComponent */],
             __WEBPACK_IMPORTED_MODULE_12__welcome_board_welcome_board_welcome_board_component__["a" /* WelcomeBoardComponent */],
-            __WEBPACK_IMPORTED_MODULE_15__directives_edit_task_directive__["a" /* EditTaskDirective */],
-            __WEBPACK_IMPORTED_MODULE_16__taskboard_task_item_task_item_component__["a" /* TaskItemComponent */]
+            __WEBPACK_IMPORTED_MODULE_15__directives_edit_task_directive__["a" /* EditTaskDirective */]
         ],
         imports: [
             __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
@@ -250,16 +249,14 @@ var EditTaskDirective = (function () {
             $('.new-card,.edit-task-name').click(function (event) {
                 event.stopPropagation();
             });
-            $(".cancel-card").click(function () {
-                $('.new-card,.overlay').hide();
-            });
             $('.task-name').click(function (event) {
                 $('.overlay').show();
                 $(this).hide().next().show().addClass('selected-card');
                 event.stopPropagation();
             });
-            $('.overlay,.save-card').click(function () {
-                $('.overlay,.new-card').hide();
+            $('.overlay,.save-card,.cancel-card').click(function () {
+                $('.overlay,.edit-dialog').hide();
+                $(this).parent().prev().show();
             });
         });
     };
@@ -373,6 +370,7 @@ var TaskDetailsService = (function () {
     function TaskDetailsService(http) {
         this.http = http;
     }
+    /******************* Task Lists *****************/
     TaskDetailsService.prototype.setListUrl = function (id) {
         this.listId = id;
         this.listUrl = 'lists/getList/' + id;
@@ -395,14 +393,24 @@ var TaskDetailsService = (function () {
         };
         return this.http.put('/lists/updateList/' + list_id, list);
     };
+    /******************* Task Items *****************/
     TaskDetailsService.prototype.getTasks = function (listname) {
         return this.http.get('/tasks/getTasks/' + listname);
     };
-    TaskDetailsService.prototype.addTask = function (taskname, listname) {
+    TaskDetailsService.prototype.createTask = function (taskname, listname) {
         var task = {
             task_name: taskname
         };
         return this.http.post('/tasks/create/' + listname, task);
+    };
+    TaskDetailsService.prototype.updateTaskName = function (task_id, task_name) {
+        var list = {
+            task_name: task_name
+        };
+        return this.http.put('/tasks/update/' + task_id, list);
+    };
+    TaskDetailsService.prototype.deleteTask = function (list_id, task_id) {
+        return this.http.put('tasks/delete/' + list_id + '/' + task_id, '');
     };
     return TaskDetailsService;
 }());
@@ -416,71 +424,10 @@ var _a;
 
 /***/ }),
 
-/***/ "../../../../../src/app/taskboard/task-item/task-item.component.html":
-/***/ (function(module, exports) {
-
-module.exports = "<p>\n  task-item works!\n</p>\n"
-
-/***/ }),
-
-/***/ "../../../../../src/app/taskboard/task-item/task-item.component.scss":
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
-// imports
-
-
-// module
-exports.push([module.i, "", ""]);
-
-// exports
-
-
-/*** EXPORTS FROM exports-loader ***/
-module.exports = module.exports.toString();
-
-/***/ }),
-
-/***/ "../../../../../src/app/taskboard/task-item/task-item.component.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TaskItemComponent; });
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-var TaskItemComponent = (function () {
-    function TaskItemComponent() {
-    }
-    TaskItemComponent.prototype.ngOnInit = function () {
-    };
-    return TaskItemComponent;
-}());
-TaskItemComponent = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_6" /* Component */])({
-        selector: 'app-task-item',
-        template: __webpack_require__("../../../../../src/app/taskboard/task-item/task-item.component.html"),
-        styles: [__webpack_require__("../../../../../src/app/taskboard/task-item/task-item.component.scss")]
-    }),
-    __metadata("design:paramtypes", [])
-], TaskItemComponent);
-
-//# sourceMappingURL=task-item.component.js.map
-
-/***/ }),
-
 /***/ "../../../../../src/app/taskboard/tasks-list/tasks-list.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<section class=\"page-wrapper task-list-container\">\r\n    <div class=\"container-fluid\">\r\n        <div class=\"row\">\r\n            <div class=\"col-md-12\">\r\n                <h3 class=\"board-name\">{{boardName}}</h3>\r\n\r\n                <div class=\"list-card\" *ngFor='let task of newTasksList;let i = index'>\r\n                    <input type=\"text\" [(ngModel)]='task.list_name' readonly class='edit-list-name' (change)='updateListName(task._id,task.list_name)' appEditTask [ngClass]='{\"form-control\":false}'>\r\n                    <span *ngIf='updateError'>{{updateErrorMsg}}</span>\r\n                    <div class=\"btn-group actions list-actions\" dropdown>\r\n                        <button dropdownToggle type=\"button\" class=\"dropdown-toggle\">\r\n   ...\r\n  </button>\r\n                        <ul *dropdownMenu class=\"dropdown-menu\" role=\"menu\">\r\n                            <li role=\"menuitem\"><a class=\"dropdown-item\" (click)='showCreateTasks=true' href='javascript:;'>Add card</a></li>\r\n                            <li role=\"menuitem\"><a class=\"dropdown-item\" href=\"javascript:;\" (click)='deleteList(tasks.board_id,task._id)'>Delete List</a></li>\r\n\r\n                        </ul>\r\n                    </div>\r\n                    <div class=\"clear\"></div>\r\n                    <template #itemTemplate let-item=\"item\" let-index=\"index\">\r\n                                        <h4 class=\"task-name\">{{item.value.task_name}}</h4>\r\n                                        <div class=\"edit-task-name\">\r\n                                            <input type=\"text\"  [(ngModel)]='item.value.task_name' class=\"form-control\">\r\n                                            <button class=\"btn btn-default green\">Save</button>\r\n                                            <button class=\"btn btn-default\">Cancel</button>\r\n                                            <div class=\"clear\"></div>\r\n                                        </div>\r\n                </template>\r\n                    <bs-sortable [(ngModel)]=\"task.tasks\" [itemTemplate]=\"itemTemplate\" itemClass=\"task-item sortable-item\" itemActiveClass=\"sortable-item-active\" placeholderItem=\"Drag here\" placeholderClass=\"placeholderStyle\" wrapperClass=\"sortable-wrapper\"></bs-sortable>\r\n                    <div class=\"task-item new-card\">\r\n                        <div class=\"edit-task\">\r\n                            <textarea class='form-control' [(ngModel)]='taskName'></textarea>\r\n                            <button class=\"btn btn-default green save-card\" (click)='addCard(taskName,task._id)'>Save</button>\r\n                            <button class=\"btn btn-default cancel-card\" (click)='cancelAddCard()'>Cancel</button>\r\n                            <div class=\"clear\"></div>\r\n                        </div>\r\n                    </div>\r\n                    <a href='javascript:;' class=\"add-card\" appEditTask>Add a card</a>\r\n                </div>\r\n                <div class=\"list-card create-list-card\" [ngClass]=\"{'create-open':showCreateLists}\">\r\n                    <div (click)='showCreateLists=true'><a href='javascript:;'>Create a new list..</a></div>\r\n                    <div class='create-list' *ngIf='showCreateLists'>\r\n                        <form (submit)='createList(listName,tasks.board_id)'>\r\n                            <input type=\"text\" [(ngModel)]='listName' name=\"listname\" class=\"form-control\">\r\n                            <span *ngIf='updateError'>{{updateErrorMsg}}</span>\r\n                            <button type=\"submit\" class=\"btn btn-default green\">Save</button>\r\n                            <button type=\"button\" class=\"btn btn-default\" (click)='hideCreateList()'>Cancel</button>\r\n                            <div class=\"clear\"></div>\r\n                        </form>\r\n                    </div>\r\n\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div class=\"overlay\"></div>\r\n</section>"
+module.exports = "<section class=\"page-wrapper task-list-container\">\r\n    <div class=\"container-fluid\">\r\n        <div class=\"row\">\r\n            <div class=\"col-md-12\">\r\n                <h3 class=\"board-name\">{{boardName}}</h3>\r\n\r\n                <div class=\"list-card\" *ngFor='let task of newTasksList;let i = index'>\r\n                    <input type=\"text\" [(ngModel)]='task.list_name' readonly class='edit-list-name' (change)='updateListName(task._id,task.list_name)' appEditTask [ngClass]='{\"form-control\":false}'>\r\n                    <span *ngIf='updateError'>{{updateErrorMsg}}</span>\r\n                    <div class=\"btn-group actions list-actions\" dropdown>\r\n                        <button dropdownToggle type=\"button\" class=\"dropdown-toggle\">\r\n   ...\r\n  </button>\r\n                        <ul *dropdownMenu class=\"dropdown-menu\" role=\"menu\">\r\n                            <li role=\"menuitem\"><a class=\"dropdown-item\" href=\"javascript:;\" (click)='deleteList(tasks.board_id,task._id)'>Delete List</a></li>\r\n\r\n                        </ul>\r\n                    </div>\r\n                    <div class=\"clear\"></div>\r\n                    <template #itemTemplate let-item=\"item\" let-index=\"index\">\r\n                                        <h4 class=\"task-name\">{{item.value.task_name}}</h4>\r\n                                        <div class=\"edit-task-name edit-dialog\">\r\n                                            <input type=\"text\"  [(ngModel)]='item.value.task_name' class=\"form-control\">\r\n                                            <button class=\"btn btn-default green save-card\" (click)='updateTaskName(item.value._id,item.value.task_name)'>Save</button>\r\n                                            <button class=\"btn btn-default cancel-card\">Cancel</button>\r\n                                            <div class=\"clear\"></div>\r\n                                            <div class=\"close-btn cancel-card\" (click)='deleteTask(task._id,item.value._id)'>&times; Delete Task </div>\r\n                                        </div>\r\n                </template>\r\n                    <bs-sortable [(ngModel)]=\"task.tasks\" [itemTemplate]=\"itemTemplate\" itemClass=\"task-item sortable-item\" itemActiveClass=\"sortable-item-active\" placeholderItem=\"Drag here\" placeholderClass=\"placeholderStyle\" wrapperClass=\"sortable-wrapper\" onChange='console.log(\"sadsd\")'></bs-sortable>\r\n                    <div class=\"task-item new-card edit-dialog\">\r\n                        <div class=\"edit-task\">\r\n                            <textarea class='form-control' [(ngModel)]='taskName'></textarea>\r\n                            <button class=\"btn btn-default green save-card\" (click)='createTask(taskName,task._id)'>Save</button>\r\n                            <button class=\"btn btn-default cancel-card\" (click)='cancelAddCard()'>Cancel</button>\r\n                            <div class=\"clear\"></div>\r\n                        </div>\r\n                    </div>\r\n                    <a href='javascript:;' class=\"add-card\" appEditTask>Add a task</a>\r\n                </div>\r\n                <div class=\"list-card create-list-card\" [ngClass]=\"{'create-open':showCreateLists}\">\r\n                    <div (click)='showCreateLists=true'><a href='javascript:;'>Create a new list..</a></div>\r\n                    <div class='create-list' *ngIf='showCreateLists'>\r\n                        <form (submit)='createList(listName,tasks.board_id)'>\r\n                            <input type=\"text\" [(ngModel)]='listName' name=\"listname\" class=\"form-control\">\r\n                            <span *ngIf='updateError'>{{updateErrorMsg}}</span>\r\n                            <button type=\"submit\" class=\"btn btn-default green\">Save</button>\r\n                            <button type=\"button\" class=\"btn btn-default\" (click)='hideCreateList()'>Cancel</button>\r\n                            <div class=\"clear\"></div>\r\n                        </form>\r\n                    </div>\r\n\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div class=\"overlay\"></div>\r\n</section>"
 
 /***/ }),
 
@@ -492,7 +439,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, ".task-list-container {\n  background: rgba(17, 103, 77, 0.9);\n  min-height: 100vh; }\n  .task-list-container .board-name {\n    color: #fff;\n    font-size: 22px;\n    font-weight: 600;\n    margin-bottom: 0px; }\n\n.list-card {\n  margin-top: 20px;\n  background: #e2e4e6;\n  display: inline-block;\n  vertical-align: top;\n  margin-right: 20px;\n  width: 280px;\n  padding: 10px;\n  border-radius: 3px; }\n  .list-card > input[type=text] {\n    float: left;\n    font-size: 16px;\n    margin-top: 0px;\n    font-weight: 600;\n    border: none;\n    background: none;\n    margin-bottom: 15px;\n    cursor: pointer;\n    text-transform: capitalize;\n    color: #333 !important; }\n    .list-card > input[type=text].form-control {\n      background: #fff;\n      border-color: #ccc;\n      box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.1) !important;\n      width: 92%; }\n  .list-card .list-actions {\n    float: right; }\n  .list-card .task-item.new-card {\n    padding: 10px;\n    display: none;\n    background: rgba(255, 255, 255, 0.64);\n    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); }\n  .list-card a {\n    color: #666;\n    font-size: 14px;\n    text-decoration: none; }\n  .list-card.create-list-card {\n    background: rgba(255, 255, 255, 0.12); }\n    .list-card.create-list-card a {\n      color: rgba(255, 255, 255, 0.48); }\n    .list-card.create-list-card .form-control:focus {\n      border: none;\n      box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.1) !important; }\n    .list-card.create-list-card.create-open {\n      background: #e2e4e6; }\n      .list-card.create-list-card.create-open a {\n        color: #666; }\n\n.overlay {\n  position: fixed;\n  width: 100%;\n  height: 100%;\n  left: 0px;\n  top: 0px;\n  display: none;\n  z-index: 11;\n  background: rgba(0, 0, 0, 0.6); }\n\n.dnd-sortable-drag {\n  -webkit-transform: scale(0.9);\n  transform: scale(0.9);\n  opacity: 0.7;\n  border: 1px dashed #000; }\n", ""]);
+exports.push([module.i, ".task-list-container {\n  background: rgba(17, 103, 77, 0.9);\n  min-height: 100vh; }\n  .task-list-container .board-name {\n    color: #fff;\n    font-size: 22px;\n    font-weight: 600;\n    margin-bottom: 0px; }\n\n.list-card {\n  margin-top: 20px;\n  background: #e2e4e6;\n  display: inline-block;\n  vertical-align: top;\n  margin-right: 20px;\n  width: 280px;\n  padding: 10px;\n  border-radius: 3px; }\n  .list-card > input[type=text] {\n    float: left;\n    font-size: 16px;\n    margin-top: 0px;\n    font-weight: 600;\n    border: none;\n    background: none;\n    margin-bottom: 15px;\n    cursor: pointer;\n    text-transform: capitalize;\n    color: #333 !important; }\n    .list-card > input[type=text].form-control {\n      background: #fff;\n      border-color: #ccc;\n      box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.1) !important;\n      width: 92%; }\n  .list-card .list-actions {\n    float: right; }\n  .list-card .task-item.new-card {\n    padding: 10px;\n    display: none;\n    background: rgba(255, 255, 255, 0.64);\n    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); }\n  .list-card a {\n    color: #666;\n    font-size: 14px;\n    text-decoration: none; }\n  .list-card.create-list-card {\n    background: rgba(255, 255, 255, 0.12); }\n    .list-card.create-list-card a {\n      color: rgba(255, 255, 255, 0.48); }\n    .list-card.create-list-card .form-control:focus {\n      border: none;\n      box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.1) !important; }\n    .list-card.create-list-card.create-open {\n      background: #e2e4e6; }\n      .list-card.create-list-card.create-open a {\n        color: #666; }\n\n.overlay {\n  position: fixed;\n  width: 100%;\n  height: 100%;\n  left: 0px;\n  top: 0px;\n  display: none;\n  z-index: 11;\n  background: rgba(0, 0, 0, 0.6); }\n\n.dnd-sortable-drag {\n  -webkit-transform: scale(0.9);\n  transform: scale(0.9);\n  opacity: 0.7;\n  border: 1px dashed #000; }\n\n.edit-task-name {\n  position: relative; }\n  .edit-task-name .close-btn {\n    position: absolute;\n    right: -100px;\n    top: 2px;\n    background: #c33e3e;\n    color: #fff;\n    padding: 2px 10px;\n    border-radius: 5px;\n    cursor: pointer; }\n", ""]);
 
 // exports
 
@@ -510,6 +457,8 @@ module.exports = module.exports.toString();
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_task_details_service__ = __webpack_require__("../../../../../src/app/services/task-details.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_board_service__ = __webpack_require__("../../../../../src/app/services/board.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_map__ = __webpack_require__("../../../../rxjs/add/operator/map.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_map__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TasksListComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -520,6 +469,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -549,6 +499,10 @@ var TasksListComponent = (function () {
                                 val.tasks = data['task']['tasks'];
                             }
                             _this.newTasksList.push(val);
+                            console.log(_this.newTasksList);
+                            _this.newTasksList.sort(function (a, b) {
+                                return a['_id'].localeCompare(b['_id']);
+                            });
                         });
                     });
                 });
@@ -563,9 +517,10 @@ var TasksListComponent = (function () {
             this.router.navigate(['/']);
         }
     };
-    TasksListComponent.prototype.editTask = function (taskitem) {
-        this.taskitemOldname = taskitem;
-    };
+    /*editTask(taskitem){
+    this.taskitemOldname=taskitem;
+    }*/
+    /***************Task List******************/
     TasksListComponent.prototype.createList = function (listname, board_id) {
         var _this = this;
         this.taskDetails.createList(listname, board_id).subscribe(function (data) {
@@ -605,25 +560,46 @@ var TasksListComponent = (function () {
         });
     };
     ;
-    TasksListComponent.prototype.cancelEdit = function (value) {
-        value = '';
-        return value;
-    };
     TasksListComponent.prototype.hideCreateList = function () {
         this.listName = '';
         this.showCreateLists = false;
     };
-    TasksListComponent.prototype.addCard = function (taskname, listname) {
+    /******************Task Item******************/
+    TasksListComponent.prototype.createTask = function (taskname, listname) {
         var _this = this;
-        this.taskDetails.addTask(taskname, listname).subscribe(function (data) {
+        if (taskname) {
+            this.taskDetails.createTask(taskname, listname).subscribe(function (data) {
+                if (data['success']) {
+                    _this.showCreateTasks = false;
+                    _this.taskName = '';
+                    _this.showLists();
+                }
+            });
+        }
+    };
+    TasksListComponent.prototype.updateTaskName = function (task_id, task_name) {
+        var _this = this;
+        this.taskDetails.updateTaskName(task_id, task_name).subscribe(function (data) {
+            if (!data['success']) {
+                _this.updateError = true;
+                _this.updateErrorMsg = "List with the same name already exists";
+                console.log(data);
+            }
+            else {
+                _this.updateError = false;
+            }
+        });
+    };
+    TasksListComponent.prototype.deleteTask = function (list_id, task_id) {
+        var _this = this;
+        this.taskDetails.deleteTask(list_id, task_id).subscribe(function (data) {
             if (data['success']) {
-                _this.showCreateTasks = false;
-                _this.taskName = '';
                 _this.showLists();
             }
         });
     };
-    TasksListComponent.prototype.cancelAddCard = function () {
+    ;
+    TasksListComponent.prototype.cancelAddTask = function () {
         this.taskName = '';
     };
     return TasksListComponent;
@@ -645,7 +621,7 @@ var _a, _b, _c;
 /***/ "../../../../../src/app/welcome-board/welcome-board/welcome-board.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class='board-container page-wrapper'><div class=\"container-fluid\">\r\n\t<div class=\"row\">\r\n\t\t<div class=\"col-md-12\">\r\n\t\t\t<h2>Task Boards</h2>\r\n\t\t</div>\r\n\t</div>\r\n\t<div class=\"row\">\r\n\t\t<div class=\"col-md-12\">\r\n\t\t\t<div *ngFor='let board of boards' class=\"board\" (click)='getListDetails(board._id)'>\r\n\t\t\t\t<h3>{{board.board_name}}</h3>\r\n\t\t\t\t<span class=\"close-board\" (click)=\"deleteBoard(board)\"><img src='assets/cancel-music.svg'/></span>\r\n\t\t\t</div>\r\n\t\t\t<div class=\"board create-board\" >\r\n                <div class='create-board-padding' (click)='showCreateBoard=true'>\r\n\t\t\t\t<h3>Create new board</h3>\r\n\t\t\t\t</div>\r\n                <div class=\"create-board-form\" *ngIf='showCreateBoard'>\r\n\t\t\t\t\t<form (submit)=\"addBoard(boardname)\">\r\n\t\t\t\t\t\t<input type=\"text\" placeholder=\"Board name\" [(ngModel)]=\"boardname\" name='taskname' class=\"form-control\">\r\n\t\t\t\t\t\t\r\n\t\t\t\t\t\t<button class=\"submit\" class='btn btn-default green\t'>Save</button>\r\n\t\t\t\t\t\t<button type=\"button\" class='btn btn-default' (click)='hideCreateBoard()'>Cancel</button>\r\n\t\t\t\t\t\t<div class=\"clear\"></div>\r\n\t\t\t\t\t</form>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n</div></div>\r\n"
+module.exports = "<div class='board-container page-wrapper'><div class=\"container-fluid\">\r\n\t<div class=\"row\">\r\n\t\t<div class=\"col-md-12\">\r\n\t\t\t<h2>Task Boards</h2>\r\n\t\t</div>\r\n\t</div>\r\n\t<div class=\"row\">\r\n\t\t<div class=\"col-md-12\">\r\n\t\t\t<div *ngFor='let board of boards' class='board-cont'>\r\n                \r\n\t\t\t\t<span class=\"close-board\" (click)=\"deleteBoard(board)\"><img src='assets/cancel-music.svg' class='img-responsive'/></span>\r\n                <div  (click)='getListDetails(board._id)' class=\"board\">\r\n\t\t\t\t<h3>{{board.board_name}}</h3>\r\n                    </div>\r\n\t\t\t</div>\r\n\t\t\t<div class=\"board create-board\" >\r\n                <div class='create-board-padding' (click)='showCreateBoard=true'>\r\n\t\t\t\t<h3>Create new board</h3>\r\n\t\t\t\t</div>\r\n                <div class=\"create-board-form\" *ngIf='showCreateBoard'>\r\n\t\t\t\t\t<form (submit)=\"addBoard(boardname)\">\r\n\t\t\t\t\t\t<input type=\"text\" placeholder=\"Board name\" [(ngModel)]=\"boardname\" name='taskname' class=\"form-control\">\r\n\t\t\t\t\t\t\r\n\t\t\t\t\t\t<button class=\"submit\" class='btn btn-default green\t'>Save</button>\r\n\t\t\t\t\t\t<button type=\"button\" class='btn btn-default' (click)='hideCreateBoard()'>Cancel</button>\r\n                        <div class=\"clear\"></div>\r\n\t\t\t\t\t</form>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n</div></div>\r\n"
 
 /***/ }),
 
@@ -657,7 +633,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "h2 {\n  font-size: 20px;\n  font-weight: 600; }\n\n.board {\n  position: relative;\n  padding: 10px 15px;\n  background: #11674d;\n  color: #fff;\n  cursor: pointer;\n  width: 250px;\n  height: 100px;\n  display: inline-block;\n  margin: 0px 10px 10px 0px;\n  border-radius: 3px;\n  vertical-align: middle; }\n  .board h3 {\n    margin-top: 0px;\n    font-size: 18px; }\n  .board .close-board {\n    position: absolute;\n    right: 10px;\n    cursor: pointer;\n    display: none;\n    top: 5px; }\n    .board .close-board img {\n      width: 10px; }\n  .board:hover {\n    background: rgba(17, 103, 77, 0.95); }\n    .board:hover .close-board {\n      display: block; }\n  .board.create-board {\n    padding: 0px;\n    background: #eee;\n    color: #333;\n    cursor: pointer; }\n    .board.create-board .create-board-padding {\n      padding: 10px 0px; }\n    .board.create-board h3 {\n      text-align: center;\n      margin: 25px 0px; }\n    .board.create-board .create-board-form {\n      position: absolute;\n      background: #fff;\n      width: 100%;\n      border: 1px solid #eee;\n      padding: 15px; }\n", ""]);
+exports.push([module.i, "h2 {\n  font-size: 20px;\n  font-weight: 600; }\n\n.board-cont {\n  position: relative;\n  width: 250px;\n  height: 100px;\n  margin: 0px 10px 10px 0px;\n  display: inline-block; }\n  .board-cont .close-board {\n    position: absolute;\n    right: 10px;\n    cursor: pointer;\n    display: none;\n    z-index: 99;\n    top: 15px; }\n    .board-cont .close-board img {\n      width: 10px;\n      height: 10px; }\n  .board-cont:hover .close-board {\n    display: block; }\n\n.board {\n  position: relative;\n  padding: 10px 15px;\n  background: #11674d;\n  color: #fff;\n  cursor: pointer;\n  width: 250px;\n  height: 100px;\n  display: inline-block;\n  border-radius: 3px;\n  vertical-align: middle; }\n  .board h3 {\n    margin-top: 0px;\n    font-size: 18px; }\n  .board:hover {\n    background: rgba(17, 103, 77, 0.95); }\n  .board.create-board {\n    padding: 0px;\n    background: #eee;\n    color: #333;\n    cursor: pointer; }\n    .board.create-board .create-board-padding {\n      padding: 10px 0px; }\n    .board.create-board h3 {\n      text-align: center;\n      margin: 25px 0px; }\n    .board.create-board .create-board-form {\n      position: absolute;\n      background: #fff;\n      width: 100%;\n      border: 1px solid #eee;\n      padding: 15px; }\n", ""]);
 
 // exports
 
@@ -717,11 +693,19 @@ var WelcomeBoardComponent = (function () {
         this.boardname = '';
     };
     WelcomeBoardComponent.prototype.deleteBoard = function (board) {
+        var _this = this;
         var boardid = board['_id'];
         var index = this.boards.indexOf(board);
-        this.boards.splice(index, index);
         this.boardService.deleteBoard(boardid).subscribe(function (data) {
             if (data['success']) {
+                if (index > 0) {
+                    _this.boards.splice(index, index);
+                }
+                else {
+                    if (index == 0) {
+                        _this.boards.splice(0);
+                    }
+                }
             }
         });
     };

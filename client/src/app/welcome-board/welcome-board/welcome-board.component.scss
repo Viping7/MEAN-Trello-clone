@@ -3,6 +3,33 @@ h2{
 	font-weight:600;
 }
 
+.board-cont{
+    position: relative;
+    width: 250px;
+	height: 100px;
+    
+	margin: 0px 10px 10px 0px;
+	display: inline-block;
+	.close-board{
+		position: absolute;
+		right: 10px;
+		cursor: pointer;
+		display: none;
+        z-index: 99;
+		top: 15px;
+		img{
+			width: 10px;
+            height: 10px;
+		}
+		
+	}
+    &:hover{
+        
+		.close-board{
+			display: block;
+		}
+	}
+}
 .board{
 	position: relative;
 	padding:10px 15px;
@@ -12,29 +39,15 @@ h2{
 	width: 250px;
 	height: 100px;
 	display: inline-block;
-	margin: 0px 10px 10px 0px;
 	border-radius: 3px;
 	vertical-align: middle;
 	h3{
 		margin-top: 0px;
 		font-size: 18px;
 	}
-	.close-board{
-		position: absolute;
-		right: 10px;
-		cursor: pointer;
-		display: none;
-		top: 5px;
-		img{
-			width: 10px;
-		}
-		
-	}
 	&:hover{
         background: rgba(17, 103, 77, 0.95);
-		.close-board{
-			display: block;
-		}
+		
 	}
 	&.create-board{
         padding: 0px;

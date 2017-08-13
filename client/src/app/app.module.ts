@@ -14,15 +14,15 @@ import { WelcomeBoardComponent } from './welcome-board/welcome-board/welcome-boa
 import { TaskDetailsService } from './services/task-details.service';
 import { BoardService } from './services/board.service';
 import { EditTaskDirective } from './directives/edit-task.directive';
-import { TaskItemComponent } from './taskboard/task-item/task-item.component';
+import { enableProdMode } from '@angular/core';
+enableProdMode();
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     TasksListComponent,
     WelcomeBoardComponent,
-    EditTaskDirective,
-    TaskItemComponent
+    EditTaskDirective
   ],
   imports: [
     BrowserModule,

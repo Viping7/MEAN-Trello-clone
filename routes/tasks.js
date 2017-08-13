@@ -26,7 +26,6 @@ router.post('/create/:listId', function (req, res) {
     }
     tasks.getTasks(getTaskItem, function (err, task) {
         if (err) throw err;
-        console.log(task);
         if (task) {
             tasks.createTask(req.params.listId, taskItem, function (err, task) {
                 if (err) throw err;
@@ -53,5 +52,22 @@ router.post('/create/:listId', function (req, res) {
         }
     });
 })
-
+router.put('/update/:taskId',function(req,res){
+    let task_name=req.body.task_name.toLowerCase();
+    tasks.updateTaskName(req.params.taskId,task_name,function(err,tasks){
+        if(err) throw err;
+            else{
+                res.json({success:true});
+            }
+    })
+})
+router.put('/delete/:lid/:tid',function(req,res){  
+     tasks.deleteTaskItem(req.params.lid,req.params.tid,function(err,tasks){
+               if(err) throw err;
+                else{
+                            res.json({success:true});
+               
+                }
+        });
+})
 module.exports = router;

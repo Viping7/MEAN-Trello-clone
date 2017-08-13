@@ -92,3 +92,16 @@
     opacity: 0.7;
     border: 1px dashed #000;
 }
+.edit-task-name{
+    position: relative;
+    .close-btn{
+            position: absolute;
+    right: -100px;
+    top: 2px;
+    background: #c33e3e;
+    color: #fff;
+    padding: 2px 10px;
+    border-radius: 5px;
+        cursor: pointer;
+    }
+}
