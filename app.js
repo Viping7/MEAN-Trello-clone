@@ -13,6 +13,7 @@ mongoose.connect(config.database);
 mongoose.connection.on("connected",function(){
     console.log("connected");
 })
+app.use(cors());
 app.use(bodyParser.json());    
 app.use(express.static(path.join(__dirname,"public")));
 app.use('/boards',boards);
